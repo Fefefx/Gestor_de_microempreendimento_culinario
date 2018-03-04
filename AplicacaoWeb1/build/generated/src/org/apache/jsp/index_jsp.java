@@ -65,7 +65,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("        <br />\n");
       out.write("        ");
- String desenvolvido= "Desenvolvido por Fulano de Tal" ;
+ String desenvolvido= "Desenvolvido por Felipe" ;
       out.write("\n");
       out.write("        ");
       out.print(desenvolvido );

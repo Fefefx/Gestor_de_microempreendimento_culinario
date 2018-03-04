@@ -16,7 +16,7 @@ and open the template in the editor.
         <% String mensagem="Bem vindo a minha primeira aplicação WeB "; %>
         <% out.println(mensagem);%>
         <br />
-        <% String desenvolvido= "Desenvolvido por Fulano de Tal" ;%>
+        <% String desenvolvido= "Desenvolvido por Felipe" ;%>
         <%=desenvolvido %>
         <br />
         <% out.println("Tudo foi executado");%>
