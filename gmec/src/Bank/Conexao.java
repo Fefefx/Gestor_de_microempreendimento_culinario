@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package BanK;
+package Bank;
 //import com.sun.corba.se.spi.monitoring.StatisticMonitoredAttribute;
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -5,8 +5,8 @@
  */
 package Model;
 import Objects.usuario;
-import BanK.Conexao;
-import BanK.infoBanco;
+import Bank.Conexao;
+import Bank.infoBanco;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -31,7 +31,7 @@ public class usuarioModel {
     }
     public void verificar(usuario user){
         abrirConexao();
-        String sql="select * from usuario where user = "+user.getUser()+" and senha = "+user.getSenha()+";";
+        String sql="select * from usuario where user = '"+user.getUser()+"' and senha = '"+user.getSenha()+"';";
         ResultSet registro=Banco.consultar(sql);
         try {
             if(registro.next()){
