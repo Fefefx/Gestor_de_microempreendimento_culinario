@@ -32,5 +32,9 @@ public class usuario {
         this.user = user;
         this.senha = senha;
     }
+
+    public usuario() {
+        
+    }
     
 }
