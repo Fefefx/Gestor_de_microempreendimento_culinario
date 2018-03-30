@@ -51,5 +51,12 @@ public class cliente {
         this.nome = nome;
         this.endereco = endereco;
     }
+
+    public cliente(int telefone, String nome, String endereco) {
+        this.telefone = telefone;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.idCliente=0;
+    }
     
 }

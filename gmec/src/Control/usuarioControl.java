@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
  */
 public class usuarioControl {
     public void verificarCampos(usuario user){
-        if(user.getSenha()==null) //mudar para detectar string vazia
+        if("".equals(user.getSenha().trim()))
             JOptionPane.showMessageDialog(null,"Digite uma senha");
-        else if(user.getUser()==null)
+        else if("".equals(user.getUser().trim()))
             JOptionPane.showMessageDialog(null, "Digite um usuário");
         else if(user.getSenha().length()>8)
             JOptionPane.showMessageDialog(null,"Senha incorreta");
