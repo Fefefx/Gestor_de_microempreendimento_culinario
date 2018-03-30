@@ -36,13 +36,18 @@ public class clienteControl {
     }
 
     public boolean validarCampos(cliente client) {
+        boolean resposta=false;
         if ("".equals(client.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
         } else if ("".equals(client.getEndereco().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um endereço");
         } else {
             clienteModel clientModel = new clienteModel(); 
+            if(client.getIdCliente()==0)
+                resposta=clientModel.inserir(client);
+            else
+                resposta=clientModel.atualizar(client);
         }
-        return false;
+        return resposta;
     }
 }
