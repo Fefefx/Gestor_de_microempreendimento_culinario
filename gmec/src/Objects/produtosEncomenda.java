@@ -10,24 +10,9 @@ package Objects;
  * @author felipe
  */
 public class produtosEncomenda {
-    private int codigoEncomenda,codigoProduto,quantidade;
-    private float totalProduto;
-
-    public int getCodigoEncomenda() {
-        return codigoEncomenda;
-    }
-
-    public void setCodigoEncomenda(int codigoEncomenda) {
-        this.codigoEncomenda = codigoEncomenda;
-    }
-
-    public int getCodigoProduto() {
-        return codigoProduto;
-    }
-
-    public void setCodigoProduto(int codigoProduto) {
-        this.codigoProduto = codigoProduto;
-    }
+    private int quantidade, codigoProduto,codigoEncomenda;
+    private float totalProduto,valorUnitario;
+    private String nome;
 
     public int getQuantidade() {
         return quantidade;
@@ -45,10 +30,36 @@ public class produtosEncomenda {
         this.totalProduto = totalProduto;
     }
 
-    public produtosEncomenda(int codigoEncomenda, int codigoProduto, int quantidade, float totalProduto) {
-        this.codigoEncomenda = codigoEncomenda;
-        this.codigoProduto = codigoProduto;
-        this.quantidade = quantidade;
-        this.totalProduto = totalProduto;
+    public float getValorUnitario() {
+        return valorUnitario;
     }
+
+    public void setValorUnitario(float valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getCodigoProduto() {
+        return codigoProduto;
+    }
+
+    public void setCodigoProduto(int codigoProduto) {
+        this.codigoProduto = codigoProduto;
+    }
+
+    public int getCodigoEncomenda() {
+        return codigoEncomenda;
+    }
+
+    public void setCodigoEncomenda(int codigoEncomenda) {
+        this.codigoEncomenda = codigoEncomenda;
+    }
+         
 }

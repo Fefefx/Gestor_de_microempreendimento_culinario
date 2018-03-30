@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Objects;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -14,6 +15,7 @@ public class encomenda {
     private int codigoEncomenda,codigoCliente;
     private float total; 
     private Date diaPedido, diaEntrega;
+    ArrayList encomendaProdutos= new ArrayList();// Produtos da encomenda
 
     public int getCodigoEncomenda() {
         return codigoEncomenda;

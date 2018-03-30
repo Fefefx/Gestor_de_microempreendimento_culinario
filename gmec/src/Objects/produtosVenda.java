@@ -11,7 +11,8 @@ package Objects;
  */
 public class produtosVenda {
     private int codigoProduto,codigoVenda,quantidade;
-    private float totalProduto;
+    private float totalProduto,valorUnitario;
+    private String nome;
 
     public int getCodigoProduto() {
         return codigoProduto;
@@ -45,11 +46,20 @@ public class produtosVenda {
         this.totalProduto = totalProduto;
     }
 
-    public produtosVenda(int codigoProduto, int codigoVenda, int quantidade, float totalProduto) {
-        this.codigoProduto = codigoProduto;
-        this.codigoVenda = codigoVenda;
-        this.quantidade = quantidade;
-        this.totalProduto = totalProduto;
+    public float getValorUnitario() {
+        return valorUnitario;
+    }
+
+    public void setValorUnitario(float valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
 }

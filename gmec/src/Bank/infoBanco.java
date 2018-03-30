@@ -5,6 +5,8 @@
  */
 package Bank;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author felipe

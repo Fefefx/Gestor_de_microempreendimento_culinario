@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Objects;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -14,7 +15,8 @@ public class vendas {
     private int codigo;
     private Date dataVenda;
     private float total;
-
+    ArrayList vendaProdutos=new ArrayList(); //lista com os produtos da venda
+    
     public int getCodigo() {
         return codigo;
     }
