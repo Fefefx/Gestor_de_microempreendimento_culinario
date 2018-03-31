@@ -67,7 +67,7 @@ public class clienteModel {
         //chamar excluir encomenda -> para evitar problemas com integridade referencial no banco de dados 
         int res=Banco.manipular(sql);
         if(res==-1){
-            JOptionPane.showMessageDialog(null,"Não foi possível excluir o usuário");
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o cliente");
         }else{
             JOptionPane.showMessageDialog(null,"Exclusão do cliente realizada");
             return true;

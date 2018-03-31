@@ -40,9 +40,9 @@ public class produtosEncomendaModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível inserir o produto");
+            System.out.println("\nNão foi possível inserir o produto "+itens.getNome()+" na encomenda.");
         } else {
-            JOptionPane.showMessageDialog(null, "Produto inserido com sucesso");
+            System.out.println("\n"+itens.getNome()+" inserido na encomenda com sucesso");
             return true;
         }
         return false;
@@ -56,14 +56,15 @@ public class produtosEncomendaModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível atualizar o produto");
+            System.out.println("\nNão foi possível atualizar o produto "+itens.getNome());
         } else {
-            JOptionPane.showMessageDialog(null, "Atualização realizada com sucesso");
+            System.out.println("\nAtualização do produto "+itens.getNome()+" realizada com sucesso");
             return true;
         }
         return false;
     }
 
+    //Exclui apenas UM produto da encomenda
     public boolean excluir(int codigoEncomenda, int codigoProduto) {
         abrirConexao();
         String sql = "delete from produtos_da_encomenda where encomenda_codigo=" + codigoEncomenda 
@@ -71,9 +72,24 @@ public class produtosEncomendaModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto da encomenda");
+            System.out.println("\nNão foi possível excluir o produto da encomenda");
         } else {
-            JOptionPane.showMessageDialog(null, "Exclusão do produto realizada");
+            System.out.println("\nRemoção do produto realizada");
+            return true;
+        }
+        return false;
+    }
+    
+    //Exclui TODOS os produtos da encomenda    
+    public boolean excluirTodos(int codigoEncomenda) {
+        abrirConexao();
+        String sql = "delete from produtos_da_encomenda where encomenda_codigo=" + codigoEncomenda+";";
+        System.out.println(sql);
+        int res = Banco.manipular(sql);
+        if (res == -1) {
+            System.out.println("\nNão foi possível excluir todos os produtos da encomenda");
+        } else {
+            System.out.println("\nRemoção dos produtos realizada");
             return true;
         }
         return false;

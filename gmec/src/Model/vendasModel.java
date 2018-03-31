@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  * @author felipe
  */
 public class vendasModel {
+
     private Conexao Banco;
     infoBanco dados = new infoBanco();
 
@@ -30,14 +31,14 @@ public class vendasModel {
 
     public boolean inserir(vendas vend) {
         abrirConexao();
-        String sql = "insert into vendas(data_venda,total) values('"+vend.getDataVenda()+"','"
-                    +vend.getTotal()+"');";
+        String sql = "insert into vendas(data_venda,total) values('" + vend.getDataVenda() + "','"
+                + vend.getTotal() + "');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente");
+            JOptionPane.showMessageDialog(null, "Não foi possível inserir a venda");
         } else {
-            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+            JOptionPane.showMessageDialog(null, "Venda inserida com sucesso");
             return true;
         }
         return false;
@@ -45,12 +46,12 @@ public class vendasModel {
 
     public boolean atualizar(vendas vend) {
         abrirConexao();
-        String sql = "update vendas set data_venda='"+vend.getDataVenda()+"',total='"+vend.getTotal()+"'"
-                    +" where codigo="+vend.getCodigo()+";";
+        String sql = "update vendas set data_venda='" + vend.getDataVenda() + "',total='" + vend.getTotal() + "'"
+                + " where codigo=" + vend.getCodigo() + ";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível atualizar o cliente");
+            JOptionPane.showMessageDialog(null, "Não foi possível atualizar a venda");
         } else {
             JOptionPane.showMessageDialog(null, "Atualização realizada com sucesso");
             return true;
@@ -60,15 +61,18 @@ public class vendasModel {
 
     public boolean excluir(int codigo) {
         abrirConexao();
-        String sql = "delete from vendas where codigo="+codigo+";";
+        String sql = "delete from vendas where codigo=" + codigo + ";";
         System.out.println(sql);
-        //deletar os produtos da venda
-        int res = Banco.manipular(sql);
-        if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuário");
-        } else {
-            JOptionPane.showMessageDialog(null, "Exclusão do cliente realizada");
-            return true;
+        //Exclui os produtos da venda para então poder exclui-la
+        produtosVendaModel itens = new produtosVendaModel();
+        if (itens.excluirTodos(codigo)) {
+            int res = Banco.manipular(sql);
+            if (res == -1) {
+                JOptionPane.showMessageDialog(null, "Não foi possível excluir a venda");
+            } else {
+                JOptionPane.showMessageDialog(null, "Exclusão da venda realizada");
+                return true;
+            }
         }
         return false;
     }

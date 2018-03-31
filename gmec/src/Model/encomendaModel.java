@@ -37,9 +37,9 @@ public class encomendaModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente");
+            JOptionPane.showMessageDialog(null, "Não foi possível inserir a encomenda");
         } else {
-            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+            JOptionPane.showMessageDialog(null, "Encomenda inserida com sucesso");
             return true;
         }
         return false;
@@ -53,7 +53,7 @@ public class encomendaModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível atualizar o cliente");
+            JOptionPane.showMessageDialog(null, "Não foi possível atualizar a encomenda");
         } else {
             JOptionPane.showMessageDialog(null, "Atualização realizada com sucesso");
             return true;
@@ -68,9 +68,9 @@ public class encomendaModel {
         //chamar excluir produtos da venda para evitar problemas com integridade referencial
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuário");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir a encomenda");
         } else {
-            JOptionPane.showMessageDialog(null, "Exclusão do cliente realizada");
+            JOptionPane.showMessageDialog(null, "Exclusão da encomenda realizada");
             return true;
         }
         return false;

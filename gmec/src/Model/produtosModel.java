@@ -36,9 +36,9 @@ public class produtosModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente");
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o produto");
         } else {
-            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+            JOptionPane.showMessageDialog(null, "Produto inserido com sucesso");
             return true;
         }
         return false;
@@ -53,7 +53,7 @@ public class produtosModel {
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível atualizar o cliente");
+            JOptionPane.showMessageDialog(null, "Não foi possível atualizar o produto");
         } else {
             JOptionPane.showMessageDialog(null, "Atualização realizada com sucesso");
             return true;
@@ -68,9 +68,9 @@ public class produtosModel {
         //deletar das tabelas de muitos para muitos
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuário");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto");
         } else {
-            JOptionPane.showMessageDialog(null, "Exclusão do cliente realizada");
+            JOptionPane.showMessageDialog(null, "Exclusão do produto realizada");
             return true;
         }
         return false;
