@@ -61,9 +61,9 @@ public class encomendaModel {
         return false;
     }
 
-    public boolean excluir(encomenda enco) {
+    public boolean excluir(int codigo) {
         abrirConexao();
-        String sql = "delete from encomenda where codigo=" + enco.getCodigoEncomenda() + ";";
+        String sql = "delete from encomenda where codigo=" + codigo + ";";
         System.out.println(sql);
         //chamar excluir produtos da venda para evitar problemas com integridade referencial
         int res = Banco.manipular(sql);

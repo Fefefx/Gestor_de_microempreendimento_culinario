@@ -60,9 +60,9 @@ public class clienteModel {
         return false;
     }
     
-    public boolean excluir(cliente client){
+    public boolean excluir(int codigo){
         abrirConexao();
-        String sql="delete from cliente where idcliente="+client.getIdCliente()+";";
+        String sql="delete from cliente where idcliente="+codigo+";";
         System.out.println(sql);
         //chamar excluir encomenda -> para evitar problemas com integridade referencial no banco de dados 
         int res=Banco.manipular(sql);

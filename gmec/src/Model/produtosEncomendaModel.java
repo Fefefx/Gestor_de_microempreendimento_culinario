@@ -7,14 +7,19 @@ package Model;
 
 import Bank.Conexao;
 import Bank.infoBanco;
-import Objects.produtos;
+import Objects.produtosEncomenda;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author felipe
  */
-public class produtosModel {
+public class produtosEncomendaModel {
+
     private Conexao Banco;
     infoBanco dados = new infoBanco();
 
@@ -28,11 +33,10 @@ public class produtosModel {
         }
     }
 
-    public boolean inserir(produtos prod) {
+    public boolean inserir(produtosEncomenda itens) {
         abrirConexao();
-        String sql = "insert into produto(nome,rendimento,valor_custo,valor_unitario,Ingredientes,descricao) values('"
-                    +prod.getNome()+"',"+prod.getRendimento()+",'"+prod.getValorCusto()+"','"+prod.getValorUnitario()+"','"
-                    +prod.getIngredientes()+"','"+prod.getDescricao()+"');";
+        String sql = "insert into produtos_da_encomenda(encomenda_codigo,produto_codigo,quantidade,total_produto) values("
+                + itens.getCodigoEncomenda() + "," + itens.getCodigoProduto() + "," + itens.getQuantidade() + ",'" + itens.getTotalProduto() + "');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -44,12 +48,11 @@ public class produtosModel {
         return false;
     }
 
-    public boolean atualizar(produtos prod) {
+    public boolean atualizar(produtosEncomenda itens) {
         abrirConexao();
-        String sql = "update produto set nome='"+prod.getNome()+"',rendimento="+prod.getRendimento()+","
-                    +"valor_custo='"+prod.getValorCusto()+"',valor_unitario='"+prod.getValorUnitario()+"',"
-                    +"Ingredientes='"+prod.getIngredientes()+"',descricao='"+prod.getDescricao()+"'"
-                    +" where codigo="+prod.getCodigo()+";";
+        String sql = "update produtos_da_encomenda set quantidade=" + itens.getQuantidade()
+                + ",total_produto='" + itens.getTotalProduto() + "' where encomenda_codigo=" + itens.getCodigoEncomenda()
+                + " and produto_codigo=" + itens.getCodigoProduto() + ";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -61,11 +64,10 @@ public class produtosModel {
         return false;
     }
 
-    public boolean excluir(int codigo) {
+    public boolean excluir(int codigoEncomenda) {
         abrirConexao();
-        String sql = "delete from produto where codigo="+codigo+";";
+        String sql = "delete from produtos_da_encomenda where encomenda_codigo=" + codigoEncomenda + ";";
         System.out.println(sql);
-        //deletar das tabelas de muitos para muitos
         int res = Banco.manipular(sql);
         if (res == -1) {
             JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuário");
@@ -74,5 +76,22 @@ public class produtosModel {
             return true;
         }
         return false;
+    }
+
+    // produtosEncomenda é uma view que junta os dados de produtos_da_encomenda e produto
+    public ResultSet pesquisar(String nome) {
+        abrirConexao();
+        String sql = "select * from produtosEncomenda where nome='" + nome + "';";
+        System.out.println(sql);
+        ResultSet registro = Banco.consultar(sql);
+        try {
+            if (registro.next()) {
+                System.out.println("Registros encontrados");
+                return registro;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(produtosEncomendaModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
