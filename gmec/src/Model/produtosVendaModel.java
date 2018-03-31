@@ -7,7 +7,7 @@ package Model;
 
 import Bank.Conexao;
 import Bank.infoBanco;
-import Objects.produtosEncomenda;
+import Objects.produtosVenda;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,9 +18,8 @@ import javax.swing.JOptionPane;
  *
  * @author felipe
  */
-public class produtosEncomendaModel {
-
-    private Conexao Banco;
+public class produtosVendaModel {
+        private Conexao Banco;
     infoBanco dados = new infoBanco();
 
     private void abrirConexao() {
@@ -33,10 +32,11 @@ public class produtosEncomendaModel {
         }
     }
 
-    public boolean inserir(produtosEncomenda itens) {
+    public boolean inserir(produtosVenda itens) {
         abrirConexao();
-        String sql = "insert into produtos_da_encomenda(encomenda_codigo,produto_codigo,quantidade,total_produto) values("
-                + itens.getCodigoEncomenda() + "," + itens.getCodigoProduto() + "," + itens.getQuantidade() + ",'" + itens.getTotalProduto() + "');";
+        String sql = "insert into produtos_da_venda(vendas_codigo,produto_codigo,quantidade,total_produto) values("
+                + itens.getCodigoVenda()+","+itens.getCodigoProduto()+","+itens.getQuantidade()
+                +",'"+itens.getTotalProduto()+"');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -48,11 +48,11 @@ public class produtosEncomendaModel {
         return false;
     }
 
-    public boolean atualizar(produtosEncomenda itens) {
+    public boolean atualizar(produtosVenda itens) {
         abrirConexao();
-        String sql = "update produtos_da_encomenda set quantidade=" + itens.getQuantidade()
-                + ",total_produto='" + itens.getTotalProduto() + "' where encomenda_codigo=" + itens.getCodigoEncomenda()
-                + " and produto_codigo=" + itens.getCodigoProduto() + ";";
+        String sql = "update produtos_da_venda set quantidade="+itens.getQuantidade()
+                +",total_produto='"+itens.getTotalProduto()+"' where vendas_codigo="+itens.getCodigoVenda()
+                +" and produto_codigo="+itens.getCodigoProduto()+";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -64,25 +64,25 @@ public class produtosEncomendaModel {
         return false;
     }
 
-    public boolean excluir(int codigoEncomenda, int codigoProduto) {
+    public boolean excluir(int codigoVenda,int codigoProduto) {
         abrirConexao();
-        String sql = "delete from produtos_da_encomenda where encomenda_codigo=" + codigoEncomenda 
-                    + " and produto_codigo="+codigoProduto+";";
+        String sql = "delete from produtos_da_venda where vendas_codigo=" + codigoVenda 
+                + " and produto_codigo="+codigoProduto+";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto da encomenda");
+            JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto da venda");
         } else {
-            JOptionPane.showMessageDialog(null, "Exclusão do produto realizada");
+            JOptionPane.showMessageDialog(null, "Exclusão dos produtos realizada");
             return true;
         }
         return false;
     }
 
-    // produtosEncomenda é uma view que junta os dados de produtos_da_encomenda e produto
-    public ResultSet pesquisar(int codigoEncomenda) {
+    // produtosVenda é uma view que junta os dados de produtos_da_venda e produto
+    public ResultSet pesquisar(int codigoVenda) {
         abrirConexao();
-        String sql = "select * from produtosEncomenda where encomenda_codigo=" + codigoEncomenda + ";";
+        String sql = "select * from produtosVenda where vendas_codigo=" + codigoVenda + ";";
         System.out.println(sql);
         ResultSet registro = Banco.consultar(sql);
         try {
