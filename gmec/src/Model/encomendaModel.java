@@ -63,9 +63,9 @@ public class encomendaModel {
 
     public boolean excluir(int codigo) {
         abrirConexao();
-        String sql = "delete from encomenda where codigo=" + codigo + ";";
+        String sql = "call deletarEncomenda(" + codigo + ");";
         System.out.println(sql);
-        //chamar excluir produtos da venda para evitar problemas com integridade referencial
+        //verificar se o método manipular aceita a chamada de procedures 
         int res = Banco.manipular(sql);
         if (res == -1) {
             JOptionPane.showMessageDialog(null, "Não foi possível excluir a encomenda");
