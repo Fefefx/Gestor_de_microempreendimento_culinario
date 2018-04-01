@@ -96,6 +96,21 @@ public class produtosVendaModel {
         return false;
     }
 
+    //deleta TODOS os registros de UM produto das VENDAS
+    public boolean excluirRegistro(int codigoProduto) {
+        abrirConexao();
+        String sql = "delete from produtos_da_venda where produto_codigo=" + codigoProduto + ";";
+        System.out.println(sql);
+        int res = Banco.manipular(sql);
+        if (res == -1) {
+            System.out.println("\nNão foi possível excluir todos os registros do produto");
+        } else {
+            System.out.println("\nExclusão do produto realizada");
+            return true;
+        }
+        return false;
+    }
+
     // produtosVenda é uma view que junta os dados de produtos_da_venda e produto
     public ResultSet pesquisar(int codigoVenda) {
         abrirConexao();

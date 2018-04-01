@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
  * @author felipe
  */
 public class produtosModel {
+
     private Conexao Banco;
     infoBanco dados = new infoBanco();
 
@@ -31,8 +32,8 @@ public class produtosModel {
     public boolean inserir(produtos prod) {
         abrirConexao();
         String sql = "insert into produto(nome,rendimento,valor_custo,valor_unitario,Ingredientes,descricao) values('"
-                    +prod.getNome()+"',"+prod.getRendimento()+",'"+prod.getValorCusto()+"','"+prod.getValorUnitario()+"','"
-                    +prod.getIngredientes()+"','"+prod.getDescricao()+"');";
+                + prod.getNome() + "'," + prod.getRendimento() + ",'" + prod.getValorCusto() + "','" + prod.getValorUnitario() + "','"
+                + prod.getIngredientes() + "','" + prod.getDescricao() + "');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -46,10 +47,10 @@ public class produtosModel {
 
     public boolean atualizar(produtos prod) {
         abrirConexao();
-        String sql = "update produto set nome='"+prod.getNome()+"',rendimento="+prod.getRendimento()+","
-                    +"valor_custo='"+prod.getValorCusto()+"',valor_unitario='"+prod.getValorUnitario()+"',"
-                    +"Ingredientes='"+prod.getIngredientes()+"',descricao='"+prod.getDescricao()+"'"
-                    +" where codigo="+prod.getCodigo()+";";
+        String sql = "update produto set nome='" + prod.getNome() + "',rendimento=" + prod.getRendimento() + ","
+                + "valor_custo='" + prod.getValorCusto() + "',valor_unitario='" + prod.getValorUnitario() + "',"
+                + "Ingredientes='" + prod.getIngredientes() + "',descricao='" + prod.getDescricao() + "'"
+                + " where codigo=" + prod.getCodigo() + ";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -63,15 +64,19 @@ public class produtosModel {
 
     public boolean excluir(int codigo) {
         abrirConexao();
-        String sql = "delete from produto where codigo="+codigo+";";
+        String sql = "delete from produto where codigo=" + codigo + ";";
         System.out.println(sql);
-        //deletar das tabelas de muitos para muitos
-        int res = Banco.manipular(sql);
-        if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto");
-        } else {
-            JOptionPane.showMessageDialog(null, "Exclusão do produto realizada");
-            return true;
+        //exclui os registros do produto nas encomendas e vendas para poder deletá-lo
+        produtosEncomendaModel naEncomenda = new produtosEncomendaModel();
+        produtosVendaModel naVenda = new produtosVendaModel();
+        if (naEncomenda.excluirRegistro(codigo) && naVenda.excluirRegistro(codigo)) {
+            int res = Banco.manipular(sql);
+            if (res == -1) {
+                JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto");
+            } else {
+                JOptionPane.showMessageDialog(null, "Exclusão do produto realizada");
+                return true;
+            }
         }
         return false;
     }

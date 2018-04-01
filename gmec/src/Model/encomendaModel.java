@@ -61,17 +61,40 @@ public class encomendaModel {
         return false;
     }
 
+    //Exclui UMA encomenda em específico 
     public boolean excluir(int codigo) {
         abrirConexao();
-        String sql = "call deletarEncomenda(" + codigo + ");";
+        String sql = "delete from encomenda where codigo=" + codigo + ";";
         System.out.println(sql);
-        //verificar se o método manipular aceita a chamada de procedures 
-        int res = Banco.manipular(sql);
-        if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir a encomenda");
-        } else {
-            JOptionPane.showMessageDialog(null, "Exclusão da encomenda realizada");
-            return true;
+        //Exclui primeiro os itens da venda para então exclui-la
+        produtosEncomendaModel itens = new produtosEncomendaModel();
+        if (itens.excluirTodos(codigo)) {
+            int res = Banco.manipular(sql);
+            if (res == -1) {
+                JOptionPane.showMessageDialog(null, "Não foi possível excluir a encomenda");
+            } else {
+                JOptionPane.showMessageDialog(null, "Exclusão da encomenda realizada");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Exclui todas as encomendas de um cliente
+    public boolean excluirEncomendasCliente(int codigoCliente) {
+        abrirConexao();
+        String sql = "delete from encomenda where cliente_idcliente=" + codigoCliente + ";";
+        System.out.println(sql);
+        //Exclui primeiro os itens da venda para então exclui-la
+        produtosEncomendaModel itens = new produtosEncomendaModel();
+        if (itens.excluirTodos(codigoCliente)) {
+            int res = Banco.manipular(sql);
+            if (res == -1) {
+                JOptionPane.showMessageDialog(null, "Não foi possível excluir a encomenda");
+            } else {
+                JOptionPane.showMessageDialog(null, "Exclusão da encomenda realizada");
+                return true;
+            }
         }
         return false;
     }

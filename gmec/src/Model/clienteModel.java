@@ -31,14 +31,14 @@ public class clienteModel {
 
     public boolean inserir(cliente client) {
         abrirConexao();
-        String sql="insert into cliente(nome,telefone,endereco) values('"+client.getNome()+"',"
-                    +client.getTelefone()+",'"+client.getEndereco()+"');";
+        String sql = "insert into cliente(nome,telefone,endereco) values('" + client.getNome() + "',"
+                + client.getTelefone() + ",'" + client.getEndereco() + "');";
         System.out.println(sql);
-        int res=Banco.manipular(sql);
-        if(res==-1)
-            JOptionPane.showMessageDialog(null,"Não foi possível cadastrar o cliente");
-        else{
-            JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso");
+        int res = Banco.manipular(sql);
+        if (res == -1) {
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente");
+        } else {
+            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
             return true;
         }
         return false;
@@ -46,36 +46,39 @@ public class clienteModel {
 
     public boolean atualizar(cliente client) {
         abrirConexao();
-        String sql="update cliente set nome='"+client.getNome()+"',telefone="
-                +client.getTelefone()+",endereco='"+client.getEndereco()
-                +"' where idcliente="+client.getIdCliente();
+        String sql = "update cliente set nome='" + client.getNome() + "',telefone="
+                + client.getTelefone() + ",endereco='" + client.getEndereco()
+                + "' where idcliente=" + client.getIdCliente();
         System.out.println(sql);
-        int res=Banco.manipular(sql);
-        if(res==-1){
-            JOptionPane.showMessageDialog(null,"Não foi possível atualizar o cliente");
-        }else{
+        int res = Banco.manipular(sql);
+        if (res == -1) {
+            JOptionPane.showMessageDialog(null, "Não foi possível atualizar o cliente");
+        } else {
             JOptionPane.showMessageDialog(null, "Atualização realizada com sucesso");
             return true;
         }
         return false;
     }
-    
-    public boolean excluir(int codigo){
+
+    public boolean excluir(int codigo) {
         abrirConexao();
-        String sql="delete from cliente where idcliente="+codigo+";";
+        String sql = "delete from cliente where idcliente=" + codigo + ";";
         System.out.println(sql);
-        //chamar excluir encomenda -> para evitar problemas com integridade referencial no banco de dados 
-        int res=Banco.manipular(sql);
-        if(res==-1){
-            JOptionPane.showMessageDialog(null,"Não foi possível excluir o cliente");
-        }else{
-            JOptionPane.showMessageDialog(null,"Exclusão do cliente realizada");
-            return true;
+        //deleta todas encomendas do cliente antes de exclui-lo
+        encomendaModel pedido = new encomendaModel();
+        if (pedido.excluirEncomendasCliente(codigo)) {
+            int res = Banco.manipular(sql);
+            if (res == -1) {
+                JOptionPane.showMessageDialog(null, "Não foi possível excluir o cliente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Exclusão do cliente realizada");
+                return true;
+            }
         }
         return false;
     }
-    
-    public void pesquisar(){
+
+    public void pesquisar() {
         abrirConexao();
     }
 }

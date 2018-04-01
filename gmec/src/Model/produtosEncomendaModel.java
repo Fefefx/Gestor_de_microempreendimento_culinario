@@ -80,7 +80,7 @@ public class produtosEncomendaModel {
         return false;
     }
     
-    //Exclui TODOS os produtos da encomenda    
+    //Exclui TODOS os produtos de uma encomenda    
     public boolean excluirTodos(int codigoEncomenda) {
         abrirConexao();
         String sql = "delete from produtos_da_encomenda where encomenda_codigo=" + codigoEncomenda+";";
@@ -90,6 +90,21 @@ public class produtosEncomendaModel {
             System.out.println("\nNão foi possível excluir todos os produtos da encomenda");
         } else {
             System.out.println("\nRemoção dos produtos realizada");
+            return true;
+        }
+        return false;
+    }
+    
+    //Exclui TODOS os registros de UM produto nas ENCOMENDAS
+    public boolean excluirRegistro(int codigoProduto){
+        abrirConexao();
+        String sql = "delete from produtos_da_encomenda where produto_codigo=" + codigoProduto+";";
+        System.out.println(sql);
+        int res = Banco.manipular(sql);
+        if (res == -1) {
+            System.out.println("\nNão foi possível excluir todos os registros do produto");
+        } else {
+            System.out.println("\nRemoção do produto realizada");
             return true;
         }
         return false;

@@ -61,15 +61,18 @@ public class vendasModel {
 
     public boolean excluir(int codigo) {
         abrirConexao();
-        String sql = "call deletarVenda(" + codigo + ");";
+        String sql = "delete from vendas where codigo=" + codigo + ";";
         System.out.println(sql);
-        //verificar se o método manipular aceita a chamada de procedimentos
-        int res = Banco.manipular(sql);
-        if (res == -1) {
-            JOptionPane.showMessageDialog(null, "Não foi possível excluir a venda");
-        } else {
-            JOptionPane.showMessageDialog(null, "Exclusão da venda realizada");
-            return true;
+        //Exclui primeiro os produtos da venda para então exclui-la
+        produtosVendaModel itens = new produtosVendaModel();
+        if (itens.excluirTodos(codigo)) {
+            int res = Banco.manipular(sql);
+            if (res == -1) {
+                JOptionPane.showMessageDialog(null, "Não foi possível excluir a venda");
+            } else {
+                JOptionPane.showMessageDialog(null, "Exclusão da venda realizada");
+                return true;
+            }
         }
         return false;
     }
