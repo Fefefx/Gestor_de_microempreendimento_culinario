@@ -8,6 +8,10 @@ package Model;
 import Bank.Conexao;
 import Bank.infoBanco;
 import Objects.produtos;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -80,4 +84,19 @@ public class produtosModel {
         }
         return false;
     }
+    
+    public ResultSet pesquisar(String nomeProduto){
+        abrirConexao();
+        String sql="select * from produto where nome like '"+nomeProduto+"';";
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            if(resultado.next()){
+                System.out.println("\nEncontrados registros");
+                return resultado;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(produtosModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    } 
 }

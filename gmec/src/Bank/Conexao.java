@@ -5,6 +5,7 @@
  */
 package Bank;
 //import com.sun.corba.se.spi.monitoring.StatisticMonitoredAttribute;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,11 +13,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author felipe
  */
 public class Conexao {
+
     private Connection conexao;
     private String mensagem_erro;
     private boolean status_conexao;
@@ -30,25 +33,23 @@ public class Conexao {
     public String getMensagemErro() {
         return mensagem_erro;
     }
+
     public void conectar(String banco, String usuario, String senha) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/"+banco;
-            conexao = DriverManager.getConnection( url, usuario, senha);
+            String url = "jdbc:mysql://localhost/" + banco;
+            conexao = DriverManager.getConnection(url, usuario, senha);
             mensagem_erro = "";
             status_conexao = true;
-        }
-        catch ( ClassNotFoundException cnfex )
-            { mensagem_erro = "Falha ao ler o driver JDBC:"+cnfex.toString();
-              status_conexao = false;
-        }
-        catch ( SQLException sqlex )
-            { mensagem_erro = "Problemas com a base de dados:"+sqlex.toString();
-              status_conexao = false;
-        }
-        catch ( Exception ex )
-            { mensagem_erro = "Outro erro:"+ex.toString();
-              status_conexao = false;
+        } catch (ClassNotFoundException cnfex) {
+            mensagem_erro = "Falha ao ler o driver JDBC:" + cnfex.toString();
+            status_conexao = false;
+        } catch (SQLException sqlex) {
+            mensagem_erro = "Problemas com a base de dados:" + sqlex.toString();
+            status_conexao = false;
+        } catch (Exception ex) {
+            mensagem_erro = "Outro erro:" + ex.toString();
+            status_conexao = false;
         }
     }
 
@@ -56,7 +57,7 @@ public class Conexao {
         int result;
         try {
             acesso = conexao.createStatement();
-            result = acesso.executeUpdate( sql );
+            result = acesso.executeUpdate(sql);
             acesso.close();
             return result;
         } catch (SQLException ex) {
@@ -69,11 +70,10 @@ public class Conexao {
     public ResultSet consultar(String sql) {
         try {
             acesso = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                               ResultSet.CONCUR_READ_ONLY);
-            informacoes = acesso.executeQuery( sql );
+                    ResultSet.CONCUR_READ_ONLY);
+            informacoes = acesso.executeQuery(sql);
             return informacoes;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
             mensagem_erro = "Erro no código SQL";
             return null;

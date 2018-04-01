@@ -8,6 +8,11 @@ package Model;
 import Bank.Conexao;
 import Bank.infoBanco;
 import Objects.vendas;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -76,4 +81,22 @@ public class vendasModel {
         }
         return false;
     }
+    
+    public ResultSet pesquisar(Date dia){
+        abrirConexao();
+        //melhorar com o pessoal posteriormente
+        String sql="select * from vendas where data_venda='"+dia+"';";
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            if(resultado.next()){
+                System.out.println("\nRegistros encontrados");
+                return resultado;
+            }else
+                JOptionPane.showMessageDialog(null,"Nenhuma venda localizada para o dia");
+        } catch (SQLException ex) {
+            Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
 }
