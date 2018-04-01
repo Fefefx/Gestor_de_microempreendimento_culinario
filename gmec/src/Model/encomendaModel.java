@@ -8,6 +8,10 @@ package Model;
 import Bank.Conexao;
 import Bank.infoBanco;
 import Objects.encomenda;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,9 +35,15 @@ public class encomendaModel {
 
     public boolean inserir(encomenda enco) {
         abrirConexao();
-        String sql = "insert into encomenda(dia_pedido,dia_entrega,total,cliente_idcliente)"
+        int valor;
+        //Troca o verdadeiro ou falso por 0 ou 1
+        if(!enco.isStatus())
+            valor=0;
+        else
+            valor=1;
+        String sql = "insert into encomenda(dia_pedido,dia_entrega,total,cliente_idcliente,status)"
                 + " values('" + enco.getDiaPedido() + "','" + enco.getDiaEntrega() + "','" + enco.getTotal()
-                + "'," + enco.getCodigoCliente() + ");";
+                + "'," + enco.client.getIdCliente() + ","+valor+");";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -47,9 +57,16 @@ public class encomendaModel {
 
     public boolean atualizar(encomenda enco) {
         abrirConexao();
+        int valor;
+        //Troca o verdadeiro ou falso por 0 ou 1
+        if(!enco.isStatus())
+            valor=0;
+        else
+            valor=1;
         String sql = "update encomenda set dia_pedido='" + enco.getDiaPedido() + "',"
                 + "dia_entrega='" + enco.getDiaEntrega() + "',total='" + enco.getTotal() + "',"
-                + "cliente_idcliente=" + enco.getCodigoCliente() + " where codigo=" + enco.getCodigoEncomenda() + ";";
+                + "cliente_idcliente=" + enco.client.getIdCliente() 
+                + ", status="+valor+" where codigo=" + enco.getCodigoEncomenda() + ";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -85,7 +102,7 @@ public class encomendaModel {
         abrirConexao();
         String sql = "delete from encomenda where cliente_idcliente=" + codigoCliente + ";";
         System.out.println(sql);
-        //Exclui primeiro os itens da venda para então exclui-la
+        //Exclui primeiro os itens da encomenda para então exclui-la
         produtosEncomendaModel itens = new produtosEncomendaModel();
         if (itens.excluirTodos(codigoCliente)) {
             int res = Banco.manipular(sql);
@@ -97,5 +114,23 @@ public class encomendaModel {
             }
         }
         return false;
+    }
+    
+    //listarEncomendas é uma view que reúne dados de produtos e encomendas
+    public ResultSet pesquisar(String clienteEncomenda){
+        abrirConexao();
+        String sql="select * from listarEncomendas where nome like '"+clienteEncomenda+"%';";
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            if(resultado.next()){
+                System.out.println("\nEncomenda encontradas");
+                return resultado;  //No retorno o status virá como 0 ou 1, tratar com if para verdade ou falso
+            }
+            else
+                JOptionPane.showMessageDialog(null,"Nenhuma encomenda encontrada");
+        } catch (SQLException ex) {
+            Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

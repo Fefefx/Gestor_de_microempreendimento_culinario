@@ -12,10 +12,12 @@ import java.util.Date;
  * @author felipe
  */
 public class encomenda {
-    private int codigoEncomenda,codigoCliente;
+    private int codigoEncomenda;
     private float total; 
     private Date diaPedido, diaEntrega;
+    private boolean status;
     ArrayList encomendaProdutos= new ArrayList();// Produtos da encomenda
+    public cliente client=new cliente();  //Dono da encomenda
 
     public int getCodigoEncomenda() {
         return codigoEncomenda;
@@ -23,14 +25,6 @@ public class encomenda {
 
     public void setCodigoEncomenda(int codigoEncomenda) {
         this.codigoEncomenda = codigoEncomenda;
-    }
-
-    public int getCodigoCliente() {
-        return codigoCliente;
-    }
-
-    public void setCodigoCliente(int codigoCliente) {
-        this.codigoCliente = codigoCliente;
     }
 
     public float getTotal() {
@@ -57,12 +51,12 @@ public class encomenda {
         this.diaEntrega = diaEntrega;
     }
 
-    public encomenda(int codigoEncomenda, int codigoCliente, float total, Date diaPedido, Date diaEntrega) {
-        this.codigoEncomenda = codigoEncomenda;
-        this.codigoCliente = codigoCliente;
-        this.total = total;
-        this.diaPedido = diaPedido;
-        this.diaEntrega = diaEntrega;
+    public boolean isStatus() {
+        return status;
     }
-    
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

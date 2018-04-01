@@ -13,6 +13,10 @@ public class cliente {
     private int idCliente,telefone;
     private String nome,endereco;
 
+    cliente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getIdCliente() {
         return idCliente;
     }

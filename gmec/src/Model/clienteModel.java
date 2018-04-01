@@ -8,6 +8,10 @@ package Model;
 import Objects.cliente;
 import Bank.Conexao;
 import Bank.infoBanco;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -78,7 +82,19 @@ public class clienteModel {
         return false;
     }
 
-    public void pesquisar() {
+    //pesquisa os clientes que começam com o nome fornecido por parâmetro
+    public ResultSet pesquisar(String nomeCliente) {
         abrirConexao();
+        String sql="select * from cliente where nome like '"+nomeCliente+"%';";
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            if(resultado.next()){
+                return resultado;
+            }else
+                JOptionPane.showMessageDialog(null,"Usuário não localizado");
+        } catch (SQLException ex) {
+            Logger.getLogger(clienteModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
