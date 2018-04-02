@@ -8,7 +8,7 @@ package Control;
 import javax.swing.JOptionPane;
 import Objects.cliente;
 import Model.clienteModel;
-import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -39,21 +39,23 @@ public class clienteControl {
     public void validarCampos(cliente client) {
         if ("".equals(client.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
-        } 
+        }
         if ("".equals(client.getEndereco().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um endereço");
         } else {
-            clienteModel clientModel = new clienteModel(); 
-            if(client.getIdCliente()==0)
+            clienteModel clientModel = new clienteModel();
+            if (client.getIdCliente() == 0) {
                 clientModel.inserir(client);
-            else
+            } else {
                 clientModel.atualizar(client);
+            }
         }
     }
-    
-    public ResultSet validarNomePesquisa(String nome){
+
+    public ArrayList validarNomePesquisa(String nome) {
         clienteModel clientModel = new clienteModel();
         return clientModel.pesquisar(nome);
+
     }
-  
+
 }

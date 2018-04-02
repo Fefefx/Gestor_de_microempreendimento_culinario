@@ -6,10 +6,8 @@
 package UI;
 
 import Control.clienteControl;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Objects.cliente;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -152,29 +150,26 @@ public class visualizarClientes extends javax.swing.JDialog {
     }//GEN-LAST:event_B_pesquisaActionPerformed
 
     public void arrumaTabela() {
-        ResultSet resultado = clientControl.validarNomePesquisa(CT_nome.getText());
+        ArrayList resultado = clientControl.validarNomePesquisa(CT_nome.getText());
         if (resultado != null) {
             DefaultTableModel modelo = (DefaultTableModel) Tab_clientes.getModel();
             while (modelo.getRowCount() != 0) {
                 modelo.removeRow(0);
             }
-            try {
-                while (resultado.next()) {
-                    String[] linha = new String[4];
-                    linha[0] = String.valueOf(resultado.getInt("idcliente"));
-                    linha[1] = resultado.getString("nome");
-                    linha[2] = String.valueOf(resultado.getInt("telefone"));
-                    linha[3] = resultado.getString("endereco");
-                    modelo.addRow(linha);
-                    Tab_clientes.setModel(modelo);
-                }
-                resultado.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(visualizarClientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            for(int i=0;i<resultado.size();i++){
+                cliente client= new cliente();
+                client= (cliente) resultado.get(i);
+                String[] linha= new String[4];
+                linha[0]=String.valueOf(client.getIdCliente());
+                linha[1]=client.getNome();
+                linha[2]=client.getEndereco();
+                linha[3]=String.valueOf(client.getTelefone());
+                modelo.addRow(linha);
+                Tab_clientes.setModel(modelo);
+            }        
         }
         else
-            System.out.println("ResultSet retornou nulo");
+            System.out.println("ArrayList retornou nulo");
     }
     
     public void arrumarTela(){

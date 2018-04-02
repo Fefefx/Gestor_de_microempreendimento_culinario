@@ -10,6 +10,7 @@ import Bank.Conexao;
 import Bank.infoBanco;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -81,23 +82,28 @@ public class clienteModel {
         return false;
     }
 
-    //pesquisa os clientes que começam com o nome fornecido por parâmetro
-    public ResultSet pesquisar(String nomeCliente) {
+    /*pesquisa os clientes que começam com o nome fornecido por parâmetro 
+    retorna uma lista com todos os registros */
+    public ArrayList pesquisar(String nomeCliente) {
         abrirConexao();
-        boolean valor=false;
+        ArrayList lista=new ArrayList();
         String sql="select * from cliente where nome like '"+nomeCliente+"%';";
         System.out.println(sql);
         ResultSet resultado=Banco.consultar(sql);
         try {
-            if(resultado.next()){
-                valor=true;
-            }else
-                JOptionPane.showMessageDialog(null,"Usuário não localizado");
+            while(resultado.next()){
+                cliente client=new cliente();
+                client.setIdCliente(resultado.getInt("idcliente"));
+                client.setNome(resultado.getString("nome"));
+                client.setTelefone(resultado.getInt("telefone"));
+                client.setEndereco(resultado.getString("endereco"));
+                lista.add(client);
+            }
+            resultado.close();
+            return lista;
         } catch (SQLException ex) {
             Logger.getLogger(clienteModel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(valor)
-           return resultado;
         return null;
     }
     
