@@ -64,7 +64,7 @@ public class clienteModel {
         return false;
     }
 
-    public boolean excluir(int codigo) {
+    public void excluir(int codigo) {
         abrirConexao();
         String sql = "delete from cliente where idcliente=" + codigo + ";";
         System.out.println(sql);
@@ -76,10 +76,8 @@ public class clienteModel {
                 JOptionPane.showMessageDialog(null, "Não foi possível excluir o cliente");
             } else {
                 JOptionPane.showMessageDialog(null, "Exclusão do cliente realizada");
-                return true;
             }
         }
-        return false;
     }
 
     /*pesquisa os clientes que começam com o nome fornecido por parâmetro 

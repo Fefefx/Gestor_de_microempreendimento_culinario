@@ -8,6 +8,8 @@ package UI;
 import Objects.cliente;
 import Control.clienteControl;
 import javax.swing.JOptionPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -16,13 +18,14 @@ import javax.swing.JOptionPane;
 public class clienteCadastro extends javax.swing.JDialog {
 
     private int idCli = 0;
-    
+    java.awt.Frame tela;
 
     /**
      * Creates new form clienteCadastro
      */
     public clienteCadastro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        tela=parent;
         initComponents();
         arrumarTela();
     }
@@ -39,6 +42,7 @@ public class clienteCadastro extends javax.swing.JDialog {
         CT_telefone.setEditable(false);
         B_excluir.setEnabled(true);
         B_alterar.setEnabled(true);
+        B_salvar.setEnabled(false);
         idCli=client.getIdCliente();
     }
 
@@ -73,6 +77,11 @@ public class clienteCadastro extends javax.swing.JDialog {
         B_alterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Nome:");
 
@@ -166,6 +175,7 @@ public class clienteCadastro extends javax.swing.JDialog {
             client.setEndereco(CT_endereco.getText());
             validar.validarCampos(client);
             arrumarTela();
+            this.dispose();
         }
     }//GEN-LAST:event_B_salvarActionPerformed
 
@@ -185,8 +195,14 @@ public class clienteCadastro extends javax.swing.JDialog {
         CT_nome.setEditable(true);
         CT_telefone.setEditable(true);
         CT_endereco.setEditable(true);
-        
+        B_salvar.setEnabled(true);
+        B_alterar.setEnabled(false);
+        CT_nome.requestFocus();
     }//GEN-LAST:event_B_alterarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

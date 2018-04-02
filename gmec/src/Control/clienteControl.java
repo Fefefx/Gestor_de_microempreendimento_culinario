@@ -39,8 +39,7 @@ public class clienteControl {
     public void validarCampos(cliente client) {
         if ("".equals(client.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
-        }
-        if ("".equals(client.getEndereco().trim())) {
+        }else if ("".equals(client.getEndereco().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um endereço");
         } else {
             clienteModel clientModel = new clienteModel();
@@ -55,7 +54,10 @@ public class clienteControl {
     public ArrayList validarNomePesquisa(String nome) {
         clienteModel clientModel = new clienteModel();
         return clientModel.pesquisar(nome);
-
     }
-
+    
+    public void excluir(int codigo){
+        clienteModel clientModel=new clienteModel();
+        clientModel.excluir(codigo);
+    }    
 }

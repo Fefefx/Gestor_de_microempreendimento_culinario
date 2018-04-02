@@ -8,21 +8,21 @@ package UI;
 import Control.clienteControl;
 import Objects.cliente;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author felip
+ * @author felipe
  */
-public class visualizarClientes extends javax.swing.JDialog {
+public class visualizarClientes extends javax.swing.JFrame {
 
     clienteControl clientControl = new clienteControl();
 
     /**
-     * Creates new form visualizarClientes
+     * Creates new form frameTeste
      */
-    public visualizarClientes(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public visualizarClientes() {
         initComponents();
         arrumarTela();
     }
@@ -36,14 +36,30 @@ public class visualizarClientes extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Tab_clientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         CT_nome = new javax.swing.JTextField();
-        B_novo = new javax.swing.JButton();
         B_pesquisa = new javax.swing.JButton();
+        B_novo = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tab_clientes = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Filtrar por Nome:");
+
+        B_pesquisa.setText("Pesquisar");
+        B_pesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_pesquisaActionPerformed(evt);
+            }
+        });
+
+        B_novo.setText("Novo");
+        B_novo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_novoActionPerformed(evt);
+            }
+        });
 
         Tab_clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,91 +80,77 @@ public class visualizarClientes extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        Tab_clientes.getTableHeader().setReorderingAllowed(false);
+        Tab_clientes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                Tab_clientesFocusGained(evt);
+            }
+        });
+        Tab_clientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_clientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tab_clientes);
-
-        jLabel1.setText("Filtrar por nome:");
-
-        CT_nome.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                CT_nomeInputMethodTextChanged(evt);
-            }
-        });
-        CT_nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CT_nomeActionPerformed(evt);
-            }
-        });
-
-        B_novo.setText("Novo");
-        B_novo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                B_novoActionPerformed(evt);
-            }
-        });
-
-        B_pesquisa.setText("Pesquisar");
-        B_pesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                B_pesquisaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CT_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(CT_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
                         .addComponent(B_pesquisa)
-                        .addGap(18, 18, 18)
-                        .addComponent(B_novo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(31, 31, 31)
+                        .addComponent(B_novo)))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(CT_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(B_novo)
-                    .addComponent(B_pesquisa))
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                    .addComponent(B_pesquisa)
+                    .addComponent(B_novo))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_B_novoActionPerformed
-
-    private void CT_nomeInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CT_nomeInputMethodTextChanged
-
-    }//GEN-LAST:event_CT_nomeInputMethodTextChanged
-
-    private void CT_nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_nomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CT_nomeActionPerformed
-
     private void B_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_pesquisaActionPerformed
         arrumaTabela();
     }//GEN-LAST:event_B_pesquisaActionPerformed
 
+    private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
+        new clienteCadastro(this, rootPaneCheckingEnabled).show();
+        
+    }//GEN-LAST:event_B_novoActionPerformed
+
+    private void Tab_clientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Tab_clientesFocusGained
+
+    }//GEN-LAST:event_Tab_clientesFocusGained
+
+    private void Tab_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_clientesMouseClicked
+        int linha = Tab_clientes.getSelectedRow();
+        cliente client = new cliente();
+        client.setIdCliente(Integer.parseInt(Tab_clientes.getValueAt(linha, 0).toString()));
+        client.setNome(Tab_clientes.getValueAt(linha, 1).toString());
+        client.setEndereco(Tab_clientes.getValueAt(linha, 2).toString());
+        client.setTelefone(Integer.parseInt(Tab_clientes.getValueAt(linha, 3).toString()));
+        clienteCadastro clicad = new clienteCadastro(this, rootPaneCheckingEnabled);
+        clicad.arrumarTela(client);
+        clicad.setVisible(true);
+    }//GEN-LAST:event_Tab_clientesMouseClicked
     public void arrumaTabela() {
         ArrayList resultado = clientControl.validarNomePesquisa(CT_nome.getText());
         if (resultado != null) {
@@ -156,23 +158,23 @@ public class visualizarClientes extends javax.swing.JDialog {
             while (modelo.getRowCount() != 0) {
                 modelo.removeRow(0);
             }
-            for(int i=0;i<resultado.size();i++){
-                cliente client= new cliente();
-                client= (cliente) resultado.get(i);
-                String[] linha= new String[4];
-                linha[0]=String.valueOf(client.getIdCliente());
-                linha[1]=client.getNome();
-                linha[2]=client.getEndereco();
-                linha[3]=String.valueOf(client.getTelefone());
+            for (int i = 0; i < resultado.size(); i++) {
+                cliente client = new cliente();
+                client = (cliente) resultado.get(i);
+                String[] linha = new String[4];
+                linha[0] = String.valueOf(client.getIdCliente());
+                linha[1] = client.getNome();
+                linha[2] = client.getEndereco();
+                linha[3] = String.valueOf(client.getTelefone());
                 modelo.addRow(linha);
                 Tab_clientes.setModel(modelo);
-            }        
-        }
-        else
+            }
+        } else {
             System.out.println("ArrayList retornou nulo");
+        }
     }
-    
-    public void arrumarTela(){
+
+    public void arrumarTela() {
         CT_nome.setText("");
         arrumaTabela();
     }
@@ -203,18 +205,12 @@ public class visualizarClientes extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(visualizarClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                visualizarClientes dialog = new visualizarClientes(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new visualizarClientes().setVisible(true);
             }
         });
     }
