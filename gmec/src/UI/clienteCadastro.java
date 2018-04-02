@@ -7,6 +7,7 @@ package UI;
 
 import Objects.cliente;
 import Control.clienteControl;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,7 +15,6 @@ import Control.clienteControl;
  */
 public class clienteCadastro extends javax.swing.JDialog {
 
-    private cliente client;
     private int idCli = 0;
     
 
@@ -24,16 +24,22 @@ public class clienteCadastro extends javax.swing.JDialog {
     public clienteCadastro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        arrumarTela();
     }
 
+
+
     //Coloca os valores nos campos para update
-    public void arrumarTela(int phone, String nome, String endereco, int id) {
-        CT_nome.setText(nome);
-        CT_endereco.setText(endereco);
-        CT_telefone.setText(Integer.toString(phone));
-        idCli = id;
-        B_salvar.setEnabled(true);
-        B_cancelar.setEnabled(true);
+    public void arrumarTela(cliente client) {
+        CT_nome.setText(client.getNome());
+        CT_telefone.setText(String.valueOf(client.getTelefone()));
+        CT_endereco.setText(client.getEndereco());
+        CT_nome.setEditable(false);
+        CT_endereco.setEditable(false);
+        CT_telefone.setEditable(false);
+        B_excluir.setEnabled(true);
+        B_alterar.setEnabled(true);
+        idCli=client.getIdCliente();
     }
 
     //limpa os valores para insert 
@@ -43,7 +49,8 @@ public class clienteCadastro extends javax.swing.JDialog {
         CT_telefone.setText("");
         idCli=0;
         B_salvar.setEnabled(true);
-        B_cancelar.setEnabled(true);
+        B_alterar.setEnabled(false);
+        B_excluir.setEnabled(false);
     }
 
     /**
@@ -62,7 +69,8 @@ public class clienteCadastro extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         CT_endereco = new javax.swing.JTextField();
         B_salvar = new javax.swing.JButton();
-        B_cancelar = new javax.swing.JButton();
+        B_excluir = new javax.swing.JButton();
+        B_alterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -79,34 +87,49 @@ public class clienteCadastro extends javax.swing.JDialog {
             }
         });
 
-        B_cancelar.setText("Cancelar");
+        B_excluir.setText("Excluir");
+        B_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_excluirActionPerformed(evt);
+            }
+        });
+
+        B_alterar.setText("Alterar");
+        B_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_alterarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(26, 26, 26)
-                        .addComponent(CT_endereco))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(B_salvar)
+                        .addGap(45, 45, 45)
+                        .addComponent(B_alterar)
+                        .addGap(39, 39, 39)
+                        .addComponent(B_excluir))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(CT_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel2)
-                        .addGap(28, 28, 28)
-                        .addComponent(CT_telefone, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(26, 26, 26)
+                                .addComponent(CT_endereco))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(CT_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel2)
+                                .addGap(28, 28, 28)
+                                .addComponent(CT_telefone, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))))
                 .addGap(56, 56, 56))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(B_salvar)
-                .addGap(39, 39, 39)
-                .addComponent(B_cancelar)
-                .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,8 +146,9 @@ public class clienteCadastro extends javax.swing.JDialog {
                     .addComponent(CT_endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(B_cancelar)
-                    .addComponent(B_salvar))
+                    .addComponent(B_salvar)
+                    .addComponent(B_excluir)
+                    .addComponent(B_alterar))
                 .addGap(31, 31, 31))
         );
 
@@ -144,6 +168,25 @@ public class clienteCadastro extends javax.swing.JDialog {
             arrumarTela();
         }
     }//GEN-LAST:event_B_salvarActionPerformed
+
+    private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
+        clienteControl validar=new clienteControl();
+        int res=JOptionPane.showConfirmDialog(null,"Deseja excluir o cliente ?");
+        if(res==0){
+            //adicionar pesquisa das encomendas 
+            validar.excluir(idCli);
+        }
+        if(res==2){
+            this.dispose();
+        }
+    }//GEN-LAST:event_B_excluirActionPerformed
+
+    private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        CT_nome.setEditable(true);
+        CT_telefone.setEditable(true);
+        CT_endereco.setEditable(true);
+        
+    }//GEN-LAST:event_B_alterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,7 +231,8 @@ public class clienteCadastro extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton B_cancelar;
+    private javax.swing.JButton B_alterar;
+    private javax.swing.JButton B_excluir;
     private javax.swing.JButton B_salvar;
     private javax.swing.JTextField CT_endereco;
     private javax.swing.JTextField CT_nome;
