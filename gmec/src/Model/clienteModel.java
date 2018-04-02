@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -83,16 +84,22 @@ public class clienteModel {
     //pesquisa os clientes que começam com o nome fornecido por parâmetro
     public ResultSet pesquisar(String nomeCliente) {
         abrirConexao();
+        boolean valor=false;
         String sql="select * from cliente where nome like '"+nomeCliente+"%';";
+        System.out.println(sql);
         ResultSet resultado=Banco.consultar(sql);
         try {
             if(resultado.next()){
-                return resultado;
+                valor=true;
             }else
                 JOptionPane.showMessageDialog(null,"Usuário não localizado");
         } catch (SQLException ex) {
             Logger.getLogger(clienteModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(valor)
+           return resultado;
         return null;
     }
+    
+
 }

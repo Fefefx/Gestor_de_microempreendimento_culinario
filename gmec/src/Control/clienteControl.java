@@ -8,6 +8,7 @@ package Control;
 import javax.swing.JOptionPane;
 import Objects.cliente;
 import Model.clienteModel;
+import java.sql.ResultSet;
 
 /**
  *
@@ -49,4 +50,10 @@ public class clienteControl {
                 clientModel.atualizar(client);
         }
     }
+    
+    public ResultSet validarNomePesquisa(String nome){
+        clienteModel clientModel = new clienteModel();
+        return clientModel.pesquisar(nome);
+    }
+  
 }
