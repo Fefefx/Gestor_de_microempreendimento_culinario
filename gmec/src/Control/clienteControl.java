@@ -24,8 +24,8 @@ public class clienteControl {
             JOptionPane.showMessageDialog(null, "Formato de telefone incorreto");
             return false;
         }
-        int tel = Integer.parseInt(phone);
         try {
+            int tel = Integer.parseInt(phone);
             if (tel != 0) {
                 return true;
             }
@@ -35,19 +35,18 @@ public class clienteControl {
         return false;
     }
 
-    public boolean validarCampos(cliente client) {
-        boolean resposta=false;
+    public void validarCampos(cliente client) {
         if ("".equals(client.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
-        } else if ("".equals(client.getEndereco().trim())) {
+        } 
+        if ("".equals(client.getEndereco().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um endereço");
         } else {
             clienteModel clientModel = new clienteModel(); 
             if(client.getIdCliente()==0)
-                resposta=clientModel.inserir(client);
+                clientModel.inserir(client);
             else
-                resposta=clientModel.atualizar(client);
+                clientModel.atualizar(client);
         }
-        return resposta;
     }
 }

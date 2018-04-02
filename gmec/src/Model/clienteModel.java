@@ -33,7 +33,7 @@ public class clienteModel {
         }
     }
 
-    public boolean inserir(cliente client) {
+    public void inserir(cliente client) {
         abrirConexao();
         String sql = "insert into cliente(nome,telefone,endereco) values('" + client.getNome() + "',"
                 + client.getTelefone() + ",'" + client.getEndereco() + "');";
@@ -43,9 +43,7 @@ public class clienteModel {
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o cliente");
         } else {
             JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
-            return true;
         }
-        return false;
     }
 
     public boolean atualizar(cliente client) {

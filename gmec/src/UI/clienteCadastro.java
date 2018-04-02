@@ -6,6 +6,7 @@
 package UI;
 
 import Objects.cliente;
+import Control.clienteControl;
 
 /**
  *
@@ -132,7 +133,16 @@ public class clienteCadastro extends javax.swing.JDialog {
     
     //SE o id do cliente é 0 significa que a operação é insert, senão Update    
     private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
-
+        clienteControl validar= new clienteControl();
+        cliente client = new cliente();
+        if(validar.validarTelefone(CT_telefone.getText())){
+            client.setNome(CT_nome.getText());
+            client.setIdCliente(idCli);
+            client.setTelefone(Integer.parseInt(CT_telefone.getText()));
+            client.setEndereco(CT_endereco.getText());
+            validar.validarCampos(client);
+            arrumarTela();
+        }
     }//GEN-LAST:event_B_salvarActionPerformed
 
     /**
