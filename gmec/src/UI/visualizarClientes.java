@@ -134,8 +134,11 @@ public class visualizarClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_B_pesquisaActionPerformed
 
     private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
+        this.setVisible(false);
         new clienteCadastro(this, rootPaneCheckingEnabled).show();
-        
+        this.setVisible(true);
+        CT_nome.setText("");
+        arrumaTabela();
     }//GEN-LAST:event_B_novoActionPerformed
 
     private void Tab_clientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Tab_clientesFocusGained
@@ -149,9 +152,13 @@ public class visualizarClientes extends javax.swing.JFrame {
         client.setNome(Tab_clientes.getValueAt(linha, 1).toString());
         client.setEndereco(Tab_clientes.getValueAt(linha, 2).toString());
         client.setTelefone(Integer.parseInt(Tab_clientes.getValueAt(linha, 3).toString()));
+        this.setVisible(false);
         clienteCadastro clicad = new clienteCadastro(this, rootPaneCheckingEnabled);
         clicad.arrumarTela(client);
         clicad.setVisible(true);
+        CT_nome.setText("");
+        arrumaTabela();
+        this.setVisible(true);
     }//GEN-LAST:event_Tab_clientesMouseClicked
     public void arrumaTabela() {
         ArrayList resultado = clientControl.validarNomePesquisa(CT_nome.getText());
