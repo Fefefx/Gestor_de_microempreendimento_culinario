@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
  *
  * @author felip
  */
-public class pedidoEncomenda extends javax.swing.JFrame {
+public class pedidoRealizar extends javax.swing.JFrame {
 
     /**
      * Creates new form pedidoEncomenda
      */
-    public pedidoEncomenda() {
+    public pedidoRealizar() {
         initComponents();
     }
     
@@ -114,20 +114,21 @@ public class pedidoEncomenda extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(pedidoEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pedidoRealizar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(pedidoEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pedidoRealizar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(pedidoEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pedidoRealizar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(pedidoEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(pedidoRealizar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new pedidoEncomenda().setVisible(true);
+                new pedidoRealizar().setVisible(true);
             }
         });
     }

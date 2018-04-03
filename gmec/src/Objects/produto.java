@@ -9,7 +9,7 @@ package Objects;
  *
  * @author felipe
  */
-public class produtos {
+public class produto {
     private int codigo, rendimento;
     private float valorCusto,valorUnitario;
     private String nome,ingredientes, descricao;
@@ -70,7 +70,7 @@ public class produtos {
         this.descricao = descricao;
     }
 
-    public produtos(int codigo, int rendimento, float valorCusto, float valorUnitario, String nome, String ingredientes, String descricao) {
+    public produto(int codigo, int rendimento, float valorCusto, float valorUnitario, String nome, String ingredientes, String descricao) {
         this.codigo = codigo;
         this.rendimento = rendimento;
         this.valorCusto = valorCusto;

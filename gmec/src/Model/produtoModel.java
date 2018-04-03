@@ -7,7 +7,7 @@ package Model;
 
 import Bank.Conexao;
 import Bank.infoBanco;
-import Objects.produtos;
+import Objects.produto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author felipe
  */
-public class produtosModel {
+public class produtoModel {
 
     private Conexao Banco;
     infoBanco dados = new infoBanco();
@@ -33,7 +33,7 @@ public class produtosModel {
         }
     }
 
-    public boolean inserir(produtos prod) {
+    public void inserir(produto prod) {
         abrirConexao();
         String sql = "insert into produto(nome,rendimento,valor_custo,valor_unitario,Ingredientes,descricao) values('"
                 + prod.getNome() + "'," + prod.getRendimento() + ",'" + prod.getValorCusto() + "','" + prod.getValorUnitario() + "','"
@@ -44,12 +44,10 @@ public class produtosModel {
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o produto");
         } else {
             JOptionPane.showMessageDialog(null, "Produto inserido com sucesso");
-            return true;
         }
-        return false;
     }
 
-    public boolean atualizar(produtos prod) {
+    public void atualizar(produto prod) {
         abrirConexao();
         String sql = "update produto set nome='" + prod.getNome() + "',rendimento=" + prod.getRendimento() + ","
                 + "valor_custo='" + prod.getValorCusto() + "',valor_unitario='" + prod.getValorUnitario() + "',"
@@ -61,9 +59,7 @@ public class produtosModel {
             JOptionPane.showMessageDialog(null, "Não foi possível atualizar o produto");
         } else {
             JOptionPane.showMessageDialog(null, "Atualização realizada com sucesso");
-            return true;
         }
-        return false;
     }
 
     public boolean excluir(int codigo) {
@@ -95,7 +91,7 @@ public class produtosModel {
                 return resultado;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(produtosModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(produtoModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     } 
