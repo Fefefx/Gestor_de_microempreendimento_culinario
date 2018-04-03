@@ -77,6 +77,7 @@ public class clienteCadastro extends javax.swing.JDialog {
         B_alterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gerenciar Usuário");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -173,22 +174,18 @@ public class clienteCadastro extends javax.swing.JDialog {
             client.setIdCliente(idCli);
             client.setTelefone(Integer.parseInt(CT_telefone.getText()));
             client.setEndereco(CT_endereco.getText());
-            validar.validarCampos(client);
-            arrumarTela();
-            this.dispose();
+            if(validar.validarCampos(client)){
+                arrumarTela();
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_B_salvarActionPerformed
 
     private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
         clienteControl validar=new clienteControl();
-        int res=JOptionPane.showConfirmDialog(null,"Deseja excluir o cliente ?");
-        if(res==0){
-            //adicionar pesquisa das encomendas 
-            validar.excluir(idCli);
-        }
-        if(res==2){
+        int valor=validar.excluir(idCli);
+        if(valor==0)
             this.dispose();
-        }
     }//GEN-LAST:event_B_excluirActionPerformed
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed

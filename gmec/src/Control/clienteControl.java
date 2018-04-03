@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import Objects.cliente;
 import Model.clienteModel;
 import java.util.ArrayList;
+import Model.encomendaModel;
 
 /**
  *
@@ -21,7 +22,7 @@ public class clienteControl {
             JOptionPane.showMessageDialog(null, "Digite um valor para o campo telefone");
             return false;
         }
-        if (phone.length() > 9) {
+        if (phone.length() < 8 || phone.length() > 9) {
             JOptionPane.showMessageDialog(null, "Formato de telefone incorreto");
             return false;
         }
@@ -36,10 +37,10 @@ public class clienteControl {
         return false;
     }
 
-    public void validarCampos(cliente client) {
+    public boolean validarCampos(cliente client) {
         if ("".equals(client.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
-        }else if ("".equals(client.getEndereco().trim())) {
+        } else if ("".equals(client.getEndereco().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um endereço");
         } else {
             clienteModel clientModel = new clienteModel();
@@ -48,7 +49,9 @@ public class clienteControl {
             } else {
                 clientModel.atualizar(client);
             }
+            return true;
         }
+        return false;
     }
 
     public ArrayList validarNomePesquisa(String nome) {
@@ -56,8 +59,26 @@ public class clienteControl {
         return clientModel.pesquisar(nome);
     }
     
-    public void excluir(int codigo){
-        clienteModel clientModel=new clienteModel();
-        clientModel.excluir(codigo);
-    }    
+    public boolean validarTexto(String nome){
+        if("".equals(nome.trim()))
+            return false;
+        return true;
+    }
+
+    public int excluir(int codigo) {
+        int res;
+        clienteModel clientModel = new clienteModel();
+        encomendaModel encomendar = new encomendaModel();
+        if (encomendar.pesquisarEncomendasCliente(codigo)) {
+            res=JOptionPane.showConfirmDialog(null,"Foram encontradas encomendas em aberto para o cliente. Deseja exclui-lo ?");
+            if(res==0)
+                clientModel.excluir(codigo);
+        }else{
+            res=JOptionPane.showConfirmDialog(null,"Deseja excluir o cliente ?");
+            if(res==0)
+                clientModel.excluir(codigo);
+        }
+        return res;
+    }
+
 }

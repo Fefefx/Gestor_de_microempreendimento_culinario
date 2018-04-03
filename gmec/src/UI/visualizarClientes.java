@@ -8,7 +8,6 @@ package UI;
 import Control.clienteControl;
 import Objects.cliente;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,6 +43,7 @@ public class visualizarClientes extends javax.swing.JFrame {
         Tab_clientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Listar Clientes ");
 
         jLabel1.setText("Filtrar por Nome:");
 
@@ -63,6 +63,8 @@ public class visualizarClientes extends javax.swing.JFrame {
 
         Tab_clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -98,8 +100,8 @@ public class visualizarClientes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -108,7 +110,7 @@ public class visualizarClientes extends javax.swing.JFrame {
                         .addComponent(B_pesquisa)
                         .addGap(31, 31, 31)
                         .addComponent(B_novo)))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +122,7 @@ public class visualizarClientes extends javax.swing.JFrame {
                     .addComponent(B_pesquisa)
                     .addComponent(B_novo))
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
@@ -176,6 +178,7 @@ public class visualizarClientes extends javax.swing.JFrame {
 
     public void arrumarTela() {
         CT_nome.setText("");
+        CT_nome.requestFocus();
         arrumaTabela();
     }
 
