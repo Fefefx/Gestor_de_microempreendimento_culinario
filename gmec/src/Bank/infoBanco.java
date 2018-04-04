@@ -13,7 +13,7 @@ package Bank;
  */
 //Tenho um computador com senha root então se der erro de conexão só deixar senha="" 
 public class infoBanco {
-    private final String banco = "GMEC",usuario="root",senha="root";
+    private final String banco = "GMEC",usuario="root",senha="";
 
     public String getBanco() {
         return banco;

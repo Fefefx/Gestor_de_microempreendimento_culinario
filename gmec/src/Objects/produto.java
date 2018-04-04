@@ -14,6 +14,10 @@ public class produto {
     private float valorCusto,valorUnitario;
     private String nome,ingredientes, descricao;
 
+    public produto() {
+
+    }
+
     public int getCodigo() {
         return codigo;
     }

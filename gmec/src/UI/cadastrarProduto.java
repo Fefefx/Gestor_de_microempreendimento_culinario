@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package UI;
+
 import Objects.produto;
 import Control.produtoControl;
 
@@ -12,7 +13,8 @@ import Control.produtoControl;
  * @author felipe
  */
 public class cadastrarProduto extends javax.swing.JDialog {
-    private int idprod=0;
+
+    private int idprod = 0;
 
     /**
      * Creates new form cadastrarProduto
@@ -22,8 +24,8 @@ public class cadastrarProduto extends javax.swing.JDialog {
         initComponents();
         arrumarTela();
     }
-    
-    public void arrumarTela(){
+
+    public void arrumarTela() {
         CT_nome.setText("");
         CT_rendimento.setText("");
         CT_valorCusto.setText("");
@@ -40,10 +42,10 @@ public class cadastrarProduto extends javax.swing.JDialog {
         B_salvar.setEnabled(true);
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
-        idprod=0;
+        idprod = 0;
     }
-    
-    public void arrumarTela(produto prod){
+
+    public void arrumarTela(produto prod) {
         CT_nome.setText(prod.getNome());
         CT_nome.setEditable(false);
         CT_rendimento.setText(String.valueOf(prod.getRendimento()));
@@ -59,7 +61,7 @@ public class cadastrarProduto extends javax.swing.JDialog {
         B_salvar.setEnabled(false);
         B_excluir.setEnabled(true);
         B_alterar.setEnabled(true);
-        idprod=prod.getCodigo();
+        idprod = prod.getCodigo();
     }
 
     /**
@@ -214,7 +216,26 @@ public class cadastrarProduto extends javax.swing.JDialog {
     }//GEN-LAST:event_CT_descricaoActionPerformed
 
     private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
-        
+        produtoControl prodControl = new produtoControl();
+        if (prodControl.validarRendimento(CT_rendimento.getText())) {
+            String[] valores;
+            valores = prodControl.validarValores(CT_valorCusto.getText(), CT_valorUnitario.getText(),Integer.parseInt(CT_rendimento.getText()));
+            String validar = valores[1];
+            if ("NULO".equals(validar)) {
+                System.out.println("\nRetorno vazio");
+            } else {
+                produto prod = new produto();
+                prod.setCodigo(idprod);
+                prod.setNome(CT_nome.getText());
+                prod.setDescricao(CT_descricao.getText());
+                prod.setIngredientes(CT_ingredientes.getText());
+                prod.setRendimento(Integer.parseInt(CT_rendimento.getText()));
+                prod.setValorCusto(Float.parseFloat(valores[0]));
+                prod.setValorUnitario(Float.parseFloat(valores[1])); 
+                System.out.println("\nProduto instanciado");
+                prodControl.validarCamposTexto(prod);
+            }
+        }
     }//GEN-LAST:event_B_salvarActionPerformed
 
     /**

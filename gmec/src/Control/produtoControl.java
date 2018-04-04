@@ -15,14 +15,14 @@ import javax.swing.JOptionPane;
  */
 public class produtoControl {
 
-    /*Última função a ser chamada, valida os campos de texto e com base no valor do código executa inset ou 
+    /*Última função a ser chamada, valida os campos de texto e com base no valor do código executa insert ou 
     update */
     public void validarCamposTexto(produto prod) {
-        if ("".equals(prod.getNome())) {
+        if ("".equals(prod.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
-        } else if ("".equals(prod.getDescricao())) {
+        } else if ("".equals(prod.getDescricao().trim())) {
             JOptionPane.showMessageDialog(null, "Digite uma descrição");
-        } else if ("".equals(prod.getIngredientes())) {
+        } else if ("".equals(prod.getIngredientes().trim())) {
             JOptionPane.showMessageDialog(null, "Digite os ingredientes do produto");
         } else {
             produtoModel prodModel = new produtoModel();
@@ -48,31 +48,37 @@ public class produtoControl {
         return false;
     }
     //valida os valores e retorna um vetor de string com cada palavra tendo ponto no lugar de vírgula
-    public String[] validarValores(String valorCusto, String valorUnitario){
+    public String[] validarValores(String valorCusto, String valorUnitario, int rendimento){
+        String[] valor= new String[2];
+        valor[0]="NULO";
+        valor[1]="NULO";
         if(valorCusto.contains(","))
-           valorCusto.replace(",",".");
+           valorCusto=valorCusto.replace(",",".");
         if(valorUnitario.contains(","))
-            valorUnitario.replace(",",".");
+            valorUnitario=valorUnitario.replace(",",".");
         System.out.println("\nC: "+valorCusto+" U:"+valorUnitario);
         try{
             float Custo=Float.parseFloat(valorCusto);
             float Unidade=Float.parseFloat(valorUnitario);
             if(Custo <= 0){
                 JOptionPane.showMessageDialog(null,"Digite um valor custo válido");
-                return null;
+                return valor;
             }
             if(Unidade <= 0){
                 JOptionPane.showMessageDialog(null,"Digite um valor unitário válido");
-                return null;
+                return valor;
             }
-            String[] vetor= new String[2];
-            vetor[0]=valorCusto;
-            vetor[1]=valorUnitario;
-            return vetor;
+            if(Custo>(Unidade*rendimento)){
+                JOptionPane.showMessageDialog(null,"Digite um valor unitário maior que o custo, ou sairá no prejuízo");
+                return valor;
+            }
+            valor[0]=valorCusto;
+            valor[1]=valorUnitario;
+            return valor;
         }catch(NumberFormatException e){
-           JOptionPane.showMessageDialog(null,"Digite apenas números, ponto ou vírgula para os valores");
+           JOptionPane.showMessageDialog(null,"Digite números, ponto ou vírgula para os valores");
         }
-        return null;
+        return valor;
     }
 
 }
