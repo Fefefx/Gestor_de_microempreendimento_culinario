@@ -5,8 +5,10 @@
  */
 package Control;
 
+import Model.encomendaModel;
 import Objects.produto;
 import Model.produtoModel;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -81,4 +83,24 @@ public class produtoControl {
         return valor;
     }
 
+    public ArrayList validarNomePesquisa(String nome){
+        produtoModel prodModel=new produtoModel();
+        return prodModel.pesquisar(nome);
+    }
+    
+    public int excluir(int codigo){
+        int res;
+        produtoModel prodModel= new produtoModel();
+        encomendaModel encomodel= new encomendaModel();
+        if(encomodel.verificarProdutoNasEncomendas(codigo)){
+            res=JOptionPane.showConfirmDialog(null,"Foram encontradas encomendas em aberto contendo o seguinte produto. Deseja exclui-lo?");
+            if(res==0)
+                prodModel.excluir(codigo);
+        }else{
+            res=JOptionPane.showConfirmDialog(null,"Deseja excluir o produto ?");
+            if(res==0)
+                prodModel.excluir(codigo);
+        }
+        return res;
+    }
 }

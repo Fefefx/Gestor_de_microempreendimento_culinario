@@ -179,7 +179,7 @@ public class visualizarClientes extends javax.swing.JFrame {
                 Tab_clientes.setModel(modelo);
             }
         } else {
-            System.out.println("ArrayList retornou nulo");
+            System.out.println("\nArrayList retornou nulo");
         }
     }
 

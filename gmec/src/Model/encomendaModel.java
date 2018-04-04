@@ -136,22 +136,41 @@ public class encomendaModel {
         return null;
     }
 
-    //Verifica se existem encomendas pendentes parao cliente 
+    //Verifica se existem encomendas pendentes para o cliente 
     public boolean pesquisarEncomendasCliente(int idCliente) {
         abrirConexao();
-        String sql = "select * from encomenda e where e.cliente_idcliente="+idCliente+" and e.status=false;";
+        String sql = "select * from encomenda e where e.cliente_idcliente=" + idCliente + " and e.status=false;";
+        System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {
             if (resultado.next()) {
-                System.out.println("\nEncomenda encontradas");
-                return true;  //No retorno o status virá como 0 ou 1, tratar com if para verdade ou falso
+                System.out.println("\nEncomendas do cliente encontradas");
+                return true;  
             } else {
-                System.out.println("\nNenhuma encomenda encontrada");
+                System.out.println("\nNenhuma encomenda do cliente encontrada");
             }
         } catch (SQLException ex) {
             Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-
+    
+    //verifica se um determinado produto possui uma encomenda em aberto
+    public boolean verificarProdutoNasEncomendas(int codigoProduto) {
+        abrirConexao();
+        String sql="select * from produtos_da_encomenda pe inner join encomenda"
+                + " e on pe.encomenda_codigo=e.codigo where e.status=false and pe.produto_codigo="+codigoProduto+";";
+        System.out.println(sql);
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            if(resultado.next()){
+                System.out.println("\nEncomendas com o produto encontradas");
+                return true;
+            }else
+                System.out.println("\nNenhuma encomenda com o produto encontrada");
+        } catch (SQLException ex) {
+            Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

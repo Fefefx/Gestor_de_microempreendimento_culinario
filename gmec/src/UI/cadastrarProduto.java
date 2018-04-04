@@ -10,7 +10,7 @@ import Control.produtoControl;
 
 /**
  *
- * @author felipe
+ * @author felipe   
  */
 public class cadastrarProduto extends javax.swing.JDialog {
 
@@ -126,8 +126,18 @@ public class cadastrarProduto extends javax.swing.JDialog {
         });
 
         B_excluir.setText("Excluir");
+        B_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_excluirActionPerformed(evt);
+            }
+        });
 
         B_alterar.setText("Alterar");
+        B_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_alterarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,10 +148,10 @@ public class cadastrarProduto extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(B_salvar)
-                        .addGap(31, 31, 31)
-                        .addComponent(B_excluir)
-                        .addGap(32, 32, 32)
-                        .addComponent(B_alterar))
+                        .addGap(29, 29, 29)
+                        .addComponent(B_alterar)
+                        .addGap(34, 34, 34)
+                        .addComponent(B_excluir))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel5)
@@ -199,8 +209,8 @@ public class cadastrarProduto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(B_salvar)
-                    .addComponent(B_excluir)
-                    .addComponent(B_alterar))
+                    .addComponent(B_alterar)
+                    .addComponent(B_excluir))
                 .addGap(35, 35, 35))
         );
 
@@ -234,9 +244,29 @@ public class cadastrarProduto extends javax.swing.JDialog {
                 prod.setValorUnitario(Float.parseFloat(valores[1])); 
                 System.out.println("\nProduto instanciado");
                 prodControl.validarCamposTexto(prod);
+                this.dispose();
             }
         }
     }//GEN-LAST:event_B_salvarActionPerformed
+
+    private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        CT_nome.setEditable(true);
+        CT_descricao.setEditable(true);
+        CT_ingredientes.setEditable(true);
+        CT_rendimento.setEditable(true);
+        CT_valorCusto.setEditable(true);
+        CT_valorUnitario.setEditable(true);
+        B_salvar.setEnabled(true);
+        B_excluir.setEnabled(false);
+        B_alterar.setEnabled(false);
+    }//GEN-LAST:event_B_alterarActionPerformed
+
+    private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
+        produtoControl prodControl= new produtoControl();
+        int valor=prodControl.excluir(idprod);
+        if(valor==0)
+            this.dispose();
+    }//GEN-LAST:event_B_excluirActionPerformed
 
     /**
      * @param args the command line arguments

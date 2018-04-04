@@ -10,6 +10,7 @@ import Bank.infoBanco;
 import Objects.produto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -81,18 +82,28 @@ public class produtoModel {
         return false;
     }
     
-    public ResultSet pesquisar(String nomeProduto){
+    public ArrayList pesquisar(String nomeProduto){
         abrirConexao();
-        String sql="select * from produto where nome like '"+nomeProduto+"';";
+        ArrayList lista= new ArrayList();
+        String sql="select * from produto where nome like '"+nomeProduto+"%';";
         ResultSet resultado=Banco.consultar(sql);
         try {
-            if(resultado.next()){
-                System.out.println("\nEncontrados registros");
-                return resultado;
+            while(resultado.next()){
+                produto prod= new produto();
+                prod.setCodigo(resultado.getInt("codigo"));
+                prod.setNome(resultado.getString("nome"));
+                prod.setRendimento(resultado.getInt("rendimento"));
+                prod.setValorCusto(resultado.getFloat("valor_custo"));
+                prod.setValorUnitario(resultado.getFloat("valor_unitario"));
+                prod.setIngredientes(resultado.getString("Ingredientes"));
+                prod.setDescricao(resultado.getString("descricao"));
+                lista.add(prod);
             }
+            resultado.close();
+            return lista;
         } catch (SQLException ex) {
             Logger.getLogger(produtoModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    } 
+    }  
 }
