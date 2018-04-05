@@ -19,13 +19,18 @@ public class produtoControl {
 
     /*Última função a ser chamada, valida os campos de texto e com base no valor do código executa insert ou 
     update */
-    public void validarCamposTexto(produto prod) {
+    public boolean validarCamposTexto(produto prod) {
         if ("".equals(prod.getNome().trim())) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
-        } else if ("".equals(prod.getDescricao().trim())) {
+            return false;
+        }
+        if ("".equals(prod.getDescricao().trim())) {
             JOptionPane.showMessageDialog(null, "Digite uma descrição");
-        } else if ("".equals(prod.getIngredientes().trim())) {
+            return false;
+        }
+        if ("".equals(prod.getIngredientes().trim())) {
             JOptionPane.showMessageDialog(null, "Digite os ingredientes do produto");
+            return false;
         } else {
             produtoModel prodModel = new produtoModel();
             if (prod.getCodigo() == 0) {
@@ -33,73 +38,82 @@ public class produtoControl {
             } else {
                 prodModel.atualizar(prod);
             }
+            return true;
         }
     }
-    
+
     //Valida se o inteiro digitado é válido
-    public boolean validarRendimento(String rendimento){
-        try{
-            int render=Integer.parseInt(rendimento);
-            if(render > 0)
+    public boolean validarRendimento(String rendimento) {
+        try {
+            int render = Integer.parseInt(rendimento);
+            if (render > 0) {
                 return true;
-            else
-                JOptionPane.showMessageDialog(null,"Valor inválido para rendimento");
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"Digite apenas números no campo rendimento");
+            } else {
+                JOptionPane.showMessageDialog(null, "Valor inválido para rendimento");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Digite apenas números no campo rendimento");
         }
         return false;
     }
+
     //valida os valores e retorna um vetor de string com cada palavra tendo ponto no lugar de vírgula
-    public String[] validarValores(String valorCusto, String valorUnitario, int rendimento){
-        String[] valor= new String[2];
-        valor[0]="NULO";
-        valor[1]="NULO";
-        if(valorCusto.contains(","))
-           valorCusto=valorCusto.replace(",",".");
-        if(valorUnitario.contains(","))
-            valorUnitario=valorUnitario.replace(",",".");
-        System.out.println("\nC: "+valorCusto+" U:"+valorUnitario);
-        try{
-            float Custo=Float.parseFloat(valorCusto);
-            float Unidade=Float.parseFloat(valorUnitario);
-            if(Custo <= 0){
-                JOptionPane.showMessageDialog(null,"Digite um valor custo válido");
+    public String[] validarValores(String valorCusto, String valorUnitario, int rendimento) {
+        String[] valor = new String[2];
+        valor[0] = "NULO";
+        valor[1] = "NULO";
+        if (valorCusto.contains(",")) {
+            valorCusto = valorCusto.replace(",", ".");
+        }
+        if (valorUnitario.contains(",")) {
+            valorUnitario = valorUnitario.replace(",", ".");
+        }
+        System.out.println("\nC: " + valorCusto + " U:" + valorUnitario);
+        try {
+            float Custo = Float.parseFloat(valorCusto);
+            float Unidade = Float.parseFloat(valorUnitario);
+            if (Custo <= 0) {
+                JOptionPane.showMessageDialog(null, "Digite um valor custo válido");
                 return valor;
             }
-            if(Unidade <= 0){
-                JOptionPane.showMessageDialog(null,"Digite um valor unitário válido");
+            if (Unidade <= 0) {
+                JOptionPane.showMessageDialog(null, "Digite um valor unitário válido");
                 return valor;
             }
-            if(Custo>(Unidade*rendimento)){
-                JOptionPane.showMessageDialog(null,"Digite um valor unitário maior que o custo, ou sairá no prejuízo");
+            if (Custo > (Unidade * rendimento)) {
+                JOptionPane.showMessageDialog(null, "Digite um valor unitário maior que o custo, ou sairá no prejuízo");
+                return valor;
+            } else {
+                System.out.println(Unidade+" * "+rendimento+" = "+(Unidade*rendimento));
+                valor[0] = valorCusto;
+                valor[1] = valorUnitario;
                 return valor;
             }
-            valor[0]=valorCusto;
-            valor[1]=valorUnitario;
-            return valor;
-        }catch(NumberFormatException e){
-           JOptionPane.showMessageDialog(null,"Digite números, ponto ou vírgula para os valores");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Digite números, ponto ou vírgula para os valores");
         }
         return valor;
     }
 
-    public ArrayList validarNomePesquisa(String nome){
-        produtoModel prodModel=new produtoModel();
+    public ArrayList validarNomePesquisa(String nome) {
+        produtoModel prodModel = new produtoModel();
         return prodModel.pesquisar(nome);
     }
-    
-    public int excluir(int codigo){
+
+    public int excluir(int codigo) {
         int res;
-        produtoModel prodModel= new produtoModel();
-        encomendaModel encomodel= new encomendaModel();
-        if(encomodel.verificarProdutoNasEncomendas(codigo)){
-            res=JOptionPane.showConfirmDialog(null,"Foram encontradas encomendas em aberto contendo o seguinte produto. Deseja exclui-lo?");
-            if(res==0)
+        produtoModel prodModel = new produtoModel();
+        encomendaModel encomodel = new encomendaModel();
+        if (encomodel.verificarProdutoNasEncomendas(codigo)) {
+            res = JOptionPane.showConfirmDialog(null, "Foram encontradas encomendas em aberto contendo o seguinte produto. Deseja exclui-lo?");
+            if (res == 0) {
                 prodModel.excluir(codigo);
-        }else{
-            res=JOptionPane.showConfirmDialog(null,"Deseja excluir o produto ?");
-            if(res==0)
+            }
+        } else {
+            res = JOptionPane.showConfirmDialog(null, "Deseja excluir o produto ?");
+            if (res == 0) {
                 prodModel.excluir(codigo);
+            }
         }
         return res;
     }

@@ -170,6 +170,7 @@ public class visualizarProdutos extends javax.swing.JFrame {
         cadastrarProduto cadProd = new cadastrarProduto(this, rootPaneCheckingEnabled);
         cadProd.setVisible(true);
         this.setVisible(true);
+        arrumaTela();
     }//GEN-LAST:event_B_novoActionPerformed
 
     private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked
@@ -180,8 +181,7 @@ public class visualizarProdutos extends javax.swing.JFrame {
         cadprod.arrumarTela(prod);
         cadprod.setVisible(true);
         this.setVisible(true);
-        cadprod.arrumarTela(prod);
-        arrumaTabela();
+        this.arrumaTela();
     }//GEN-LAST:event_Tab_produtosMouseClicked
 
     /**

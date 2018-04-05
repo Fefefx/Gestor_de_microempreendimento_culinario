@@ -243,8 +243,9 @@ public class cadastrarProduto extends javax.swing.JDialog {
                 prod.setValorCusto(Float.parseFloat(valores[0]));
                 prod.setValorUnitario(Float.parseFloat(valores[1])); 
                 System.out.println("\nProduto instanciado");
-                prodControl.validarCamposTexto(prod);
-                this.dispose();
+                boolean val = prodControl.validarCamposTexto(prod);
+                if(val)
+                    this.dispose();
             }
         }
     }//GEN-LAST:event_B_salvarActionPerformed
