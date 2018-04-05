@@ -163,6 +163,7 @@ public class clienteCadastro extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     
     //SE o id do cliente é 0 significa que a operação é insert, senão Update    

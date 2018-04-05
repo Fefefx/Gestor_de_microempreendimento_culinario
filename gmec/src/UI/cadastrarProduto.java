@@ -215,6 +215,7 @@ public class cadastrarProduto extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CT_ingredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_ingredientesActionPerformed

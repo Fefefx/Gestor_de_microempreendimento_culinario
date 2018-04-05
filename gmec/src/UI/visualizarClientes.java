@@ -42,8 +42,16 @@ public class visualizarClientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tab_clientes = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Clientes ");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Filtrar por Nome:");
 
@@ -127,6 +135,7 @@ public class visualizarClientes extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_pesquisaActionPerformed
@@ -160,6 +169,15 @@ public class visualizarClientes extends javax.swing.JFrame {
         arrumaTabela();
         this.setVisible(true);
     }//GEN-LAST:event_Tab_clientesMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        telaInicial ini= new telaInicial();
+        ini.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
     public void arrumaTabela() {
         ArrayList resultado = clientControl.validarNomePesquisa(CT_nome.getText());
         if (resultado != null) {

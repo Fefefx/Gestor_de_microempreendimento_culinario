@@ -80,8 +80,13 @@ public class visualizarProdutos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         Tab_produtos = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Produtos");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Filtrar Produto:");
 
@@ -159,6 +164,7 @@ public class visualizarProdutos extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_pesquisarActionPerformed
@@ -183,6 +189,11 @@ public class visualizarProdutos extends javax.swing.JFrame {
         this.setVisible(true);
         this.arrumaTela();
     }//GEN-LAST:event_Tab_produtosMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        telaInicial iniciar = new telaInicial();
+        iniciar.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
