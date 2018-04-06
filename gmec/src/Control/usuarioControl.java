@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author felipe
  */
 public class usuarioControl {
-    public void verificarCampos(usuario user){
+    public boolean verificarCampos(usuario user){
         if("".equals(user.getSenha().trim()))
             JOptionPane.showMessageDialog(null,"Digite uma senha");
         else if("".equals(user.getUser().trim()))
@@ -24,7 +24,8 @@ public class usuarioControl {
             JOptionPane.showMessageDialog(null, "Usuário incorreto");
         else{
             usuarioModel userModel=new usuarioModel();
-            userModel.verificar(user);
-        } 
+            return userModel.verificar(user);
+        }
+        return false;
     }
 }

@@ -75,18 +75,20 @@ public class usuarioModel {
         return false;
     }
 
-    public void verificar(usuario user) {
+    public boolean verificar(usuario user) {
         abrirConexao();
         String sql = "select * from usuario where user = '" + user.getUser() + "' and senha = '" + user.getSenha() + "';";
         ResultSet registro = Banco.consultar(sql);
         try {
             if (registro.next()) {
-                JOptionPane.showMessageDialog(null, "Usuário localizado");
+                System.out.println("\nUsuário localizado");
+                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(usuarioModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 }

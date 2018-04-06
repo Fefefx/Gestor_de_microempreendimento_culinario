@@ -22,11 +22,15 @@ public class telaInicial extends javax.swing.JFrame {
     public telaInicial() {
         initComponents();
         dia = LocalDate.now();
-        DateTimeFormatter formato=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String data_formatada=dia.format(formato);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String data_formatada = dia.format(formato);
         CT_data.setText(data_formatada);
         CT_data.setEditable(false);
         CT_usuario.setEditable(false);
+    }
+
+    public void arrumaTela(String usuario) {
+        CT_usuario.setText(usuario);
     }
 
     /**

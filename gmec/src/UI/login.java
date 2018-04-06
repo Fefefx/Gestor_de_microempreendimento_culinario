@@ -117,7 +117,13 @@ public class login extends javax.swing.JFrame {
     private void B_acessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_acessarActionPerformed
         user=new usuario(CT_usuario.getText(), CT_senha.getText());
         userControl=new usuarioControl();
-        userControl.verificarCampos(user);
+        boolean valor =userControl.verificarCampos(user);
+        if(valor){
+            telaInicial iniciar= new telaInicial();
+            iniciar.setVisible(true);
+            iniciar.arrumaTela(CT_usuario.getText());
+            this.dispose();
+        }
     }//GEN-LAST:event_B_acessarActionPerformed
 
     private void CT_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_usuarioActionPerformed
