@@ -30,7 +30,7 @@ public class vendaPresencial extends javax.swing.JFrame {
      */
     public vendaPresencial() {
         initComponents();
-        aplicarMascara();
+        desativaBTela();
     }
 
     public void aplicarMascara() {
@@ -40,6 +40,17 @@ public class vendaPresencial extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(vendaPresencial.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void desativaBTela(){
+        aplicarMascara();
+        CT_total.setEditable(false);
+        CT_dataVenda.requestFocus();
+        CT_produto.setEditable(true);
+        B_removerItem.setEnabled(false);
+        B_salvar.setEnabled(false);
+        B_alterar.setEnabled(false);
+        B_excluir.setEnabled(false);
     }
 
     public void arrumaTela(vendas dados) {
@@ -71,6 +82,16 @@ public class vendaPresencial extends javax.swing.JFrame {
         Tab_itens.setModel(modelo);
         itens=valores;
         CT_total.setText(String.valueOf(valorTotal));
+        if(modelo.getRowCount()!=0){
+            if(codigoVenda==0){
+                B_salvar.setEnabled(true);
+            }else{
+                B_excluir.setEnabled(true);
+                B_alterar.setEnabled(true);
+            } 
+        }
+        else
+            desativaBTela();
     }
 
     /**
@@ -89,8 +110,7 @@ public class vendaPresencial extends javax.swing.JFrame {
         Tab_itens = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         CT_total = new javax.swing.JTextField();
-        b_salvar = new javax.swing.JButton();
-        b_cancelar = new javax.swing.JButton();
+        B_salvar = new javax.swing.JButton();
         b_pesquisar = new javax.swing.JButton();
         B_alterar = new javax.swing.JButton();
         B_excluir = new javax.swing.JButton();
@@ -98,6 +118,11 @@ public class vendaPresencial extends javax.swing.JFrame {
         B_removerItem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Produto:");
 
@@ -120,13 +145,16 @@ public class vendaPresencial extends javax.swing.JFrame {
                 "Produto", "Quantidade", "Valor Unitário", "Total"
             }
         ));
+        Tab_itens.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_itensMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tab_itens);
 
         jLabel4.setText("Total da Venda:");
 
-        b_salvar.setText("Salvar");
-
-        b_cancelar.setText("Cancelar");
+        B_salvar.setText("Salvar");
 
         b_pesquisar.setText("Pesquisar");
         b_pesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -146,6 +174,11 @@ public class vendaPresencial extends javax.swing.JFrame {
         });
 
         B_removerItem.setText("Remover Item");
+        B_removerItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_removerItemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,7 +196,7 @@ public class vendaPresencial extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 57, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -177,14 +210,12 @@ public class vendaPresencial extends javax.swing.JFrame {
                         .addGap(44, 44, 44))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(b_salvar)
+                .addComponent(B_salvar)
                 .addGap(18, 18, 18)
                 .addComponent(B_alterar)
                 .addGap(17, 17, 17)
                 .addComponent(B_excluir)
-                .addGap(18, 18, 18)
-                .addComponent(b_cancelar)
-                .addGap(89, 89, 89))
+                .addGap(64, 64, 64))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,11 +236,10 @@ public class vendaPresencial extends javax.swing.JFrame {
                     .addComponent(B_removerItem))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(b_salvar)
-                    .addComponent(b_cancelar)
+                    .addComponent(B_salvar)
                     .addComponent(B_alterar)
                     .addComponent(B_excluir))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -236,6 +266,21 @@ public class vendaPresencial extends javax.swing.JFrame {
     private void CT_dataVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_dataVendaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_dataVendaActionPerformed
+
+    private void B_removerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_removerItemActionPerformed
+        int valor=Tab_itens.getSelectedRow();
+        itens.remove(valor);
+        arrumaTabela(itens);
+        B_removerItem.setEnabled(false);
+    }//GEN-LAST:event_B_removerItemActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        
+    }//GEN-LAST:event_formMouseClicked
+
+    private void Tab_itensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_itensMouseClicked
+       B_removerItem.setEnabled(true);
+    }//GEN-LAST:event_Tab_itensMouseClicked
 
     public void constroiVenda() {
         venda.setCodigo(codigoVenda);
@@ -292,13 +337,12 @@ public class vendaPresencial extends javax.swing.JFrame {
     private javax.swing.JButton B_alterar;
     private javax.swing.JButton B_excluir;
     private javax.swing.JButton B_removerItem;
+    private javax.swing.JButton B_salvar;
     private javax.swing.JFormattedTextField CT_dataVenda;
     private javax.swing.JTextField CT_produto;
     private javax.swing.JTextField CT_total;
     private javax.swing.JTable Tab_itens;
-    private javax.swing.JButton b_cancelar;
     private javax.swing.JButton b_pesquisar;
-    private javax.swing.JButton b_salvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
