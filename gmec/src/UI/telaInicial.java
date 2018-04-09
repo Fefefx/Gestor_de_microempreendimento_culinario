@@ -94,6 +94,11 @@ public class telaInicial extends javax.swing.JFrame {
         });
 
         B_vendas.setText("Vendas");
+        B_vendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_vendasActionPerformed(evt);
+            }
+        });
 
         B_clientes.setText("Clientes");
         B_clientes.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +181,9 @@ public class telaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_CT_dataActionPerformed
 
     private void B_encomendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_encomendasActionPerformed
-        // TODO add your handling code here:
+        pedidoRealizar pedido= new pedidoRealizar();
+        pedido.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_B_encomendasActionPerformed
 
     private void B_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_clientesActionPerformed
@@ -201,6 +208,12 @@ public class telaInicial extends javax.swing.JFrame {
         cadastroUsuario usuario = new cadastroUsuario(this, rootPaneCheckingEnabled);
         usuario.setVisible(true);
     }//GEN-LAST:event_B_usuariosActionPerformed
+
+    private void B_vendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_vendasActionPerformed
+        vendaPresencial venda = new vendaPresencial();
+        venda.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_B_vendasActionPerformed
 
     /**
      * @param args the command line arguments

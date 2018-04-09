@@ -148,6 +148,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Vendas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="B_vendasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="B_clientes">
       <Properties>

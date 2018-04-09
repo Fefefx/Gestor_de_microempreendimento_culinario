@@ -17,12 +17,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class listarClientes extends javax.swing.JDialog {
 
+    boolean dado;
+
     /**
      * Creates new form listarClientes
      */
     public listarClientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        T_informativo.setVisible(false);
     }
 
     /**
@@ -37,9 +40,15 @@ public class listarClientes extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tab_clientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        T_informativo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Localizar Cliente");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Tab_clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -70,6 +79,9 @@ public class listarClientes extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Clientes Localizados:");
 
+        T_informativo.setForeground(new java.awt.Color(255, 0, 0));
+        T_informativo.setText("Nenhum usuário encontrado");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,14 +90,19 @@ public class listarClientes extends javax.swing.JDialog {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(26, 26, 26)
+                        .addComponent(T_informativo)))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(T_informativo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
@@ -95,18 +112,27 @@ public class listarClientes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Tab_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_clientesMouseClicked
-        int valor=Tab_clientes.getSelectedRow();
+        int valor = Tab_clientes.getSelectedRow();
         cliente client = new cliente();
-        client.setNome(Tab_clientes.getValueAt(valor,1).toString());
+        client.setNome(Tab_clientes.getValueAt(valor, 1).toString());
         client.setEndereco(Tab_clientes.getValueAt(valor, 2).toString());
         client.setTelefone(Integer.parseInt(Tab_clientes.getValueAt(valor, 3).toString()));
-        client.setIdCliente(Integer.parseInt(Tab_clientes.getValueAt(valor,0).toString()));
-        pedidoRealizar pedido= new pedidoRealizar();
+        client.setIdCliente(Integer.parseInt(Tab_clientes.getValueAt(valor, 0).toString()));
+        pedidoRealizar pedido = new pedidoRealizar();
         pedido.arrumaTela(client);
         pedido.setVisible(true);
+        pedido.setLocationRelativeTo(null);
         this.dispose();
+        dado = true;
     }//GEN-LAST:event_Tab_clientesMouseClicked
-   
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if (!dado) {
+            pedidoRealizar pedido = new pedidoRealizar();
+            pedido.setVisible(true);
+        }
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -134,7 +160,7 @@ public class listarClientes extends javax.swing.JDialog {
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display /the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 listarClientes dialog = new listarClientes(new javax.swing.JFrame(), true);
@@ -153,12 +179,13 @@ public class listarClientes extends javax.swing.JDialog {
         clienteControl cli = new clienteControl();
         ArrayList lista = cli.validarNomePesquisa(nome);
         if (lista != null) {
-            DefaultTableModel modelo=(DefaultTableModel) Tab_clientes.getModel();
-            while(modelo.getRowCount()!=0)
+            DefaultTableModel modelo = (DefaultTableModel) Tab_clientes.getModel();
+            while (modelo.getRowCount() != 0) {
                 modelo.removeRow(0);
-            for(int i=0;i<lista.size();i++){
-                cliente client=(cliente) lista.get(i);
-                String[] linha= new String[4];
+            }
+            for (int i = 0; i < lista.size(); i++) {
+                cliente client = (cliente) lista.get(i);
+                String[] linha = new String[4];
                 linha[0] = String.valueOf(client.getIdCliente());
                 linha[1] = client.getNome();
                 linha[2] = client.getEndereco();
@@ -166,15 +193,17 @@ public class listarClientes extends javax.swing.JDialog {
                 modelo.addRow(linha);
                 Tab_clientes.setModel(modelo);
             }
+            if(Tab_clientes.getRowCount()==0)
+                T_informativo.setVisible(true);
         } else {
             this.setVisible(false);
             JOptionPane.showMessageDialog(null, "Nenhum cliente localizado");
             this.dispose();
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel T_informativo;
     private javax.swing.JTable Tab_clientes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

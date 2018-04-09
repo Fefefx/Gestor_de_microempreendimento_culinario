@@ -9,7 +9,6 @@ import Control.clienteControl;
 import Objects.cliente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,6 +25,7 @@ public class pedidoRealizar extends javax.swing.JFrame {
     public pedidoRealizar() {
         initComponents();
         arrumaTela();
+        this.setLocationRelativeTo(null);
     }
     
     public void arrumaTela(){
@@ -42,6 +42,7 @@ public class pedidoRealizar extends javax.swing.JFrame {
         String data_formatada=data.format(meuFormato);
         CT_dataPedido.setText(data_formatada);
         B_pesquisa.setEnabled(true);
+        B_alterar.setEnabled(false);
     }
     
     public void arrumaTela(cliente cli){
@@ -50,6 +51,9 @@ public class pedidoRealizar extends javax.swing.JFrame {
         CT_endereco.setText(cli.getEndereco());
         codigoCliente=cli.getIdCliente();
         CT_telefone.setText(String.valueOf(cli.getTelefone()));
+        CT_cliente.setEditable(false);
+        B_alterar.setEnabled(true);
+        B_pesquisa.setEnabled(false);
     }
     
       /**
@@ -72,6 +76,7 @@ public class pedidoRealizar extends javax.swing.JFrame {
         CT_endereco = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         CT_dataPedido = new javax.swing.JTextField();
+        B_alterar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -107,34 +112,45 @@ public class pedidoRealizar extends javax.swing.JFrame {
 
         jLabel4.setText("Data do pedido:");
 
+        B_alterar.setText("Alterar");
+        B_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_alterarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(B_pesquisa))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(CT_endereco)))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(CT_endereco, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(B_pesquisa)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(B_alterar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(CT_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(CT_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(CT_dataPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                        .addComponent(CT_dataPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,13 +161,15 @@ public class pedidoRealizar extends javax.swing.JFrame {
                     .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(B_pesquisa)
                     .addComponent(jLabel2)
-                    .addComponent(CT_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CT_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(B_alterar))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(CT_endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(CT_dataPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(CT_dataPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(208, Short.MAX_VALUE))
         );
 
@@ -178,6 +196,14 @@ public class pedidoRealizar extends javax.swing.JFrame {
     private void CT_enderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_enderecoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_enderecoActionPerformed
+
+    private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        CT_cliente.setEditable(true);
+        B_alterar.setEnabled(false);
+        CT_cliente.requestFocus();
+        B_pesquisa.setEnabled(true);
+        arrumaTela();
+    }//GEN-LAST:event_B_alterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,6 +242,7 @@ public class pedidoRealizar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton B_alterar;
     private javax.swing.JButton B_pesquisa;
     private javax.swing.JTextField CT_cliente;
     private javax.swing.JTextField CT_dataPedido;
