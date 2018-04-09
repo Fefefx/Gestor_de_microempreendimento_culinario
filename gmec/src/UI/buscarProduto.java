@@ -8,6 +8,7 @@ package UI;
 import java.util.ArrayList;
 import Control.produtoControl;
 import Objects.produto;
+import Objects.vendas;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,13 +18,16 @@ import javax.swing.table.DefaultTableModel;
 public class buscarProduto extends javax.swing.JFrame {
 
     ArrayList lista; 
-    produto item= new produto();
-    private boolean validar=false;
+    vendas dadosDavenda= new vendas(); 
     /**
      * Creates new form buscarProduto
      */
     public buscarProduto() {
         initComponents();
+    }
+    
+    public void armazenarDados(vendas venda){
+        dadosDavenda=venda;
     }
     
     public void arrumaTabela(String pesquisar){
@@ -111,15 +115,14 @@ public class buscarProduto extends javax.swing.JFrame {
 
     private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked
         int posicao=Tab_produtos.getSelectedRow();
-        item= (produto) lista.get(posicao);
-        validar=true;
+        produto item= (produto) lista.get(posicao);
+        vendaPresencial venda=new vendaPresencial();
+        venda.arrumaTela(dadosDavenda);
+        venda.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_Tab_produtosMouseClicked
 
-    public produto devolveItem(){
-        if(!validar)
-            return null;
-        return item;
-    }
+
     
     /**
      * @param args the command line arguments

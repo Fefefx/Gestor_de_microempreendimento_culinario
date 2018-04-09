@@ -5,7 +5,7 @@
  */
 package Objects;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class vendas {
     private int codigo;
-    private Date dataVenda;
+    private String dataVenda;
     private float total;
     ArrayList vendaProdutos=new ArrayList(); //lista com os produtos da venda
     
@@ -25,11 +25,11 @@ public class vendas {
         this.codigo = codigo;
     }
 
-    public Date getDataVenda() {
+    public String getDataVenda() {
         return dataVenda;
     }
 
-    public void setDataVenda(Date dataVenda) {
+    public void setDataVenda(String dataVenda) {
         this.dataVenda = dataVenda;
     }
 
@@ -41,9 +41,17 @@ public class vendas {
         this.total = total;
     }
 
-    public vendas(int codigo, Date dataVenda, float total) {
-        this.codigo = codigo;
-        this.dataVenda = dataVenda;
-        this.total = total;
+    public vendas() {
+        
     }
+    
+    public void adicionarItens(ArrayList itens){
+        while(vendaProdutos.size()!=0) 
+            vendaProdutos.remove(0);
+        vendaProdutos=itens;
+    }
+    
+    public ArrayList retornarItens(){
+        return vendaProdutos;
+    } 
 }
