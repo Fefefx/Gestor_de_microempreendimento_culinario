@@ -60,6 +60,11 @@ public class listarClientes extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
+        Tab_clientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_clientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tab_clientes);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -89,6 +94,19 @@ public class listarClientes extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Tab_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_clientesMouseClicked
+        int valor=Tab_clientes.getSelectedRow();
+        cliente client = new cliente();
+        client.setNome(Tab_clientes.getValueAt(valor,1).toString());
+        client.setEndereco(Tab_clientes.getValueAt(valor, 2).toString());
+        client.setTelefone(Integer.parseInt(Tab_clientes.getValueAt(valor, 3).toString()));
+        client.setIdCliente(Integer.parseInt(Tab_clientes.getValueAt(valor,0).toString()));
+        pedidoRealizar pedido= new pedidoRealizar();
+        pedido.arrumaTela(client);
+        pedido.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Tab_clientesMouseClicked
+   
     /**
      * @param args the command line arguments
      */
