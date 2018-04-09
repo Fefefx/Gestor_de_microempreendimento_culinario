@@ -80,6 +80,11 @@ public class telaInicial extends javax.swing.JFrame {
         });
 
         B_usuarios.setText("Usuários");
+        B_usuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_usuariosActionPerformed(evt);
+            }
+        });
 
         B_produtos.setText("Produtos");
         B_produtos.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +194,13 @@ public class telaInicial extends javax.swing.JFrame {
         visualizarProdutos visua = new visualizarProdutos();
         visua.setVisible(true);
     }//GEN-LAST:event_B_produtosActionPerformed
+
+    private void B_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_usuariosActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        cadastroUsuario usuario = new cadastroUsuario(this, rootPaneCheckingEnabled);
+        usuario.setVisible(true);
+    }//GEN-LAST:event_B_usuariosActionPerformed
 
     /**
      * @param args the command line arguments
