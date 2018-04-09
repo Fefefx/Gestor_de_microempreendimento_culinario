@@ -99,6 +99,14 @@ public class produtoControl {
         produtoModel prodModel = new produtoModel();
         return prodModel.pesquisar(nome);
     }
+    
+    public boolean validaProduto (String valor){
+        if("".equals(valor.trim()))
+            JOptionPane.showMessageDialog(null," Digite um produto");
+        else
+            return true;
+        return false;
+    }
 
     public int excluir(int codigo) {
         int res;

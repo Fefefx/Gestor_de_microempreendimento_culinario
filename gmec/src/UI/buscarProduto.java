@@ -5,18 +5,49 @@
  */
 package UI;
 
+import java.util.ArrayList;
+import Control.produtoControl;
+import Objects.produto;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Beth
  */
 public class buscarProduto extends javax.swing.JFrame {
 
+    ArrayList lista; 
+    produto item= new produto();
+    private boolean validar=false;
     /**
      * Creates new form buscarProduto
      */
     public buscarProduto() {
         initComponents();
     }
+    
+    public void arrumaTabela(String pesquisar){
+        produtoControl acessar= new produtoControl();
+        lista= acessar.validarNomePesquisa(pesquisar);
+        if(lista!=null){
+            DefaultTableModel modelo= (DefaultTableModel) Tab_produtos.getModel();
+            while(modelo.getRowCount()!=0){
+                modelo.removeRow(0);
+            }
+            for(int i=0;i<lista.size();i++){
+                produto prod = new produto(); 
+                prod=(produto) lista.get(i);
+                String[] linha=new String[4];
+                linha[0]=prod.getNome();
+                linha[1]="R$ "+String.valueOf(prod.getValorUnitario());
+                modelo.addRow(linha);
+                Tab_produtos.setModel(modelo);
+            }
+        }else{
+            System.out.println("\nArrayList retornou nulo");
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,11 +59,12 @@ public class buscarProduto extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tab_produtos = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tab_produtos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -43,28 +75,52 @@ public class buscarProduto extends javax.swing.JFrame {
                 "Produto", "Valor Unitário"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        Tab_produtos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_produtosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Tab_produtos);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Produtos Encontrados:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(jLabel1)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked
+        int posicao=Tab_produtos.getSelectedRow();
+        item= (produto) lista.get(posicao);
+        validar=true;
+    }//GEN-LAST:event_Tab_produtosMouseClicked
+
+    public produto devolveItem(){
+        if(!validar)
+            return null;
+        return item;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -101,7 +157,8 @@ public class buscarProduto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tab_produtos;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

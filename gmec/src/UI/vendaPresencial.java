@@ -9,12 +9,16 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
+import Control.produtoControl;
+import Objects.produto;
 
 /**
  *
  * @author Beth
  */
 public class vendaPresencial extends javax.swing.JFrame {
+
+    buscarProduto buscar = new buscarProduto();
 
     /**
      * Creates new form vendaPresencial
@@ -23,15 +27,15 @@ public class vendaPresencial extends javax.swing.JFrame {
         initComponents();
         aplicarMascara();
     }
-    
-    public void aplicarMascara(){
+
+    public void aplicarMascara() {
         try {
-            MaskFormatter mascara= new MaskFormatter("##/##/####");
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
             mascara.install(CT_dataVenda);
         } catch (ParseException ex) {
             Logger.getLogger(vendaPresencial.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**
@@ -56,10 +60,11 @@ public class vendaPresencial extends javax.swing.JFrame {
         B_alterar = new javax.swing.JButton();
         B_excluir = new javax.swing.JButton();
         CT_dataVenda = new javax.swing.JFormattedTextField();
+        B_removerItem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Produto");
+        jLabel1.setText("Produto:");
 
         CT_produto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,7 +72,7 @@ public class vendaPresencial extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Data da Venda");
+        jLabel3.setText("Data da Venda:");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -82,7 +87,7 @@ public class vendaPresencial extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel4.setText("Total da Venda");
+        jLabel4.setText("Total da Venda:");
 
         b_salvar.setText("Salvar");
 
@@ -105,6 +110,8 @@ public class vendaPresencial extends javax.swing.JFrame {
             }
         });
 
+        B_removerItem.setText("Remover Item");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,22 +122,24 @@ public class vendaPresencial extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(B_removerItem)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(13, 13, 13)
-                                .addComponent(CT_dataVenda)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(b_pesquisar)))
-                        .addGap(0, 31, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 57, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CT_dataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(b_pesquisar)
+                        .addGap(44, 44, 44))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(b_salvar)
@@ -153,18 +162,19 @@ public class vendaPresencial extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(CT_dataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(B_removerItem))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(b_salvar)
                     .addComponent(b_cancelar)
                     .addComponent(B_alterar)
                     .addComponent(B_excluir))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,13 +185,22 @@ public class vendaPresencial extends javax.swing.JFrame {
     }//GEN-LAST:event_CT_produtoActionPerformed
 
     private void b_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pesquisarActionPerformed
-        // TODO add your handling code here:
+        produtoControl validar = new produtoControl();
+        if (validar.validaProduto(CT_produto.getText())) {
+
+        } else {
+            CT_produto.requestFocus();
+        }
     }//GEN-LAST:event_b_pesquisarActionPerformed
 
     private void CT_dataVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_dataVendaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_dataVendaActionPerformed
 
+    public void adicionaNaTabela(produto item){
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -220,6 +239,7 @@ public class vendaPresencial extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton B_alterar;
     private javax.swing.JButton B_excluir;
+    private javax.swing.JButton B_removerItem;
     private javax.swing.JFormattedTextField CT_dataVenda;
     private javax.swing.JTextField CT_produto;
     private javax.swing.JButton b_cancelar;
