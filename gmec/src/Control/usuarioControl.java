@@ -37,7 +37,7 @@ public class usuarioControl {
         else if(user.getSenha().length()>8)
             JOptionPane.showMessageDialog(null,"A senha deve conter até 8 caracteres");
         else if(user.getUser().length()>20)
-            JOptionPane.showMessageDialog(null, "O nome de usuário deve conter de até 20 caracteres");
+            JOptionPane.showMessageDialog(null, "O nome de usuário deve conter até 20 caracteres");
         else{
             usuarioModel userModel=new usuarioModel();
             return userModel.inserir(user);
