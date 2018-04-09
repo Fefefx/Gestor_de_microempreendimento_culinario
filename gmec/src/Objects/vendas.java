@@ -54,4 +54,8 @@ public class vendas {
     public ArrayList retornarItens(){
         return vendaProdutos;
     } 
+    
+    public void addItem(produtosVenda elemento){
+        vendaProdutos.add(elemento);
+    }
 }

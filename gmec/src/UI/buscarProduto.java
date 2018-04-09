@@ -8,6 +8,7 @@ package UI;
 import java.util.ArrayList;
 import Control.produtoControl;
 import Objects.produto;
+import Objects.produtosVenda;
 import Objects.vendas;
 import javax.swing.table.DefaultTableModel;
 
@@ -115,10 +116,19 @@ public class buscarProduto extends javax.swing.JFrame {
 
     private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked
         int posicao=Tab_produtos.getSelectedRow();
-        produto item= (produto) lista.get(posicao);
-        vendaPresencial venda=new vendaPresencial();
-        venda.arrumaTela(dadosDavenda);
-        venda.setVisible(true);
+        produto prod= (produto) lista.get(posicao);
+        produtosVenda prodVenda= new produtosVenda();
+        prodVenda.setCodigoProduto(prod.getCodigo());
+        prodVenda.setCodigoVenda(dadosDavenda.getCodigo());
+        prodVenda.setValorUnitario(prod.getValorUnitario());
+        prodVenda.setNome(prod.getNome());
+        prodVenda.setQuantidade(1);
+        prodVenda.setTotalProduto(prod.getValorUnitario());
+        dadosDavenda.addItem(prodVenda);
+        System.out.println("\nQtd da Lista em buscar produto "+dadosDavenda.retornarItens().size());
+        vendaPresencial vp= new vendaPresencial();
+        vp.arrumaTela(dadosDavenda);
+        vp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Tab_produtosMouseClicked
 

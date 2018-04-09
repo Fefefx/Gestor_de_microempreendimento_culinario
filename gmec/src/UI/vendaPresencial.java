@@ -10,9 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
 import Control.produtoControl;
-import Objects.produto;
+import Objects.produtosVenda;
 import Objects.vendas;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -42,18 +43,34 @@ public class vendaPresencial extends javax.swing.JFrame {
     }
 
     public void arrumaTela(vendas dados) {
-        CT_total.setText("R$ " + String.valueOf(dados.getTotal()));
-        CT_produto.setText("");
-        CT_dataVenda.setText(""); //pode dar pau com a máscara 
+        codigoVenda=dados.getCodigo();
+        CT_dataVenda.setText("");
         CT_dataVenda.setText(dados.getDataVenda());
-        adicionarItens(dados.retornarItens());
+        arrumaTabela(dados.retornarItens());
     }
 
     public void adicionarItens(ArrayList valores) {
-        while (itens.size() != 0) {
-            itens.remove(0);
+
+    }
+
+    public void arrumaTabela(ArrayList valores) {
+        float valorTotal=0;
+        DefaultTableModel modelo= (DefaultTableModel) Tab_itens.getModel();
+        while(modelo.getRowCount()!=0)
+            modelo.removeRow(0);
+        for(int i=0;i<valores.size();i++){
+            produtosVenda prodVenda = (produtosVenda) valores.get(i);
+            String[] linha= new String[4];
+            linha[0]=prodVenda.getNome();
+            linha[1]=String.valueOf(prodVenda.getQuantidade());
+            linha[2]=String.valueOf(prodVenda.getValorUnitario());
+            linha[3]=String.valueOf(prodVenda.getTotalProduto());
+            valorTotal+=prodVenda.getTotalProduto();
+            modelo.addRow(linha);
         }
-        itens = valores;
+        Tab_itens.setModel(modelo);
+        itens=valores;
+        CT_total.setText(String.valueOf(valorTotal));
     }
 
     /**
@@ -69,7 +86,7 @@ public class vendaPresencial extends javax.swing.JFrame {
         CT_produto = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tab_itens = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         CT_total = new javax.swing.JTextField();
         b_salvar = new javax.swing.JButton();
@@ -92,7 +109,7 @@ public class vendaPresencial extends javax.swing.JFrame {
 
         jLabel3.setText("Data da Venda:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tab_itens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -103,7 +120,7 @@ public class vendaPresencial extends javax.swing.JFrame {
                 "Produto", "Quantidade", "Valor Unitário", "Total"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Tab_itens);
 
         jLabel4.setText("Total da Venda:");
 
@@ -220,20 +237,13 @@ public class vendaPresencial extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_dataVendaActionPerformed
 
-    public void adicionaNaTabela(produto item) {
-
-    }
-
     public void constroiVenda() {
+        venda.setCodigo(codigoVenda);
+        venda.setDataVenda(CT_dataVenda.getText());
         if (!CT_total.getText().isEmpty()) {
             venda.setTotal(Float.parseFloat(CT_total.getText()));
         }
-        venda.setCodigo(codigoVenda);
-        //String data = formataData();
-        venda.setDataVenda(CT_dataVenda.getText());
-        if (!itens.isEmpty()) {
-            venda.adicionarItens(itens);
-        }
+        venda.adicionarItens(itens);
     }
 
     public String formataData() {
@@ -285,6 +295,7 @@ public class vendaPresencial extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField CT_dataVenda;
     private javax.swing.JTextField CT_produto;
     private javax.swing.JTextField CT_total;
+    private javax.swing.JTable Tab_itens;
     private javax.swing.JButton b_cancelar;
     private javax.swing.JButton b_pesquisar;
     private javax.swing.JButton b_salvar;
@@ -292,6 +303,5 @@ public class vendaPresencial extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
