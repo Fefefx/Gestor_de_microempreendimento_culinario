@@ -54,7 +54,7 @@ public class usuarioControl {
     public int excluir(String user) {
         int res;
         usuarioModel userModel = new usuarioModel();
-        res=JOptionPane.showConfirmDialog(null,"Deseja excluir o cliente ?");
+        res=JOptionPane.showConfirmDialog(null,"Deseja excluir o Usuário?");
         if(res==0)
             userModel.excluir(user);
         return res;
