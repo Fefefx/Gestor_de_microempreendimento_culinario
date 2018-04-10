@@ -27,6 +27,18 @@ public class cadastroUsuario extends javax.swing.JDialog {
         CT_nomeUsuario.setText("");
         CT_senhaUsuario.setText("");
         B_salvar.setEnabled(true);
+        B_excluir.setEnabled(false);
+        B_alterar.setEnabled(false);
+    }
+    
+    public void arrumarTela(usuario user) {
+        CT_nomeUsuario.setText(user.getUser());
+        CT_senhaUsuario.setText(user.getSenha());
+        CT_nomeUsuario.setEditable(false);
+        CT_senhaUsuario.setEditable(false);
+        B_excluir.setEnabled(true);
+        B_alterar.setEnabled(true);
+        B_salvar.setEnabled(false);
     }
     
     public void ocultarSenha(){
@@ -47,6 +59,8 @@ public class cadastroUsuario extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         B_salvar = new javax.swing.JButton();
         CT_senhaUsuario = new javax.swing.JFormattedTextField();
+        B_excluir = new javax.swing.JButton();
+        B_alterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -58,6 +72,20 @@ public class cadastroUsuario extends javax.swing.JDialog {
         B_salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 B_salvarActionPerformed(evt);
+            }
+        });
+
+        B_excluir.setText("Excluir");
+        B_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_excluirActionPerformed(evt);
+            }
+        });
+
+        B_alterar.setText("Alterar");
+        B_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_alterarActionPerformed(evt);
             }
         });
 
@@ -78,7 +106,11 @@ public class cadastroUsuario extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(B_salvar)
-                .addGap(64, 64, 64))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(B_excluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(B_alterar)
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,9 +123,12 @@ public class cadastroUsuario extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(CT_senhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(B_salvar)
-                .addGap(39, 39, 39))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(B_salvar)
+                    .addComponent(B_excluir)
+                    .addComponent(B_alterar))
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -110,6 +145,23 @@ public class cadastroUsuario extends javax.swing.JDialog {
             this.dispose();
         }
     }//GEN-LAST:event_B_salvarActionPerformed
+
+    private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
+        // TODO add your handling code here:
+        usuarioControl validar=new usuarioControl();
+        int valor=validar.excluir(CT_nomeUsuario.getText());
+        if(valor==0)
+            this.dispose();
+    }//GEN-LAST:event_B_excluirActionPerformed
+
+    private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        // TODO add your handling code here:
+        CT_nomeUsuario.setEditable(true);
+        CT_senhaUsuario.setEditable(true);
+        B_salvar.setEnabled(true);
+        B_alterar.setEnabled(false);
+        CT_nomeUsuario.requestFocus();
+    }//GEN-LAST:event_B_alterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,6 +206,8 @@ public class cadastroUsuario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton B_alterar;
+    private javax.swing.JButton B_excluir;
     private javax.swing.JButton B_salvar;
     private javax.swing.JTextField CT_nomeUsuario;
     private javax.swing.JFormattedTextField CT_senhaUsuario;

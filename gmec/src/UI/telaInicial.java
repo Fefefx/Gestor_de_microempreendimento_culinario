@@ -204,9 +204,9 @@ public class telaInicial extends javax.swing.JFrame {
 
     private void B_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_usuariosActionPerformed
         // TODO add your handling code here:
+        visualizarUsuarios usuarios = new visualizarUsuarios();
         this.setVisible(false);
-        cadastroUsuario usuario = new cadastroUsuario(this, rootPaneCheckingEnabled);
-        usuario.setVisible(true);
+        usuarios.setVisible(true);
     }//GEN-LAST:event_B_usuariosActionPerformed
 
     private void B_vendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_vendasActionPerformed

@@ -10,6 +10,7 @@ import Bank.Conexao;
 import Bank.infoBanco;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -90,5 +91,25 @@ public class usuarioModel {
             Logger.getLogger(usuarioModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public ArrayList pesquisar(String nomeUsuario) {
+        abrirConexao();
+        ArrayList lista=new ArrayList();
+        String sql="select * from usuario where user like '"+nomeUsuario+"%';";
+        System.out.println(sql);
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            while(resultado.next()){
+                usuario user=new usuario();
+                user.setUser(resultado.getString("user"));
+                lista.add(user);
+            }
+            resultado.close();
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(clienteModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

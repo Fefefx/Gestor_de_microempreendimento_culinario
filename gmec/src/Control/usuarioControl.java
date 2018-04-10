@@ -6,6 +6,7 @@
 package Control;
 import Objects.usuario;
 import Model.usuarioModel;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,5 +44,19 @@ public class usuarioControl {
             return userModel.inserir(user);
         }
         return false;
+    }
+    
+    public ArrayList validarNomePesquisa(String nome) {
+        usuarioModel userModel = new usuarioModel();
+        return userModel.pesquisar(nome);
+    }
+    
+    public int excluir(String user) {
+        int res;
+        usuarioModel userModel = new usuarioModel();
+        res=JOptionPane.showConfirmDialog(null,"Deseja excluir o cliente ?");
+        if(res==0)
+            userModel.excluir(user);
+        return res;
     }
 }
