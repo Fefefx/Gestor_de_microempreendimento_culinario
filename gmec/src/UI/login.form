@@ -54,8 +54,8 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="CT_usuario" max="32767" attributes="0"/>
-                          <Component id="CT_senha" min="-2" pref="195" max="-2" attributes="0"/>
+                          <Component id="CT_usuario" pref="195" max="32767" attributes="0"/>
+                          <Component id="PF_senha" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -80,8 +80,8 @@
               </Group>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="CT_senha" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PF_senha" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Component id="B_acessar" min="-2" max="-2" attributes="0"/>
@@ -95,8 +95,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CT_usuarioActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="CT_senha">
     </Component>
     <Component class="javax.swing.JButton" name="B_acessar">
       <Properties>
@@ -123,6 +121,8 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Login"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="PF_senha">
     </Component>
   </SubComponents>
 </Form>

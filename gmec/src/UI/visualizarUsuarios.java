@@ -27,8 +27,9 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
     }
     
     public void arrumarTela() {
-        CT_nome.setText("");
-        CT_nome.requestFocus();
+        CT_nome.setEditable(false);
+        B_novo.setEnabled(false);
+        B_pesquisa.setEnabled(false);
         arrumaTabela();
     }
     
@@ -42,13 +43,14 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
             for (int i = 0; i < resultado.size(); i++) {
                 usuario user = new usuario();
                 user = (usuario) resultado.get(i);
-                String[] linha = new String[1];
+                String[] linha = new String[2];
                 linha[0] = user.getUser();
+                linha[1] = user.getSenha();
                 modelo.addRow(linha);
                 Tab_usuarios.setModel(modelo);
             }
         } else {
-            System.out.println("\nArrayList retornou nulo");
+            System.out.println("\nNão há usuários cadastrados");
         }
     }
 

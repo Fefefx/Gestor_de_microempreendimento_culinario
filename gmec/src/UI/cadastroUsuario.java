@@ -7,6 +7,10 @@ package UI;
 
 import Control.usuarioControl;
 import Objects.usuario;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -20,12 +24,11 @@ public class cadastroUsuario extends javax.swing.JDialog {
     public cadastroUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        ocultarSenha();
     }
     
     public void arrumarTela() {
         CT_nomeUsuario.setText("");
-        CT_senhaUsuario.setText("");
+        PF_senhaUsuario.setText("");
         B_salvar.setEnabled(true);
         B_excluir.setEnabled(false);
         B_alterar.setEnabled(false);
@@ -33,16 +36,12 @@ public class cadastroUsuario extends javax.swing.JDialog {
     
     public void arrumarTela(usuario user) {
         CT_nomeUsuario.setText(user.getUser());
-        CT_senhaUsuario.setText(user.getSenha());
+        PF_senhaUsuario.setText(user.getSenha());
         CT_nomeUsuario.setEditable(false);
-        CT_senhaUsuario.setEditable(false);
-        B_excluir.setEnabled(true);
+        PF_senhaUsuario.setEditable(false);
+        B_excluir.setEnabled(false);
         B_alterar.setEnabled(true);
         B_salvar.setEnabled(false);
-    }
-    
-    public void ocultarSenha(){
-        //criar a máscara que oculta a senha
     }
 
     /**
@@ -58,11 +57,19 @@ public class cadastroUsuario extends javax.swing.JDialog {
         CT_nomeUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         B_salvar = new javax.swing.JButton();
-        CT_senhaUsuario = new javax.swing.JFormattedTextField();
         B_excluir = new javax.swing.JButton();
         B_alterar = new javax.swing.JButton();
+        PF_senhaUsuario = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Nome de Usuário:");
 
@@ -99,12 +106,12 @@ public class cadastroUsuario extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CT_nomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CT_senhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(CT_nomeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(PF_senhaUsuario))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(154, Short.MAX_VALUE)
                 .addComponent(B_salvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(B_excluir)
@@ -122,7 +129,7 @@ public class cadastroUsuario extends javax.swing.JDialog {
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(CT_senhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PF_senhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(B_salvar)
@@ -139,8 +146,8 @@ public class cadastroUsuario extends javax.swing.JDialog {
         usuarioControl validar= new usuarioControl();
         usuario user = new usuario();
         user.setUser(CT_nomeUsuario.getText());
-        user.setSenha(CT_senhaUsuario.getText());
-        if(validar.validarCampos(user)){
+        user.setSenha(PF_senhaUsuario.getText());
+        if(validar.atualizarUsuario(user)){
             arrumarTela();
             this.dispose();
         }
@@ -156,12 +163,23 @@ public class cadastroUsuario extends javax.swing.JDialog {
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
         // TODO add your handling code here:
-        CT_nomeUsuario.setEditable(true);
-        CT_senhaUsuario.setEditable(true);
+        CT_nomeUsuario.setEditable(false);
+        PF_senhaUsuario.setEditable(true);
         B_salvar.setEnabled(true);
         B_alterar.setEnabled(false);
+        B_excluir.setEnabled(false);
         CT_nomeUsuario.requestFocus();
     }//GEN-LAST:event_B_alterarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        visualizarUsuarios visu= new visualizarUsuarios();
+        visu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -210,7 +228,7 @@ public class cadastroUsuario extends javax.swing.JDialog {
     private javax.swing.JButton B_excluir;
     private javax.swing.JButton B_salvar;
     private javax.swing.JTextField CT_nomeUsuario;
-    private javax.swing.JFormattedTextField CT_senhaUsuario;
+    private javax.swing.JPasswordField PF_senhaUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables

@@ -31,7 +31,7 @@ public class usuarioControl {
     }
     
     public boolean validarCampos(usuario user){
-        if("".equals(user.getUser().trim()))
+        if("".equals(user.getSenha().trim()))
             JOptionPane.showMessageDialog(null,"Digite uma senha");
         else if("".equals(user.getUser().trim()))
             JOptionPane.showMessageDialog(null, "Digite um nome de usuário");
@@ -42,6 +42,18 @@ public class usuarioControl {
         else{
             usuarioModel userModel=new usuarioModel();
             return userModel.inserir(user);
+        }
+        return false;
+    }
+    
+    public boolean atualizarUsuario(usuario user){
+        if("".equals(user.getSenha().trim())){
+            JOptionPane.showMessageDialog(null,"Digite uma senha");
+        }else{
+            usuarioModel userModel = new usuarioModel();
+            if(userModel.pesquisar(user.getUser())!=null){
+                return userModel.atualizar(user);            
+            }
         }
         return false;
     }
