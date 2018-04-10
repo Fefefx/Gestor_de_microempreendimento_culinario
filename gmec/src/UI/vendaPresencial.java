@@ -28,6 +28,7 @@ public class vendaPresencial extends javax.swing.JFrame {
     vendas venda = new vendas();
     private int codigoVenda = 0;
     ArrayList itens = new ArrayList();
+    private boolean fechar = false;
 
     /**
      * Creates new form vendaPresencial
@@ -62,10 +63,6 @@ public class vendaPresencial extends javax.swing.JFrame {
         CT_dataVenda.setText("");
         CT_dataVenda.setText(dados.getDataVenda());
         arrumaTabela(dados.retornarItens());
-    }
-
-    public void adicionarItens(ArrayList valores) {
-
     }
 
     public void arrumaTabela(ArrayList valores) {
@@ -292,6 +289,7 @@ public class vendaPresencial extends javax.swing.JFrame {
             buscar.armazenarDados(venda);
             buscar.arrumaTabela(CT_produto.getText());
             buscar.setVisible(true);
+            fechar = true;
             this.dispose();
         } else {
             CT_produto.requestFocus();
@@ -344,15 +342,18 @@ public class vendaPresencial extends javax.swing.JFrame {
     }//GEN-LAST:event_Tab_itensKeyReleased
 
     private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
-        vendaControl vendaControle= new vendaControl();
+        vendaControl vendaControle = new vendaControl();
         constroiVenda();
-        if(!vendaControle.verificarItens(venda))
-            JOptionPane.showMessageDialog(null,"Insira lagum produto na venda");
+        if (!vendaControle.verificarItens(venda)) {
+            JOptionPane.showMessageDialog(null, "Insira lagum produto na venda");
+        }
     }//GEN-LAST:event_B_salvarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        telaInicial start= new telaInicial();
-        start.setVisible(true);
+        if (!fechar) {
+            telaInicial start = new telaInicial();
+            start.setVisible(true);
+        }
     }//GEN-LAST:event_formWindowClosed
 
     public void constroiVenda() {
