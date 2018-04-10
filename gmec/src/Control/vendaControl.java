@@ -6,6 +6,7 @@
 package Control;
 import Objects.vendas;
 import Model.vendasModel;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -14,8 +15,11 @@ import Model.vendasModel;
  */
 public class vendaControl {
     
-    
-    
-    
+    public boolean verificarItens(vendas venda){
+        if(venda.retornarItens().isEmpty()){
+            return false;
+        }
+        return true;
+    }
     
 }

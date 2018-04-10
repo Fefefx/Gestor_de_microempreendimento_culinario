@@ -10,9 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
 import Control.produtoControl;
+import Control.vendaControl;
 import Objects.produtosVenda;
 import Objects.vendas;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -41,8 +45,8 @@ public class vendaPresencial extends javax.swing.JFrame {
             Logger.getLogger(vendaPresencial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void desativaBTela(){
+
+    public void desativaBTela() {
         aplicarMascara();
         CT_total.setEditable(false);
         CT_dataVenda.requestFocus();
@@ -54,7 +58,7 @@ public class vendaPresencial extends javax.swing.JFrame {
     }
 
     public void arrumaTela(vendas dados) {
-        codigoVenda=dados.getCodigo();
+        codigoVenda = dados.getCodigo();
         CT_dataVenda.setText("");
         CT_dataVenda.setText(dados.getDataVenda());
         arrumaTabela(dados.retornarItens());
@@ -65,33 +69,36 @@ public class vendaPresencial extends javax.swing.JFrame {
     }
 
     public void arrumaTabela(ArrayList valores) {
-        float valorTotal=0;
-        DefaultTableModel modelo= (DefaultTableModel) Tab_itens.getModel();
-        while(modelo.getRowCount()!=0)
+        float valorTotal = 0;
+        DefaultTableModel modelo = (DefaultTableModel) Tab_itens.getModel();
+        while (modelo.getRowCount() != 0) {
             modelo.removeRow(0);
-        for(int i=0;i<valores.size();i++){
+        }
+        for (int i = 0; i < valores.size(); i++) {
             produtosVenda prodVenda = (produtosVenda) valores.get(i);
-            String[] linha= new String[4];
-            linha[0]=prodVenda.getNome();
-            linha[1]=String.valueOf(prodVenda.getQuantidade());
-            linha[2]=String.valueOf(prodVenda.getValorUnitario());
-            linha[3]=String.valueOf(prodVenda.getTotalProduto());
-            valorTotal+=prodVenda.getTotalProduto();
+            String[] linha = new String[4];
+            linha[0] = prodVenda.getNome();
+            linha[1] = String.valueOf(prodVenda.getQuantidade());
+            linha[2] = String.valueOf(prodVenda.getValorUnitario());
+            linha[3] = String.valueOf(prodVenda.getTotalProduto());
+            valorTotal += prodVenda.getTotalProduto();
             modelo.addRow(linha);
         }
         Tab_itens.setModel(modelo);
-        itens=valores;
+        itens = valores;
+        BigDecimal arredondar = new BigDecimal(valorTotal).setScale(2, RoundingMode.HALF_UP);
+        valorTotal = arredondar.floatValue();
         CT_total.setText(String.valueOf(valorTotal));
-        if(modelo.getRowCount()!=0){
-            if(codigoVenda==0){
+        if (modelo.getRowCount() != 0) {
+            if (codigoVenda == 0) {
                 B_salvar.setEnabled(true);
-            }else{
+            } else {
                 B_excluir.setEnabled(true);
                 B_alterar.setEnabled(true);
-            } 
-        }
-        else
+            }
+        } else {
             desativaBTela();
+        }
     }
 
     /**
@@ -150,11 +157,32 @@ public class vendaPresencial extends javax.swing.JFrame {
                 Tab_itensMouseClicked(evt);
             }
         });
+        Tab_itens.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                Tab_itensCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                Tab_itensInputMethodTextChanged(evt);
+            }
+        });
+        Tab_itens.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Tab_itensKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Tab_itensKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tab_itens);
 
         jLabel4.setText("Total da Venda:");
 
         B_salvar.setText("Salvar");
+        B_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_salvarActionPerformed(evt);
+            }
+        });
 
         b_pesquisar.setText("Pesquisar");
         b_pesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -268,19 +296,52 @@ public class vendaPresencial extends javax.swing.JFrame {
     }//GEN-LAST:event_CT_dataVendaActionPerformed
 
     private void B_removerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_removerItemActionPerformed
-        int valor=Tab_itens.getSelectedRow();
+        int valor = Tab_itens.getSelectedRow();
         itens.remove(valor);
         arrumaTabela(itens);
         B_removerItem.setEnabled(false);
     }//GEN-LAST:event_B_removerItemActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        
+
     }//GEN-LAST:event_formMouseClicked
 
     private void Tab_itensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_itensMouseClicked
-       B_removerItem.setEnabled(true);
+        B_removerItem.setEnabled(true);
     }//GEN-LAST:event_Tab_itensMouseClicked
+
+    private void Tab_itensCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Tab_itensCaretPositionChanged
+
+    }//GEN-LAST:event_Tab_itensCaretPositionChanged
+
+    private void Tab_itensInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Tab_itensInputMethodTextChanged
+
+    }//GEN-LAST:event_Tab_itensInputMethodTextChanged
+
+    private void Tab_itensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Tab_itensKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Tab_itensKeyPressed
+
+    private void Tab_itensKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Tab_itensKeyReleased
+        int posicao = Tab_itens.getSelectedRow();
+        int unidade = Integer.parseInt(Tab_itens.getValueAt(posicao, 1).toString());
+        produtosVenda prodVenda = (produtosVenda) itens.get(posicao);
+        float total = prodVenda.getValorUnitario() * unidade;
+        BigDecimal formatar = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+        total = formatar.floatValue();
+        prodVenda.setTotalProduto(total);
+        prodVenda.setQuantidade(unidade);
+        itens.remove(posicao);
+        itens.add(posicao, prodVenda);
+        arrumaTabela(itens);
+    }//GEN-LAST:event_Tab_itensKeyReleased
+
+    private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
+        vendaControl vendaControle= new vendaControl();
+        constroiVenda();
+        if(!vendaControle.verificarItens(venda))
+            JOptionPane.showMessageDialog(null,"Insira lagum produto na venda");
+    }//GEN-LAST:event_B_salvarActionPerformed
 
     public void constroiVenda() {
         venda.setCodigo(codigoVenda);
