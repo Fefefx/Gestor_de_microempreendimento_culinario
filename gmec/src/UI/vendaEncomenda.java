@@ -19,14 +19,16 @@ import Objects.encomenda;
 public class vendaEncomenda extends javax.swing.JFrame {
 
     encomenda pedido = new encomenda();
-    
+    private String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
     
     
     /**
      * Creates new form vendaEncomenda
      */
-    
-    
     
     public vendaEncomenda() {
         initComponents();
@@ -85,7 +87,12 @@ public class vendaEncomenda extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Data da Venda");
 
@@ -240,6 +247,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CT_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_clienteActionPerformed
@@ -253,6 +261,12 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        telaInicial start= new telaInicial();
+        start.arrumaTela(user);
+        start.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

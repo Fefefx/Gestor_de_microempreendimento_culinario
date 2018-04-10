@@ -118,19 +118,16 @@ public class listarClientes extends javax.swing.JDialog {
         client.setEndereco(Tab_clientes.getValueAt(valor, 2).toString());
         client.setTelefone(Integer.parseInt(Tab_clientes.getValueAt(valor, 3).toString()));
         client.setIdCliente(Integer.parseInt(Tab_clientes.getValueAt(valor, 0).toString()));
-        pedidoRealizar pedido = new pedidoRealizar();
+        /*pedidoRealizar pedido = new pedidoRealizar();
         pedido.arrumaTela(client);
         pedido.setVisible(true);
         pedido.setLocationRelativeTo(null);
         this.dispose();
-        dado = true;
+        dado = true;*/
     }//GEN-LAST:event_Tab_clientesMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        if (!dado) {
-            pedidoRealizar pedido = new pedidoRealizar();
-            pedido.setVisible(true);
-        }
+
     }//GEN-LAST:event_formWindowClosed
 
     /**

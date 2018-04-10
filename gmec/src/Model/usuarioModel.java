@@ -85,7 +85,7 @@ public class usuarioModel {
                 System.out.println("\nUsuário localizado");
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "Usuário não cadastrado!");
+                JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos");
             }
         } catch (SQLException ex) {
             Logger.getLogger(usuarioModel.class.getName()).log(Level.SEVERE, null, ex);

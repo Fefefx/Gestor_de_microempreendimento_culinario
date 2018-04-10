@@ -181,13 +181,15 @@ public class telaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_CT_dataActionPerformed
 
     private void B_encomendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_encomendasActionPerformed
-        pedidoRealizar pedido= new pedidoRealizar();
-        pedido.setVisible(true);
+        vendaEncomenda venda= new vendaEncomenda();
+        venda.setUser(CT_usuario.getText());
+        venda.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_B_encomendasActionPerformed
 
     private void B_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_clientesActionPerformed
         visualizarClientes visu = new visualizarClientes();
+        visu.setUser(CT_usuario.getText());
         this.setVisible(false);
         visu.setVisible(true);
     }//GEN-LAST:event_B_clientesActionPerformed
@@ -199,12 +201,13 @@ public class telaInicial extends javax.swing.JFrame {
     private void B_produtosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_produtosActionPerformed
         this.setVisible(false);
         visualizarProdutos visua = new visualizarProdutos();
+        visua.setUser(CT_usuario.getText());
         visua.setVisible(true);
     }//GEN-LAST:event_B_produtosActionPerformed
 
     private void B_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_usuariosActionPerformed
-        // TODO add your handling code here:
         visualizarUsuarios usuarios = new visualizarUsuarios();
+        usuarios.setUser(CT_usuario.getText());
         this.setVisible(false);
         usuarios.setVisible(true);
     }//GEN-LAST:event_B_usuariosActionPerformed

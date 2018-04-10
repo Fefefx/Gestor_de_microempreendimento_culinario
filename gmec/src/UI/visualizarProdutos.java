@@ -18,6 +18,11 @@ public class visualizarProdutos extends javax.swing.JFrame {
 
     ArrayList listaProdutos = new ArrayList();
     produtoControl prodControl = new produtoControl();
+    private String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     /**
      * Creates new form visualizarProdutos
@@ -192,6 +197,7 @@ public class visualizarProdutos extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         telaInicial iniciar = new telaInicial();
+        iniciar.arrumaTela(user);
         iniciar.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 

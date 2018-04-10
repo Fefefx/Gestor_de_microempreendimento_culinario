@@ -67,7 +67,8 @@ public class buscarProduto extends javax.swing.JFrame {
         Tab_produtos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Produtos Localizados");
 
         Tab_produtos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,6 +113,7 @@ public class buscarProduto extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked

@@ -124,10 +124,16 @@ public class vendaPresencial extends javax.swing.JFrame {
         CT_dataVenda = new javax.swing.JFormattedTextField();
         B_removerItem = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gerenciar venda ");
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
@@ -271,6 +277,7 @@ public class vendaPresencial extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CT_produtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_produtoActionPerformed
@@ -342,6 +349,11 @@ public class vendaPresencial extends javax.swing.JFrame {
         if(!vendaControle.verificarItens(venda))
             JOptionPane.showMessageDialog(null,"Insira lagum produto na venda");
     }//GEN-LAST:event_B_salvarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        telaInicial start= new telaInicial();
+        start.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     public void constroiVenda() {
         venda.setCodigo(codigoVenda);

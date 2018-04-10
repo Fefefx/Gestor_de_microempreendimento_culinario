@@ -17,6 +17,12 @@ import javax.swing.table.DefaultTableModel;
 public class visualizarClientes extends javax.swing.JFrame {
 
     clienteControl clientControl = new clienteControl();
+    private String user;
+
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     /**
      * Creates new form frameTeste
@@ -176,6 +182,7 @@ public class visualizarClientes extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         telaInicial ini= new telaInicial();
+        ini.arrumaTela(user);
         ini.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
     public void arrumaTabela() {

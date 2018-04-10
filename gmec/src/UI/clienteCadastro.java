@@ -77,7 +77,7 @@ public class clienteCadastro extends javax.swing.JDialog {
         B_alterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gerenciar Usuário");
+        setTitle("Gerenciar Cliente");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
