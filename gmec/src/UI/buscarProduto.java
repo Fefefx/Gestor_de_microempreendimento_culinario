@@ -19,7 +19,13 @@ import javax.swing.table.DefaultTableModel;
 public class buscarProduto extends javax.swing.JFrame {
 
     ArrayList lista; 
-    vendas dadosDavenda= new vendas(); 
+    vendas dadosDavenda= new vendas();
+    private String usuario;
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+    
     /**
      * Creates new form buscarProduto
      */
@@ -129,6 +135,7 @@ public class buscarProduto extends javax.swing.JFrame {
         dadosDavenda.addItem(prodVenda);
         System.out.println("\nQtd da Lista em buscar produto "+dadosDavenda.retornarItens().size());
         vendaPresencial vp= new vendaPresencial();
+        vp.setUsuario(usuario);
         vp.arrumaTela(dadosDavenda);
         vp.setVisible(true);
         this.dispose();

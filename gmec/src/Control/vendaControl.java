@@ -5,7 +5,10 @@
  */
 package Control;
 import Objects.vendas;
+import Objects.produtosVenda;
 import Model.vendasModel;
+import Model.produtosVendaModel;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 
@@ -20,6 +23,31 @@ public class vendaControl {
             return false;
         }
         return true;
+    }
+    
+    public boolean dataValida(String data){
+        String testar= data.replace("-","");
+        try{
+            int tentar = Integer.parseInt(testar);
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Digite apenas numeros na data");
+        }
+        return false;
+    }
+    
+    public boolean salvarVenda(vendas vender){
+        vendasModel salvaVenda=new vendasModel();
+        salvaVenda.inserir(vender);
+        ArrayList itens= vender.retornarItens();
+        vendas registro= salvaVenda.pesquisar(vender.getDataVenda());
+        for(int i=0;i<itens.size();i++){
+            produtosVenda item= (produtosVenda) itens.get(i);
+            item.setCodigoVenda(registro.getCodigo());
+            produtosVendaModel salvaItem= new produtosVendaModel();
+            if(salvaItem.inserir(item))
+                return true;
+        }
+        return false;
     }
     
 }

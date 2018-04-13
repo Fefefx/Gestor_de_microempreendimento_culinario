@@ -81,16 +81,18 @@ public class vendasModel {
         }
         return false;
     }
-    
-    public ResultSet pesquisar(Date dia){
+    //Retorna dados de uma venda
+    public vendas pesquisar(String dia){
         abrirConexao();
-        //melhorar com o pessoal posteriormente
         String sql="select * from vendas where data_venda='"+dia+"';";
         ResultSet resultado=Banco.consultar(sql);
         try {
             if(resultado.next()){
-                System.out.println("\nRegistros encontrados");
-                return resultado;
+                vendas res = new vendas();
+                res.setCodigo(Integer.parseInt(resultado.getString("codigo")));
+                res.setDataVenda(resultado.getString("data_venda"));
+                res.setTotal(Float.parseFloat(resultado.getString("total")));
+                return res;
             }else
                 JOptionPane.showMessageDialog(null,"Nenhuma venda localizada para o dia");
         } catch (SQLException ex) {
