@@ -10,6 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.MaskFormatter;
 import Objects.encomenda;
+import Objects.produtosEncomenda;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import Control.produtoControl;
+
 
 
 /**
@@ -20,42 +27,88 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
     encomenda pedido = new encomenda();
     private String user;
-
+    private int codigoEncomenda = 0;
+    ArrayList itens = new ArrayList();
+    private boolean fechar=false;
+    
     public void setUser(String user) {
         this.user = user;
     }
-    
-    
+
     /**
      * Creates new form vendaEncomenda
      */
-    
     public vendaEncomenda() {
         initComponents();
     }
-    
-    
-        public String formataData() {
-        String formatar = CT_data_venda.getText().replace("/", "-");
+
+    public String formataData() {
+        String formatar = CT_data_encomenda.getText().replace("/", "-");
         formatar = formatar.substring(6) + "-" + formatar.substring(3, 5) + "-" + formatar.substring(0, 2);
         System.out.println(formatar);
         return formatar;
     }
-    
-    
-        
-            public void aplicarMascara() {
+
+    public void aplicarMascara() {
         try {
             MaskFormatter mascara = new MaskFormatter("##/##/####");
-            mascara.install(CT_data_venda);
+            mascara.install(CT_data_encomenda);
         } catch (ParseException ex) {
             Logger.getLogger(vendaPresencial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-            
-            
 
+    public void arrumaTela(encomenda dados) {
+
+        codigoEncomenda = dados.getCodigoEncomenda();
+        CT_data_encomenda.setText("");
+        CT_data_encomenda.setText(dados.getDiaPedido());
+        arrumaTabela(dados.retornarItens());
+    }
+
+    public void arrumaTabela(ArrayList valores) {
+        float valorTotal = 0;
+        DefaultTableModel modelo = (DefaultTableModel) Tab_itens.getModel();
+        while (modelo.getRowCount() != 0) {
+            modelo.removeRow(0);
+        }
+        for (int i = 0; i < valores.size(); i++) {
+            produtosEncomenda prodVenda = (produtosEncomenda) valores.get(i);
+            String[] linha = new String[4];
+            linha[0] = prodVenda.getNome();
+            linha[1] = String.valueOf(prodVenda.getQuantidade());
+            linha[2] = String.valueOf(prodVenda.getValorUnitario());
+            linha[3] = String.valueOf(prodVenda.getTotalProduto());
+            valorTotal += prodVenda.getTotalProduto();
+            modelo.addRow(linha);
+        }
+        Tab_itens.setModel(modelo);
+        itens = valores;
+        BigDecimal arredondar = new BigDecimal(valorTotal).setScale(2, RoundingMode.HALF_UP);
+        valorTotal = arredondar.floatValue();
+        CT_total.setText(String.valueOf(valorTotal));
+        if (modelo.getRowCount() != 0) {
+            if (codigoEncomenda == 0) {
+                B_salvar.setEnabled(true);
+            } else {
+                B_excluir.setEnabled(true);
+                B_alterar.setEnabled(true);
+            }
+        } else {
+            desativaBTela();
+        }
+    }
+
+    public void desativaBTela() {
+        aplicarMascara();
+        CT_total.setEditable(false);
+        CT_data_encomenda.requestFocus();
+        CT_produto.setEditable(true);
+        B_removerItem.setEnabled(false);
+        B_salvar.setEnabled(false);
+        B_alterar.setEnabled(false);
+        B_excluir.setEnabled(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,22 +123,22 @@ public class vendaEncomenda extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         CT_cliente = new javax.swing.JTextField();
         BT_pesquisa_cliente = new javax.swing.JButton();
-        CT_data_venda = new javax.swing.JFormattedTextField();
+        CT_data_encomenda = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        CT_produto = new javax.swing.JTextField();
         BT_pesquisa_produto = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Tab_itens = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        CT_total = new javax.swing.JTextField();
+        B_salvar = new javax.swing.JButton();
+        B_alterar = new javax.swing.JButton();
+        B_excluir = new javax.swing.JButton();
+        B_removerItem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Encomenda");
@@ -95,7 +148,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Data da Venda");
+        jLabel1.setText("Data da Encomenda");
 
         jLabel2.setText("Cliente");
 
@@ -107,9 +160,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
         BT_pesquisa_cliente.setText("Pesquisar");
 
-        CT_data_venda.addActionListener(new java.awt.event.ActionListener() {
+        CT_data_encomenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CT_data_vendaActionPerformed(evt);
+                CT_data_encomendaActionPerformed(evt);
             }
         });
 
@@ -125,15 +178,20 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
         jLabel3.setText("Produto");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        CT_produto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                CT_produtoActionPerformed(evt);
             }
         });
 
         BT_pesquisa_produto.setText("Pesquisar");
+        BT_pesquisa_produto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_pesquisa_produtoActionPerformed(evt);
+            }
+        });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Tab_itens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -144,19 +202,19 @@ public class vendaEncomenda extends javax.swing.JFrame {
                 "Produto", "Quantidade", "Valor Unitário", "Total"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(Tab_itens);
 
         jLabel4.setText("Data da Entrega");
 
         jLabel5.setText("Total do Pedido");
 
-        jButton1.setText("Salvar");
+        B_salvar.setText("Salvar");
 
-        jButton2.setText("Alterar");
+        B_alterar.setText("Alterar");
 
-        jButton3.setText("Excluir");
+        B_excluir.setText("Excluir");
 
-        jButton4.setText("Remover Item");
+        B_removerItem.setText("Remover Item");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,17 +234,17 @@ public class vendaEncomenda extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CT_data_venda, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CT_data_encomenda, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
-                                .addGap(12, 12, 12)
-                                .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(BT_pesquisa_cliente))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)
                                 .addComponent(BT_pesquisa_produto))
                             .addGroup(layout.createSequentialGroup()
@@ -194,7 +252,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addGap(18, 18, 18)
@@ -202,14 +260,14 @@ public class vendaEncomenda extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(114, 114, 114)
-                                        .addComponent(jButton1)
+                                        .addComponent(B_salvar)
                                         .addGap(43, 43, 43)
-                                        .addComponent(jButton2)
+                                        .addComponent(B_alterar)
                                         .addGap(37, 37, 37)
-                                        .addComponent(jButton3))
+                                        .addComponent(B_excluir))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(26, 26, 26)
-                                        .addComponent(jButton4)))))
+                                        .addComponent(B_removerItem)))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -221,13 +279,13 @@ public class vendaEncomenda extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BT_pesquisa_cliente)
-                    .addComponent(CT_data_venda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CT_data_encomenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BT_pesquisa_produto))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,14 +293,14 @@ public class vendaEncomenda extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(B_removerItem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(B_salvar)
+                    .addComponent(B_alterar)
+                    .addComponent(B_excluir))
                 .addGap(30, 30, 30))
         );
 
@@ -254,20 +312,52 @@ public class vendaEncomenda extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_clienteActionPerformed
 
-    private void CT_data_vendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_data_vendaActionPerformed
+    private void CT_data_encomendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_data_encomendaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CT_data_vendaActionPerformed
+    }//GEN-LAST:event_CT_data_encomendaActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void CT_produtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_produtoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_CT_produtoActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        telaInicial start= new telaInicial();
+        telaInicial start = new telaInicial();
         start.arrumaTela(user);
         start.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
+    private void BT_pesquisa_produtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_pesquisa_produtoActionPerformed
+                produtoControl validar = new produtoControl();
+        constroiEncomenda();
+        if (validar.validaProduto(CT_produto.getText())) {
+            buscarProduto buscar = new buscarProduto();
+           // buscar.armazenarDados();                           <<<<<<<  ARRUMAR
+            buscar.arrumaTabela(CT_produto.getText());
+            buscar.setVisible(true);
+            fechar = true;
+            this.dispose();
+        } else {
+            CT_produto.requestFocus();
+        }
+    }//GEN-LAST:event_BT_pesquisa_produtoActionPerformed
+
+    
+    
+    
+        public void constroiEncomenda() {
+        pedido.setCodigoEncomenda(codigoEncomenda);
+        pedido.setDiaPedido(CT_data_encomenda.getText());
+        if (!CT_total.getText().isEmpty()) {
+            pedido.setTotal(Float.parseFloat(CT_total.getText()));
+        }
+        pedido.adicionarItens(itens);
+    }
+    
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -306,12 +396,15 @@ public class vendaEncomenda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BT_pesquisa_cliente;
     private javax.swing.JButton BT_pesquisa_produto;
+    private javax.swing.JButton B_alterar;
+    private javax.swing.JButton B_excluir;
+    private javax.swing.JButton B_removerItem;
+    private javax.swing.JButton B_salvar;
     private javax.swing.JTextField CT_cliente;
-    private javax.swing.JFormattedTextField CT_data_venda;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JFormattedTextField CT_data_encomenda;
+    private javax.swing.JTextField CT_produto;
+    private javax.swing.JTextField CT_total;
+    private javax.swing.JTable Tab_itens;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -321,8 +414,5 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

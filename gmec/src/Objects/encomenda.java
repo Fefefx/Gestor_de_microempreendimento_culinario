@@ -4,20 +4,23 @@
  * and open the template in the editor.
  */
 package Objects;
+
 import java.util.ArrayList;
 import java.util.Date;
+
 
 /**
  *
  * @author felipe
  */
 public class encomenda {
+
     private int codigoEncomenda;
-    private float total; 
-    private Date diaPedido, diaEntrega;
+    private float total;
+    private String diaPedido, diaEntrega;
     private boolean status;
-    ArrayList encomendaProdutos= new ArrayList();// Produtos da encomenda
-    public cliente client=new cliente();  //Dono da encomenda
+    ArrayList encomendaProdutos = new ArrayList();// Produtos da encomenda
+    public cliente client = new cliente();  //Dono da encomenda
 
     public int getCodigoEncomenda() {
         return codigoEncomenda;
@@ -35,21 +38,24 @@ public class encomenda {
         this.total = total;
     }
 
-    public Date getDiaPedido() {
+    public String getDiaPedido() {
         return diaPedido;
     }
 
-    public void setDiaPedido(Date diaPedido) {
+    public void setDiaPedido(String diaPedido) {
         this.diaPedido = diaPedido;
     }
 
-    public Date getDiaEntrega() {
+    public String getDiaEntrega() {
         return diaEntrega;
     }
 
-    public void setDiaEntrega(Date diaEntrega) {
+    public void setDiaEntrega(String diaEntrega) {
         this.diaEntrega = diaEntrega;
     }
+
+
+    
 
     public boolean isStatus() {
         return status;
@@ -57,6 +63,19 @@ public class encomenda {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void addItem(produtosEncomenda elemento) {
+        encomendaProdutos.add(elemento);
+    }
+
+    public ArrayList retornarItens() {
+        return encomendaProdutos;
+    }
+
+    public void adicionarItens(ArrayList itens) {
+
+        encomendaProdutos = itens;
     }
 
 }
