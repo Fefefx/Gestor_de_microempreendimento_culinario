@@ -8,7 +8,6 @@ package Objects;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 /**
  *
  * @author felipe
@@ -54,9 +53,6 @@ public class encomenda {
         this.diaEntrega = diaEntrega;
     }
 
-
-    
-
     public boolean isStatus() {
         return status;
     }
@@ -74,7 +70,6 @@ public class encomenda {
     }
 
     public void adicionarItens(ArrayList itens) {
-
         encomendaProdutos = itens;
     }
 

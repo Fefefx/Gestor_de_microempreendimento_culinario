@@ -17,7 +17,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class listarClientes extends javax.swing.JDialog {
 
-    boolean dado;
+    private cliente client = new cliente();
+    private boolean controle = false;
+
+    public boolean isControle() {
+        return controle;
+    }
 
     /**
      * Creates new form listarClientes
@@ -109,21 +114,17 @@ public class listarClientes extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void Tab_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_clientesMouseClicked
         int valor = Tab_clientes.getSelectedRow();
-        cliente client = new cliente();
         client.setNome(Tab_clientes.getValueAt(valor, 1).toString());
         client.setEndereco(Tab_clientes.getValueAt(valor, 2).toString());
         client.setTelefone(Integer.parseInt(Tab_clientes.getValueAt(valor, 3).toString()));
         client.setIdCliente(Integer.parseInt(Tab_clientes.getValueAt(valor, 0).toString()));
-        /*pedidoRealizar pedido = new pedidoRealizar();
-        pedido.arrumaTela(client);
-        pedido.setVisible(true);
-        pedido.setLocationRelativeTo(null);
+        controle = true;
         this.dispose();
-        dado = true;*/
     }//GEN-LAST:event_Tab_clientesMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -190,8 +191,9 @@ public class listarClientes extends javax.swing.JDialog {
                 modelo.addRow(linha);
                 Tab_clientes.setModel(modelo);
             }
-            if(Tab_clientes.getRowCount()==0)
+            if (Tab_clientes.getRowCount() == 0) {
                 T_informativo.setVisible(true);
+            }
         } else {
             this.setVisible(false);
             JOptionPane.showMessageDialog(null, "Nenhum cliente localizado");
@@ -205,4 +207,8 @@ public class listarClientes extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    public cliente getClient() {
+        return client;
+    }
 }

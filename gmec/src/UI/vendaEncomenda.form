@@ -49,38 +49,33 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="CT_cliente" min="-2" pref="264" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="BT_pesquisa_cliente" min="-2" max="-2" attributes="0"/>
+                              <Component id="B_pesquisa_cliente" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel3" min="-2" pref="47" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="CT_produto" min="-2" pref="283" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="BT_pesquisa_produto" min="-2" max="-2" attributes="0"/>
+                              <Component id="B_pesquisar_produtos" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel5" min="-2" pref="79" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="CT_total" min="-2" pref="90" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jFormattedTextField2" min="-2" pref="90" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                                      <Component id="jLabel5" min="-2" pref="104" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="CT_total" min="-2" pref="90" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
                                       <Component id="B_salvar" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                                       <Component id="B_alterar" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                       <Component id="B_excluir" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="CT_data_entrega" min="-2" pref="90" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                       <Component id="B_removerItem" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -101,7 +96,7 @@
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CT_cliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BT_pesquisa_cliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="B_pesquisa_cliente" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CT_data_encomenda" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -110,14 +105,14 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CT_produto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BT_pesquisa_produto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="B_pesquisar_produtos" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="93" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jFormattedTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="CT_data_entrega" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="B_removerItem" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="24" max="32767" attributes="0"/>
@@ -149,10 +144,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CT_clienteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="BT_pesquisa_cliente">
+    <Component class="javax.swing.JButton" name="B_pesquisa_cliente">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pesquisar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="B_pesquisa_clienteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="CT_data_encomenda">
       <Events>
@@ -166,7 +164,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="Tab_cliente">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="3" rowCount="1">
@@ -198,6 +196,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Tab_clienteMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -211,12 +212,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CT_produtoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="BT_pesquisa_produto">
+    <Component class="javax.swing.JButton" name="B_pesquisar_produtos">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pesquisar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BT_pesquisa_produtoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="B_pesquisar_produtosActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -264,6 +265,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Tab_itensKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -272,7 +276,10 @@
         <Property name="text" type="java.lang.String" value="Data da Entrega"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField2">
+    <Component class="javax.swing.JFormattedTextField" name="CT_data_entrega">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CT_data_entregaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>

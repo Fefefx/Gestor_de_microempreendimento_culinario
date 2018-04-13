@@ -159,18 +159,26 @@ public class vendaPresencial extends javax.swing.JFrame {
             new String [] {
                 "Produto", "Quantidade", "Valor Unitário", "Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tab_itens.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tab_itensMouseClicked(evt);
             }
         });
         Tab_itens.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                Tab_itensCaretPositionChanged(evt);
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 Tab_itensInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                Tab_itensCaretPositionChanged(evt);
             }
         });
         Tab_itens.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -308,9 +316,13 @@ public class vendaPresencial extends javax.swing.JFrame {
 
     private void B_removerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_removerItemActionPerformed
         int valor = Tab_itens.getSelectedRow();
-        itens.remove(valor);
-        arrumaTabela(itens);
-        B_removerItem.setEnabled(false);
+        if (valor == -1) {
+            B_removerItem.setEnabled(false);
+        } else {
+            itens.remove(valor);
+            arrumaTabela(itens);
+            B_removerItem.setEnabled(false);
+        }
     }//GEN-LAST:event_B_removerItemActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -364,7 +376,7 @@ public class vendaPresencial extends javax.swing.JFrame {
                 telaInicial start = new telaInicial();
                 start.arrumaTela(usuario);
                 start.setVisible(true);
-                fechar=true;
+                fechar = true;
                 this.dispose();
             }
         }
