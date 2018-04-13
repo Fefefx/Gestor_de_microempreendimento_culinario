@@ -49,6 +49,8 @@ public class usuarioControl {
     public boolean atualizarUsuario(usuario user){
         if("".equals(user.getSenha().trim())){
             JOptionPane.showMessageDialog(null,"Digite uma senha");
+        }else if(user.getSenha().length() < 8){
+            JOptionPane.showMessageDialog(null, "A senha precisa ter 8 caracteres");
         }else{
             usuarioModel userModel = new usuarioModel();
             if(userModel.pesquisar(user.getUser())!=null){

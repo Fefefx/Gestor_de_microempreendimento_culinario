@@ -173,7 +173,7 @@ public class cadastroUsuario extends javax.swing.JDialog {
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
         // TODO add your handling code here:
-        CT_nomeUsuario.setEditable(false);
+        CT_nomeUsuario.setEditable(true);
         PF_senhaUsuario.setEditable(true);
         B_salvar.setEnabled(true);
         B_alterar.setEnabled(false);

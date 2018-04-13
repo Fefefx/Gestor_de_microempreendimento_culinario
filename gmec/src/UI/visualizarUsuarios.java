@@ -23,41 +23,15 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
         this.user = user;
     }
     
-    /**
-     * Creates new form visualizarUsuarios
-     */
     public visualizarUsuarios() {
         initComponents();
         arrumarTela();
     }
     
-    public void arrumarTela() {
-        CT_nome.setEditable(false);
-        B_novo.setEnabled(false);
-        B_pesquisa.setEnabled(false);
-        arrumaTabela();
-    }
+    /**
+     * Creates new form visualizarUsuarios
+     */
     
-    public void arrumaTabela() {
-        ArrayList resultado = userControl.validarNomePesquisa(CT_nome.getText());
-        if (resultado != null) {
-            DefaultTableModel modelo = (DefaultTableModel) Tab_usuarios.getModel();
-            while (modelo.getRowCount() != 0) {
-                modelo.removeRow(0);
-            }
-            for (int i = 0; i < resultado.size(); i++) {
-                usuario user = new usuario();
-                user = (usuario) resultado.get(i);
-                String[] linha = new String[2];
-                linha[0] = user.getUser();
-                linha[1] = user.getSenha();
-                modelo.addRow(linha);
-                Tab_usuarios.setModel(modelo);
-            }
-        } else {
-            System.out.println("\nNão há usuários cadastrados");
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -203,7 +177,6 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_Tab_usuariosFocusGained
 
     private void Tab_usuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_usuariosMouseClicked
-        // TODO add your handling code here:
         int linha = Tab_usuarios.getSelectedRow();
         usuario user = new usuario();
         user.setUser(Tab_usuarios.getValueAt(linha, 0).toString());
@@ -226,7 +199,35 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
         ini.arrumaTela(user);
         ini.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
-
+    
+    public void arrumarTela() {
+        CT_nome.setEditable(false);
+        B_novo.setEnabled(false);
+        B_pesquisa.setEnabled(false);
+        arrumaTabela();
+    }
+    
+    public void arrumaTabela() {
+        ArrayList resultado = userControl.validarNomePesquisa(CT_nome.getText());
+        if (resultado != null) {
+            DefaultTableModel modelo = (DefaultTableModel) Tab_usuarios.getModel();
+            while (modelo.getRowCount() != 0) {
+                modelo.removeRow(0);
+            }
+            for (int i = 0; i < resultado.size(); i++) {
+                usuario user = new usuario();
+                user = (usuario) resultado.get(i);
+                String[] linha = new String[2];
+                linha[0] = user.getUser();
+                linha[1] = user.getSenha();
+                modelo.addRow(linha);
+                Tab_usuarios.setModel(modelo);
+            }
+        } else {
+            System.out.println("\nNão há usuários cadastrados");
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
