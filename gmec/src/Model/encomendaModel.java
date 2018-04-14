@@ -10,6 +10,7 @@ import Bank.infoBanco;
 import Objects.encomenda;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -119,17 +120,27 @@ public class encomendaModel {
     }
 
     //listarEncomendas é uma view que reúne dados de produtos e encomendas
-    public ResultSet pesquisar(String clienteEncomenda) {
+    public ArrayList pesquisar(String clienteEncomenda) {
         abrirConexao();
+        encomenda enco = new encomenda();
+        ArrayList lista = new ArrayList();
         String sql = "select * from listarEncomendas where nome like '" + clienteEncomenda + "%';";
         ResultSet resultado = Banco.consultar(sql);
         try {
-            if (resultado.next()) {
-                System.out.println("\nEncomenda encontradas");
-                return resultado;  //No retorno o status virá como 0 ou 1, tratar com if para verdade ou falso
-            } else {
-                JOptionPane.showMessageDialog(null, "Nenhuma encomenda encontrada");
+            while (resultado.next()) {
+                System.out.println("\nEncomenda encontrada");
+                enco.setCodigoEncomenda(resultado.getInt("codigo"));
+                enco.setDiaEntrega(resultado.getString("dia_entrega"));
+                enco.setDiaPedido(resultado.getString("dia_pedido"));
+                enco.setTotal(resultado.getFloat("total"));
+                enco.setStatus(resultado.getBoolean("status")); //pode dar erro aqui
+                enco.client.setIdCliente(resultado.getInt("idcliente"));
+                enco.client.setNome(resultado.getString("nome"));
+                enco.client.setEndereco(resultado.getString("endereco"));
+                enco.client.setTelefone(resultado.getInt("telefone"));
+                lista.add(enco);
             }
+            return lista;
         } catch (SQLException ex) {
             Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -145,7 +156,7 @@ public class encomendaModel {
         try {
             if (resultado.next()) {
                 System.out.println("\nEncomendas do cliente encontradas");
-                return true;  
+                return true;
             } else {
                 System.out.println("\nNenhuma encomenda do cliente encontrada");
             }
@@ -154,20 +165,41 @@ public class encomendaModel {
         }
         return false;
     }
-    
+
+    public int pesquisarCodigo(encomenda enco) {
+        abrirConexao();
+        String sql = "select codigo from encomenda where dia_pedido='"+enco.getDiaPedido()+"' "
+                + "and dia_entrega='"+enco.getDiaEntrega() + "' and cliente_idcliente="+enco.client.getIdCliente()
+                +" and status is "+enco.isStatus()+"; ";
+        System.out.println(sql);
+        ResultSet resultado = Banco.consultar(sql);
+        try {
+            if (resultado.next()) {
+                int codigo= resultado.getInt("codigo");
+                return codigo;
+            } else {
+                System.out.println("\nNenhuma encomenda do cliente encontrada");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
     //verifica se um determinado produto possui uma encomenda em aberto
     public boolean verificarProdutoNasEncomendas(int codigoProduto) {
         abrirConexao();
-        String sql="select * from produtos_da_encomenda pe inner join encomenda"
-                + " e on pe.encomenda_codigo=e.codigo where e.status=false and pe.produto_codigo="+codigoProduto+";";
+        String sql = "select * from produtos_da_encomenda pe inner join encomenda"
+                + " e on pe.encomenda_codigo=e.codigo where e.status=false and pe.produto_codigo=" + codigoProduto + ";";
         System.out.println(sql);
-        ResultSet resultado=Banco.consultar(sql);
+        ResultSet resultado = Banco.consultar(sql);
         try {
-            if(resultado.next()){
+            if (resultado.next()) {
                 System.out.println("\nEncomendas com o produto encontradas");
                 return true;
-            }else
+            } else {
                 System.out.println("\nNenhuma encomenda com o produto encontrada");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
         }
