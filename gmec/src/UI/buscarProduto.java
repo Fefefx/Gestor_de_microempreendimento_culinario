@@ -18,47 +18,47 @@ import javax.swing.table.DefaultTableModel;
  */
 public class buscarProduto extends javax.swing.JFrame {
 
-    ArrayList lista; 
-    vendas dadosDavenda= new vendas();
+    ArrayList lista;
+    vendas dadosDavenda = new vendas();
     private String usuario;
+    private boolean fechar = false;
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-    
+
     /**
      * Creates new form buscarProduto
      */
     public buscarProduto() {
         initComponents();
     }
-    
-    public void armazenarDados(vendas venda){
-        dadosDavenda=venda;
+
+    public void armazenarDados(vendas venda) {
+        dadosDavenda = venda;
     }
-    
-    public void arrumaTabela(String pesquisar){
-        produtoControl acessar= new produtoControl();
-        lista= acessar.validarNomePesquisa(pesquisar);
-        if(lista!=null){
-            DefaultTableModel modelo= (DefaultTableModel) Tab_produtos.getModel();
-            while(modelo.getRowCount()!=0){
+
+    public void arrumaTabela(String pesquisar) {
+        produtoControl acessar = new produtoControl();
+        lista = acessar.validarNomePesquisa(pesquisar);
+        if (lista != null) {
+            DefaultTableModel modelo = (DefaultTableModel) Tab_produtos.getModel();
+            while (modelo.getRowCount() != 0) {
                 modelo.removeRow(0);
             }
-            for(int i=0;i<lista.size();i++){
-                produto prod = new produto(); 
-                prod=(produto) lista.get(i);
-                String[] linha=new String[4];
-                linha[0]=prod.getNome();
-                linha[1]="R$ "+String.valueOf(prod.getValorUnitario());
+            for (int i = 0; i < lista.size(); i++) {
+                produto prod = new produto();
+                prod = (produto) lista.get(i);
+                String[] linha = new String[4];
+                linha[0] = prod.getNome();
+                linha[1] = "R$ " + String.valueOf(prod.getValorUnitario());
                 modelo.addRow(linha);
                 Tab_produtos.setModel(modelo);
             }
-        }else{
+        } else {
             System.out.println("\nArrayList retornou nulo");
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,6 +75,11 @@ public class buscarProduto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Produtos Localizados");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Tab_produtos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,9 +128,9 @@ public class buscarProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked
-        int posicao=Tab_produtos.getSelectedRow();
-        produto prod= (produto) lista.get(posicao);
-        produtosVenda prodVenda= new produtosVenda();
+        int posicao = Tab_produtos.getSelectedRow();
+        produto prod = (produto) lista.get(posicao);
+        produtosVenda prodVenda = new produtosVenda();
         prodVenda.setCodigoProduto(prod.getCodigo());
         prodVenda.setCodigoVenda(dadosDavenda.getCodigo());
         prodVenda.setValorUnitario(prod.getValorUnitario());
@@ -133,16 +138,25 @@ public class buscarProduto extends javax.swing.JFrame {
         prodVenda.setQuantidade(1);
         prodVenda.setTotalProduto(prod.getValorUnitario());
         dadosDavenda.addItem(prodVenda);
-        System.out.println("\nQtd da Lista em buscar produto "+dadosDavenda.retornarItens().size());
-        vendaPresencialteste vp= new vendaPresencialteste();
+        System.out.println("\nQtd da Lista em buscar produto " + dadosDavenda.retornarItens().size());
+        vendaPresencial vp = new vendaPresencial();
         vp.setUsuario(usuario);
         vp.arrumaTela(dadosDavenda);
+        fechar = true;
         vp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Tab_produtosMouseClicked
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if (!fechar) {
+            vendaPresencial vp = new vendaPresencial();
+            vp.setUsuario(usuario);
+            vp.arrumaTela(dadosDavenda);
+            vp.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowClosed
 
-    
     /**
      * @param args the command line arguments
      */
