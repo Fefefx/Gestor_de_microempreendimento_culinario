@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package UI;
+
+import Control.produtoVendaControl;
 import java.util.Date;
 import Control.vendaControl;
 import Objects.vendas;
@@ -16,14 +18,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class visualizarVenda extends javax.swing.JFrame {
 
-    vendaControl controle= new vendaControl();
-    ArrayList listaVendas= new ArrayList();
-    
+    vendaControl controle = new vendaControl();
+    vendas vend = new vendas();
+    ArrayList listaVendas = new ArrayList();
+    private boolean fechar = false;
+    private String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     /**
      * Creates new form visualizarVenda
      */
     public visualizarVenda() {
         initComponents();
+        iniciar();
     }
 
     /**
@@ -46,6 +56,11 @@ public class visualizarVenda extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Vendas");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("De:");
@@ -67,6 +82,11 @@ public class visualizarVenda extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        Tab_vendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_vendasMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(Tab_vendas);
@@ -134,41 +154,73 @@ public class visualizarVenda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_filtrarActionPerformed
-        Date dataInicial =CAL_dataInicial.getDate();
-        Date dataFinal=CAL_datafinal.getDate();
-        listaVendas=controle.formatarData(dataInicial, dataFinal);
-        if(listaVendas!=null){
+        Date dataInicial = CAL_dataInicial.getDate();
+        Date dataFinal = CAL_datafinal.getDate();
+        listaVendas = controle.formatarData(dataInicial, dataFinal);
+        if (listaVendas != null) {
             arrumarTabela();
         }
     }//GEN-LAST:event_B_filtrarActionPerformed
 
     private void B_listarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_listarTudoActionPerformed
-        CAL_dataInicial.setDate(null);
-        CAL_datafinal.setDate(null);
-        listaVendas=controle.devolverTudo();
-        arrumarTabela();
+        iniciar();
     }//GEN-LAST:event_B_listarTudoActionPerformed
 
-    public void arrumarTabela(){
-        DefaultTableModel modelo= (DefaultTableModel) Tab_vendas.getModel();
-        while(modelo.getRowCount()!=0)
+    private void Tab_vendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_vendasMouseClicked
+        int res = Tab_vendas.getSelectedRow();
+        vend = (vendas) listaVendas.get(res);
+        vend.setDataVenda(Tab_vendas.getValueAt(res, 0).toString());
+        produtosVenda(vend.getCodigo());
+        vendaPresencial vp = new vendaPresencial();
+        vp.arrumaTela(vend);
+        this.setVisible(false);
+        vp.setVisible(true);
+        fechar=true;
+        this.dispose();
+    }//GEN-LAST:event_Tab_vendasMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if (!fechar) {
+            telaInicial start = new telaInicial();
+            this.dispose();
+            start.arrumaTela(user);
+            start.setVisible(true);
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    public void iniciar() {
+        CAL_dataInicial.setDate(null);
+        CAL_datafinal.setDate(null);
+        listaVendas = controle.devolverTudo();
+        arrumarTabela();
+    }
+
+    public void arrumarTabela() {
+        DefaultTableModel modelo = (DefaultTableModel) Tab_vendas.getModel();
+        while (modelo.getRowCount() != 0) {
             modelo.removeRow(0);
-        for(int i=0;i<listaVendas.size();i++){
-            String[] linha=new String[4];
-            vendas venda= (vendas) listaVendas.get(i);
-            linha[0]=formataData(venda.getDataVenda());
-            linha[1]="R$ "+venda.getTotal();
+        }
+        for (int i = 0; i < listaVendas.size(); i++) {
+            String[] linha = new String[4];
+            vendas venda = (vendas) listaVendas.get(i);
+            linha[0] = formataData(venda.getDataVenda());
+            linha[1] = "R$ " + venda.getTotal();
             modelo.addRow(linha);
         }
         Tab_vendas.setModel(modelo);
     }
-    
-    public String formataData(String data){
-        String dataFormatada=data.substring(8,10)+"/"+data.substring(5,7)+"/"+data.substring(0,4);
+
+    public String formataData(String data) {
+        String dataFormatada = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4);
         return dataFormatada;
     }
-    
-    
+
+    //Localiza todos os itens da venda e os introduz nelas
+    public void produtosVenda(int codigo) {
+        produtoVendaControl prodVendaControl = new produtoVendaControl();
+        vend.adicionarItens(prodVendaControl.itensVenda(codigo));
+    }
+
     /**
      * @param args the command line arguments
      */

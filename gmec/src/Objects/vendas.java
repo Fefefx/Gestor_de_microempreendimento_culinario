@@ -45,8 +45,6 @@ public class vendas {
     }
     
     public void adicionarItens(ArrayList itens){
-        //while(vendaProdutos.size()!=0) 
-        //    vendaProdutos.remove(0);
         vendaProdutos=itens;
     }
     

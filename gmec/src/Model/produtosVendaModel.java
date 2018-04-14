@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /**
  *
@@ -112,16 +113,26 @@ public class produtosVendaModel {
     }
 
     // produtosVenda é uma view que junta os dados de produtos_da_venda e produto
-    public ResultSet pesquisar(int codigoVenda) {
+    public ArrayList pesquisar(int codigoVenda) {
         abrirConexao();
+        ArrayList lista = new ArrayList();
         String sql = "select * from produtosVenda where vendas_codigo=" + codigoVenda + ";";
         System.out.println(sql);
         ResultSet registro = Banco.consultar(sql);
         try {
-            if (registro.next()) {
-                System.out.println("Registros encontrados");
-                return registro;
+            while (registro.next()) {
+                System.out.println("\nProdutos encontrados");
+                produtosVenda item = new produtosVenda();
+                item.setCodigoProduto(registro.getInt("codigo"));
+                item.setCodigoVenda(registro.getInt("vendas_codigo"));
+                item.setNome(registro.getString("nome"));
+                item.setQuantidade(registro.getInt("quantidade"));
+                item.setValorUnitario(registro.getFloat("valor_unitario"));
+                item.setTotalProduto(registro.getFloat("total_produto"));
+                lista.add(item);
             }
+            registro.close();
+            return lista;
         } catch (SQLException ex) {
             Logger.getLogger(produtosEncomendaModel.class.getName()).log(Level.SEVERE, null, ex);
         }

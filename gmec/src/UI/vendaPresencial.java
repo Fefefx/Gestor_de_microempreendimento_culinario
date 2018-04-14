@@ -129,6 +129,11 @@ public class vendaPresencial extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Venda");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel3.setText("Data da Venda:");
 
@@ -375,6 +380,14 @@ public class vendaPresencial extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_B_salvarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if(!fechar){
+            visualizarVenda voltar = new visualizarVenda();
+            voltar.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     public void constroiVenda() {
         venda.setCodigo(codigoVenda);
