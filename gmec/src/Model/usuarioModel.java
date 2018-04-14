@@ -93,6 +93,22 @@ public class usuarioModel {
         return false;
     }
     
+    public boolean pesquisarUsuario(String nome){
+        abrirConexao();
+        String sql = "select user from usuario where user = '"+nome+"';";
+        ResultSet resultado = Banco.consultar(sql);
+        try{
+            if(resultado.next()){
+                return true;
+            }else {
+                JOptionPane.showMessageDialog(null, "Usuário já cadastrado");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(usuarioModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
     public ArrayList pesquisar(String nomeUsuario) {
         abrirConexao();
         ArrayList lista=new ArrayList();

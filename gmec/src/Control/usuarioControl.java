@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  * @author felipe
  */
 public class usuarioControl {
+    //tela login
     public boolean verificarCampos(usuario user){
         if("".equals(user.getSenha().trim()))
             JOptionPane.showMessageDialog(null,"Digite uma senha");
@@ -58,6 +59,11 @@ public class usuarioControl {
             }
         }
         return false;
+    }
+    
+    public boolean pesquisarUsuario(String nome){
+        usuarioModel userModel = new usuarioModel();
+        return userModel.pesquisarUsuario(nome);
     }
     
     public ArrayList validarNomePesquisa(String nome) {

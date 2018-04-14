@@ -201,9 +201,9 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
     
     public void arrumarTela() {
-        CT_nome.setEditable(false);
-        B_novo.setEnabled(false);
-        B_pesquisa.setEnabled(false);
+        CT_nome.setEditable(true);
+        B_novo.setEnabled(true);
+        B_pesquisa.setEnabled(true);
         arrumaTabela();
     }
     

@@ -157,10 +157,13 @@ public class cadastroUsuario extends javax.swing.JDialog {
         usuario user = new usuario();
         user.setUser(CT_nomeUsuario.getText());
         user.setSenha(PF_senhaUsuario.getText());
-        if(validar.atualizarUsuario(user)){
-            arrumarTela();
-            this.dispose();
+        if(validar.pesquisarUsuario(user.getUser())){
+            validar.atualizarUsuario(user);
+        }else{
+            validar.validarCampos(user);
         }
+        arrumarTela();
+        this.dispose();
     }//GEN-LAST:event_B_salvarActionPerformed
 
     private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
@@ -173,7 +176,7 @@ public class cadastroUsuario extends javax.swing.JDialog {
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
         // TODO add your handling code here:
-        CT_nomeUsuario.setEditable(true);
+        CT_nomeUsuario.setEditable(false);
         PF_senhaUsuario.setEditable(true);
         B_salvar.setEnabled(true);
         B_alterar.setEnabled(false);
