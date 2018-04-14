@@ -25,6 +25,11 @@ public class vendaControl {
         return true;
     }
     
+    public ArrayList validarDataPesquisa(String data) {
+        vendasModel vendaModel = new vendasModel();
+        return vendaModel.pesquisarData(data);
+    }
+    
     public boolean dataValida(String data){
         String testar= data.replace("-","");
         try{

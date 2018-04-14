@@ -213,10 +213,14 @@ public class telaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_B_usuariosActionPerformed
 
     private void B_vendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_vendasActionPerformed
-        vendaPresencial venda = new vendaPresencial();
-        venda.setUsuario(CT_usuario.getText());
-        venda.setVisible(true);
+        listarVendaPresencial vendas = new listarVendaPresencial();
+        vendas.setUser(CT_usuario.getText());
+        vendas.setVisible(true);
         this.setVisible(false);
+//        vendaPresencial venda = new vendaPresencial();
+//        venda.setUsuario(CT_usuario.getText());
+//        venda.setVisible(true);
+//        this.setVisible(false);
     }//GEN-LAST:event_B_vendasActionPerformed
 
     /**

@@ -10,6 +10,7 @@ import Bank.infoBanco;
 import Objects.vendas;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,5 +101,26 @@ public class vendasModel {
         }
         return null;
     }
-    
+
+    public ArrayList pesquisarData(String dia){
+        abrirConexao();
+        ArrayList lista=new ArrayList();
+        String sql="select * from vendas where data_venda='"+dia+"';";
+        ResultSet resultado=Banco.consultar(sql);
+        try {
+            if(resultado.next()){
+                vendas venda = new vendas();
+                venda.setCodigo(Integer.parseInt(resultado.getString("codigo")));
+                venda.setDataVenda(resultado.getString("data_venda"));
+                venda.setTotal(Float.parseFloat(resultado.getString("total")));
+                lista.add(venda);
+                resultado.close();
+                return lista;
+            }else
+                JOptionPane.showMessageDialog(null,"Nenhuma venda localizada para o dia");
+        } catch (SQLException ex) {
+            Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

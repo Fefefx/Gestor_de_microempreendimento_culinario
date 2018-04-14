@@ -5,42 +5,44 @@
  */
 package UI;
 
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.MaskFormatter;
 import Control.produtoControl;
 import Control.vendaControl;
 import Objects.produtosVenda;
 import Objects.vendas;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
- * @author natty
+ * @author Beth
  */
-public class vendaPresencial extends javax.swing.JDialog {
+public class vendaPresencialteste extends javax.swing.JFrame {
 
     vendas venda = new vendas();
     private int codigoVenda = 0;
     ArrayList itens = new ArrayList();
     private boolean fechar = false;
     private String usuario;
-    
+
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
     
-    public vendaPresencial(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    /**
+     * Creates new form vendaPresencial
+     */
+    public vendaPresencialteste() {
         initComponents();
         desativaBTela();
     }
-    
+
     public void aplicarMascara() {
         try {
             MaskFormatter mascara = new MaskFormatter("##/##/####");
@@ -60,15 +62,14 @@ public class vendaPresencial extends javax.swing.JDialog {
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
     }
-    
+
     public void arrumaTela(vendas dados) {
         codigoVenda = dados.getCodigo();
-        //CT_dataVenda.setText("");
+        CT_dataVenda.setText("");
         CT_dataVenda.setText(dados.getDataVenda());
-        CT_total.setText(String.valueOf(dados.getTotal()));
         arrumaTabela(dados.retornarItens());
     }
-    
+
     public void arrumaTabela(ArrayList valores) {
         float valorTotal = 0;
         DefaultTableModel modelo = (DefaultTableModel) Tab_itens.getModel();
@@ -111,21 +112,22 @@ public class vendaPresencial extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        CT_produto = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tab_itens = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         CT_total = new javax.swing.JTextField();
         B_salvar = new javax.swing.JButton();
         b_pesquisar = new javax.swing.JButton();
         B_alterar = new javax.swing.JButton();
         B_excluir = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         CT_dataVenda = new javax.swing.JFormattedTextField();
-        CT_produto = new javax.swing.JTextField();
         B_removerItem = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Tab_itens = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gerenciar venda ");
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -137,44 +139,11 @@ public class vendaPresencial extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setText("Total da Venda:");
-
-        B_salvar.setText("Salvar");
-        B_salvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                B_salvarActionPerformed(evt);
-            }
-        });
-
-        b_pesquisar.setText("Pesquisar");
-        b_pesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_pesquisarActionPerformed(evt);
-            }
-        });
-
-        B_alterar.setText("Alterar");
-
-        B_excluir.setText("Excluir");
-
         jLabel1.setText("Produto:");
-
-        CT_dataVenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CT_dataVendaActionPerformed(evt);
-            }
-        });
 
         CT_produto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CT_produtoActionPerformed(evt);
-            }
-        });
-
-        B_removerItem.setText("Remover Item");
-        B_removerItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                B_removerItemActionPerformed(evt);
             }
         });
 
@@ -222,6 +191,39 @@ public class vendaPresencial extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(Tab_itens);
 
+        jLabel4.setText("Total da Venda:");
+
+        B_salvar.setText("Salvar");
+        B_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_salvarActionPerformed(evt);
+            }
+        });
+
+        b_pesquisar.setText("Pesquisar");
+        b_pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_pesquisarActionPerformed(evt);
+            }
+        });
+
+        B_alterar.setText("Alterar");
+
+        B_excluir.setText("Excluir");
+
+        CT_dataVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CT_dataVendaActionPerformed(evt);
+            }
+        });
+
+        B_removerItem.setText("Remover Item");
+        B_removerItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_removerItemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -247,9 +249,9 @@ public class vendaPresencial extends javax.swing.JDialog {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(32, 32, 32)
                         .addComponent(b_pesquisar)
-                        .addGap(58, 58, 58))))
+                        .addGap(44, 44, 44))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(B_salvar)
@@ -281,30 +283,16 @@ public class vendaPresencial extends javax.swing.JDialog {
                     .addComponent(B_salvar)
                     .addComponent(B_alterar)
                     .addComponent(B_excluir))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
-        vendaControl vendaControle = new vendaControl();
-        constroiVenda();
-        if (!vendaControle.verificarItens(venda)) {
-            JOptionPane.showMessageDialog(null, "Insira algum produto na venda");
-        } else {
-            String data = formataData();
-            constroiVenda(data);
-            venda.adicionarItens(itens);
-            if (vendaControle.salvarVenda(venda)) {
-                telaInicial start = new telaInicial();
-                start.arrumaTela(usuario);
-                start.setVisible(true);
-                fechar = true;
-                this.dispose();
-            }
-        }
-    }//GEN-LAST:event_B_salvarActionPerformed
+    private void CT_produtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_produtoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CT_produtoActionPerformed
 
     private void b_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pesquisarActionPerformed
         produtoControl validar = new produtoControl();
@@ -326,10 +314,6 @@ public class vendaPresencial extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_dataVendaActionPerformed
 
-    private void CT_produtoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_produtoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CT_produtoActionPerformed
-
     private void B_removerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_removerItemActionPerformed
         int valor = Tab_itens.getSelectedRow();
         if (valor == -1) {
@@ -341,17 +325,21 @@ public class vendaPresencial extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_B_removerItemActionPerformed
 
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+
+    }//GEN-LAST:event_formMouseClicked
+
     private void Tab_itensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_itensMouseClicked
         B_removerItem.setEnabled(true);
     }//GEN-LAST:event_Tab_itensMouseClicked
 
-    private void Tab_itensInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Tab_itensInputMethodTextChanged
-
-    }//GEN-LAST:event_Tab_itensInputMethodTextChanged
-
     private void Tab_itensCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Tab_itensCaretPositionChanged
 
     }//GEN-LAST:event_Tab_itensCaretPositionChanged
+
+    private void Tab_itensInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Tab_itensInputMethodTextChanged
+
+    }//GEN-LAST:event_Tab_itensInputMethodTextChanged
 
     private void Tab_itensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Tab_itensKeyPressed
         // TODO add your handling code here:
@@ -375,9 +363,24 @@ public class vendaPresencial extends javax.swing.JDialog {
         arrumaTabela(itens);
     }//GEN-LAST:event_Tab_itensKeyReleased
 
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formMouseClicked
+    private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
+        vendaControl vendaControle = new vendaControl();
+        constroiVenda();
+        if (!vendaControle.verificarItens(venda)) {
+            JOptionPane.showMessageDialog(null, "Insira algum produto na venda");
+        } else {
+            String data = formataData();
+            constroiVenda(data);
+            venda.adicionarItens(itens);
+            if (vendaControle.salvarVenda(venda)) {
+                telaInicial start = new telaInicial();
+                start.arrumaTela(usuario);
+                start.setVisible(true);
+                fechar = true;
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_B_salvarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         if (!fechar) {
@@ -411,7 +414,7 @@ public class vendaPresencial extends javax.swing.JDialog {
         System.out.println(formatar);
         return formatar;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -429,28 +432,21 @@ public class vendaPresencial extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(vendaPresencial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(vendaPresencialteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(vendaPresencial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(vendaPresencialteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(vendaPresencial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(vendaPresencialteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(vendaPresencial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(vendaPresencialteste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                vendaPresencial dialog = new vendaPresencial(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new vendaPresencialteste().setVisible(true);
             }
         });
     }

@@ -134,7 +134,7 @@ public class buscarProduto extends javax.swing.JFrame {
         prodVenda.setTotalProduto(prod.getValorUnitario());
         dadosDavenda.addItem(prodVenda);
         System.out.println("\nQtd da Lista em buscar produto "+dadosDavenda.retornarItens().size());
-        vendaPresencial vp= new vendaPresencial();
+        vendaPresencialteste vp= new vendaPresencialteste();
         vp.setUsuario(usuario);
         vp.arrumaTela(dadosDavenda);
         vp.setVisible(true);

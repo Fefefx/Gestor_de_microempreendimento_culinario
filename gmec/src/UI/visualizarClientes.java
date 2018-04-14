@@ -185,6 +185,7 @@ public class visualizarClientes extends javax.swing.JFrame {
         ini.arrumaTela(user);
         ini.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+    
     public void arrumaTabela() {
         ArrayList resultado = clientControl.validarNomePesquisa(CT_nome.getText());
         if (resultado != null) {

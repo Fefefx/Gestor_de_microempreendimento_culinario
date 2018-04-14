@@ -57,7 +57,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             mascara = new MaskFormatter("##/##/####");
             mascara.install(CT_data_encomenda);
         } catch (ParseException ex) {
-            Logger.getLogger(vendaPresencial.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(vendaPresencialteste.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
