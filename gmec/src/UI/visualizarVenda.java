@@ -191,6 +191,7 @@ public class visualizarVenda extends javax.swing.JFrame {
         vendaPresencial vp = new vendaPresencial();
         vp.arrumaTelaUpdate(vend);
         this.setVisible(false);
+        vp.setUsuario(user);
         vp.setVisible(true);
         fechar=true;
         this.dispose();
@@ -207,6 +208,7 @@ public class visualizarVenda extends javax.swing.JFrame {
 
     private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
         vendaPresencial vp= new vendaPresencial();
+        vp.setUsuario(user);
         vp.setVisible(true);
         fechar=true;
         this.dispose();

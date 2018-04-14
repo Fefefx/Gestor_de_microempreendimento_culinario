@@ -144,6 +144,7 @@ public class filtrarProduto extends javax.swing.JFrame {
         vendaEncomenda ve = new vendaEncomenda();
         ve.arrumaTela(dadosPedido);
         ve.armazenarDados(dadosPedido);
+        ve.arrumarCliente();
         ve.setVisible(true);
         System.out.println("\nCliente antes de enviar: "+dadosPedido.client.getNome());
         this.dispose();

@@ -444,6 +444,7 @@ public class vendaPresencial extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         if (!fechar) {
             visualizarVenda voltar = new visualizarVenda();
+            voltar.setUser(usuario);
             voltar.setVisible(true);
             this.dispose();
         }

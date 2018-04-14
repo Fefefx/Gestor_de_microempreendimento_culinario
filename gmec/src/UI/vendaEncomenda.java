@@ -72,6 +72,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_excluir.setEnabled(false);
         B_alterar.setEnabled(false);
         Tab_itens.setEnabled(false);
+        CT_total.setEditable(false);
     }
 
     public void liberarEncomenda() {
@@ -150,7 +151,6 @@ public class vendaEncomenda extends javax.swing.JFrame {
         }
         String[] linha = new String[3];
         linha[0] = pedido.client.getNome();
-        System.out.println("\nCliente: " + linha[0]);
         linha[1] = pedido.client.getEndereco();
         linha[2] = String.valueOf(pedido.client.getTelefone());
         modelo.addRow(linha);
@@ -264,6 +264,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
                 "Produto", "Quantidade", "Valor Unitário", "Total"
             }
         ));
+        Tab_itens.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_itensMouseClicked(evt);
+            }
+        });
         Tab_itens.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Tab_itensKeyReleased(evt);
@@ -288,6 +293,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_excluir.setText("Excluir");
 
         B_removerItem.setText("Remover Item");
+        B_removerItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_removerItemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -315,27 +325,28 @@ public class vendaEncomenda extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(B_pesquisa_cliente))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)
                                 .addComponent(B_pesquisar_produtos))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(42, 42, 42)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(103, 103, 103)
+                                        .addGap(114, 114, 114)
                                         .addComponent(B_salvar)
                                         .addGap(43, 43, 43)
                                         .addComponent(B_alterar)
                                         .addGap(37, 37, 37)
                                         .addComponent(B_excluir))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
                                         .addComponent(CT_data_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(26, 26, 26)
                                         .addComponent(B_removerItem)))))
@@ -359,8 +370,8 @@ public class vendaEncomenda extends javax.swing.JFrame {
                     .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(B_pesquisar_produtos))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(CT_data_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -466,6 +477,19 @@ public class vendaEncomenda extends javax.swing.JFrame {
         itens.add(posicao, prodVenda);
         arrumaTabela(itens);
     }//GEN-LAST:event_Tab_itensKeyReleased
+
+    private void Tab_itensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_itensMouseClicked
+        B_removerItem.setEnabled(true);
+    }//GEN-LAST:event_Tab_itensMouseClicked
+
+    private void B_removerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_removerItemActionPerformed
+        int res= Tab_itens.getSelectedRow();
+        if(res!=-1){
+            itens.remove(res);
+            arrumaTabela(itens);
+        }else
+            B_removerItem.setEnabled(false);
+    }//GEN-LAST:event_B_removerItemActionPerformed
 
     public void constroiEncomenda() {
         pedido.setCodigoEncomenda(codigoEncomenda);
