@@ -142,6 +142,8 @@ public class buscarProduto extends javax.swing.JFrame {
         vendaPresencial vp = new vendaPresencial();
         vp.setUsuario(usuario);
         vp.arrumaTela(dadosDavenda);
+        if(dadosDavenda.getCodigo()!=0)
+            vp.organizarUpdate();
         fechar = true;
         vp.setVisible(true);
         this.dispose();
@@ -152,6 +154,8 @@ public class buscarProduto extends javax.swing.JFrame {
             vendaPresencial vp = new vendaPresencial();
             vp.setUsuario(usuario);
             vp.arrumaTela(dadosDavenda);
+            if(dadosDavenda.getCodigo()!=0)
+                vp.organizarUpdate();
             vp.setVisible(true);
             this.dispose();
         }

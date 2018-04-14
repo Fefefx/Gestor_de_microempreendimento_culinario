@@ -33,26 +33,49 @@ public class vendaControl {
     }
 
     public boolean dataValida(String data) {
-        String testar = data.replace("-", "");
-        try {
-            int tentar = Integer.parseInt(testar);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Digite apenas numeros na data");
+        String teste = data.replace(" ", "");
+        if (!teste.isEmpty()) {
+            return true;
         }
         return false;
     }
 
     public boolean salvarVenda(vendas vender) {
-        vendasModel salvaVenda = new vendasModel();
-        salvaVenda.inserir(vender);
-        ArrayList itens = vender.retornarItens();
-        vendas registro = salvaVenda.pesquisar(vender.getDataVenda());
-        for (int i = 0; i < itens.size(); i++) {
-            produtosVenda item = (produtosVenda) itens.get(i);
-            item.setCodigoVenda(registro.getCodigo());
-            produtosVendaModel salvaItem = new produtosVendaModel();
-            if (salvaItem.inserir(item)) {
-                return true;
+        boolean check = false;
+        if (dataValida(vender.getDataVenda())) {
+            vendasModel salvaVenda = new vendasModel();
+            salvaVenda.inserir(vender);
+            ArrayList itens = vender.retornarItens();
+            vendas registro = salvaVenda.pesquisar(vender.getDataVenda());
+            for (int i = 0; i < itens.size(); i++) {
+                produtosVenda item = (produtosVenda) itens.get(i);
+                item.setCodigoVenda(registro.getCodigo());
+                produtosVendaModel salvaItem = new produtosVendaModel();
+                if (salvaItem.inserir(item)) {
+                    check = true;
+                }
+            }
+            return check;
+        }
+        return false;
+    }
+
+    public boolean atualizaVenda(vendas vender) {
+        boolean check=false;
+        if (dataValida(vender.getDataVenda())) {
+            vendasModel atualizaVenda = new vendasModel();
+            produtosVendaModel pv = new produtosVendaModel();
+            atualizaVenda.atualizar(vender);
+            ArrayList itens = vender.retornarItens();
+            if (pv.excluirTodos(vender.getCodigo())) {
+                for (int i = 0; i < itens.size(); i++) {
+                    produtosVenda item = (produtosVenda) itens.get(i);
+                    produtosVendaModel salvaItem = new produtosVendaModel();
+                    if(salvaItem.inserir(item)){
+                        check=true;
+                    }
+                }
+               return check; 
             }
         }
         return false;
@@ -75,5 +98,10 @@ public class vendaControl {
     public ArrayList devolverTudo() {
         vendasModel buscar = new vendasModel();
         return buscar.retornarTudo();
+    }
+    
+    public boolean excluirVenda(int codigo){
+        vendasModel deletar= new vendasModel();
+        return deletar.excluir(codigo);
     }
 }

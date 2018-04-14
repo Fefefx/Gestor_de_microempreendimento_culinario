@@ -56,11 +56,37 @@ public class vendaPresencial extends javax.swing.JFrame {
     }
 
     public void arrumaTela(vendas dados) {
-        System.out.println("\nData: "+dados.getDataVenda());
         codigoVenda = dados.getCodigo();
         CT_dataVenda.setText(dados.getDataVenda());
         CT_total.setText(String.valueOf(dados.getTotal()));
         arrumaTabela(dados.retornarItens());
+    }
+
+    public void arrumaTelaUpdate(vendas dados) {
+        codigoVenda = dados.getCodigo();
+        CT_produto.setEditable(false);
+        CT_dataVenda.setText(dados.getDataVenda());
+        CT_dataVenda.setEditable(false);
+        CT_total.setText(String.valueOf(dados.getTotal()));
+        CT_total.setEditable(false);
+        Tab_itens.setEnabled(false);
+        B_removerItem.setEnabled(false);
+        b_pesquisar.setEnabled(false);
+        B_alterar.setEnabled(true);
+        B_salvar.setEnabled(false);
+        B_excluir.setEnabled(true);
+        arrumaTabela(dados.retornarItens());
+    }
+
+    public void arrumaTelaInsert() {
+        CT_dataVenda.setEditable(true);
+        CT_produto.setEditable(true);
+        CT_total.setEditable(false);
+        B_removerItem.setEnabled(false);
+        B_salvar.setEnabled(false);
+        B_excluir.setEnabled(false);
+        B_alterar.setEnabled(false);
+        CT_produto.requestFocus();
     }
 
     public void arrumaTabela(ArrayList valores) {
@@ -102,6 +128,9 @@ public class vendaPresencial extends javax.swing.JFrame {
     public vendaPresencial() {
         initComponents();
         aplicarMascara();
+        if (codigoVenda == 0) {
+            arrumaTelaInsert();
+        }
     }
 
     /**
@@ -183,11 +212,11 @@ public class vendaPresencial extends javax.swing.JFrame {
             }
         });
         Tab_itens.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                Tab_itensCaretPositionChanged(evt);
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 Tab_itensInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                Tab_itensCaretPositionChanged(evt);
             }
         });
         Tab_itens.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -215,8 +244,18 @@ public class vendaPresencial extends javax.swing.JFrame {
         });
 
         B_alterar.setText("Alterar");
+        B_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_alterarActionPerformed(evt);
+            }
+        });
 
         B_excluir.setText("Excluir");
+        B_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_excluirActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Total da Venda:");
 
@@ -227,45 +266,53 @@ public class vendaPresencial extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addContainerGap(567, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(B_removerItem)
+                .addContainerGap(326, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(B_salvar)
+                .addGap(18, 18, 18)
+                .addComponent(B_alterar)
+                .addGap(18, 18, 18)
+                .addComponent(B_excluir)
+                .addGap(25, 25, 25))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(16, 16, 16)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(94, 94, 94)
-                                .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(B_removerItem))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(CT_dataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(b_pesquisar)
-                                .addGap(2, 2, 2)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(B_salvar)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CT_dataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(B_alterar)
-                            .addGap(17, 17, 17)
-                            .addComponent(B_excluir)
-                            .addGap(8, 8, 8)))
-                    .addGap(16, 16, 16)))
+                            .addComponent(b_pesquisar)
+                            .addGap(18, 18, 18))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(16, 16, 16)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(211, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(75, 75, 75))
+                .addContainerGap(207, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(B_removerItem))
+                    .addComponent(jLabel4))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(B_alterar)
+                    .addComponent(B_salvar)
+                    .addComponent(B_excluir))
+                .addGap(26, 26, 26))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(27, 27, 27)
@@ -277,16 +324,7 @@ public class vendaPresencial extends javax.swing.JFrame {
                         .addComponent(CT_dataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(33, 33, 33)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(34, 34, 34)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(B_removerItem))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(B_salvar)
-                        .addComponent(B_alterar)
-                        .addComponent(B_excluir))
-                    .addContainerGap(28, Short.MAX_VALUE)))
+                    .addContainerGap(126, Short.MAX_VALUE)))
         );
 
         pack();
@@ -349,6 +387,12 @@ public class vendaPresencial extends javax.swing.JFrame {
         itens.remove(posicao);
         itens.add(posicao, prodVenda);
         arrumaTabela(itens);
+        if (codigoVenda != 0) {
+            B_alterar.setEnabled(false);
+            B_excluir.setEnabled(false);
+            B_salvar.setEnabled(true);
+            B_removerItem.setEnabled(false);
+        }
     }//GEN-LAST:event_Tab_itensKeyReleased
 
     private void B_removerItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_removerItemActionPerformed
@@ -359,6 +403,12 @@ public class vendaPresencial extends javax.swing.JFrame {
             itens.remove(valor);
             arrumaTabela(itens);
             B_removerItem.setEnabled(false);
+            if (codigoVenda != 0) {
+                B_alterar.setEnabled(false);
+                B_excluir.setEnabled(false);
+                B_salvar.setEnabled(true);
+                B_removerItem.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_B_removerItemActionPerformed
 
@@ -371,23 +421,59 @@ public class vendaPresencial extends javax.swing.JFrame {
             String data = formataData();
             constroiVenda(data);
             venda.adicionarItens(itens);
-            if (vendaControle.salvarVenda(venda)) {
-                telaInicial start = new telaInicial();
-                start.arrumaTela(usuario);
-                start.setVisible(true);
-                fechar = true;
-                this.dispose();
+            if (codigoVenda == 0) {
+                if (vendaControle.salvarVenda(venda)) {
+                    retornarInicio();
+                }
+            } else {
+                if (vendaControle.atualizaVenda(venda)) {
+                    retornarInicio();
+                }
             }
         }
     }//GEN-LAST:event_B_salvarActionPerformed
 
+    public void retornarInicio(){
+        visualizarVenda back= new visualizarVenda();
+        back.setVisible(true);
+        back.setUser(usuario);
+        fechar=true;
+        this.dispose();
+    }
+    
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        if(!fechar){
+        if (!fechar) {
             visualizarVenda voltar = new visualizarVenda();
             voltar.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_formWindowClosed
+
+    private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        organizarUpdate();
+    }//GEN-LAST:event_B_alterarActionPerformed
+
+    private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
+        int res=JOptionPane.showConfirmDialog(null,"Certeza que deseja excluir a venda ?");
+        if(res==0){
+            vendaControl vc = new vendaControl();
+            if(vc.excluirVenda(codigoVenda)){
+                retornarInicio();
+            }
+        }
+    }//GEN-LAST:event_B_excluirActionPerformed
+
+    public void organizarUpdate() {
+        CT_produto.setEditable(true);
+        CT_produto.requestFocus();
+        Tab_itens.setEnabled(true);
+        CT_dataVenda.setEditable(true);
+        b_pesquisar.setEnabled(true);
+        B_removerItem.setEnabled(false);
+        B_alterar.setEnabled(false);
+        B_salvar.setEnabled(true);
+        B_excluir.setEnabled(false);
+    }
 
     public void constroiVenda() {
         venda.setCodigo(codigoVenda);
