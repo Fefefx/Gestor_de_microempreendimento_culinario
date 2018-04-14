@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 package UI;
+import java.util.Date;
+import Control.vendaControl;
+import Objects.vendas;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -11,6 +16,9 @@ package UI;
  */
 public class visualizarVenda extends javax.swing.JFrame {
 
+    vendaControl controle= new vendaControl();
+    ArrayList listaVendas= new ArrayList();
+    
     /**
      * Creates new form visualizarVenda
      */
@@ -28,27 +36,57 @@ public class visualizarVenda extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        CAL_dataInicial = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tab_vendas = new javax.swing.JTable();
+        B_filtrar = new javax.swing.JButton();
+        B_listarTudo = new javax.swing.JButton();
+        CAL_datafinal = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Listar Vendas");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Selecione uma Data:");
+        jLabel1.setText("De:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tab_vendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Venda do dia", "Total"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(Tab_vendas);
+
+        B_filtrar.setText("Filtrar");
+        B_filtrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_filtrarActionPerformed(evt);
+            }
+        });
+
+        B_listarTudo.setText("Limpar");
+        B_listarTudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_listarTudoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Até:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -57,30 +95,80 @@ public class visualizarVenda extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                        .addContainerGap()
                         .addComponent(jLabel1)
+                        .addGap(21, 21, 21)
+                        .addComponent(CAL_dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(CAL_datafinal, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(B_filtrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(B_listarTudo))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(CAL_dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CAL_datafinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(B_filtrar)
+                        .addComponent(B_listarTudo)))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void B_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_filtrarActionPerformed
+        Date dataInicial =CAL_dataInicial.getDate();
+        Date dataFinal=CAL_datafinal.getDate();
+        listaVendas=controle.formatarData(dataInicial, dataFinal);
+        if(listaVendas!=null){
+            arrumarTabela();
+        }
+    }//GEN-LAST:event_B_filtrarActionPerformed
+
+    private void B_listarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_listarTudoActionPerformed
+        CAL_dataInicial.setDate(null);
+        CAL_datafinal.setDate(null);
+        listaVendas=controle.devolverTudo();
+        arrumarTabela();
+    }//GEN-LAST:event_B_listarTudoActionPerformed
+
+    public void arrumarTabela(){
+        DefaultTableModel modelo= (DefaultTableModel) Tab_vendas.getModel();
+        while(modelo.getRowCount()!=0)
+            modelo.removeRow(0);
+        for(int i=0;i<listaVendas.size();i++){
+            String[] linha=new String[4];
+            vendas venda= (vendas) listaVendas.get(i);
+            linha[0]=formataData(venda.getDataVenda());
+            linha[1]="R$ "+venda.getTotal();
+            modelo.addRow(linha);
+        }
+        Tab_vendas.setModel(modelo);
+    }
+    
+    public String formataData(String data){
+        String dataFormatada=data.substring(8,10)+"/"+data.substring(5,7)+"/"+data.substring(0,4);
+        return dataFormatada;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -117,9 +205,13 @@ public class visualizarVenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton B_filtrar;
+    private javax.swing.JButton B_listarTudo;
+    private com.toedter.calendar.JDateChooser CAL_dataInicial;
+    private com.toedter.calendar.JDateChooser CAL_datafinal;
+    private javax.swing.JTable Tab_vendas;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

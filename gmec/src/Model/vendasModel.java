@@ -82,33 +82,35 @@ public class vendasModel {
         }
         return false;
     }
+
     //Retorna dados de uma venda
-    public vendas pesquisar(String dia){
+    public vendas pesquisar(String dia) {
         abrirConexao();
-        String sql="select * from vendas where data_venda='"+dia+"';";
-        ResultSet resultado=Banco.consultar(sql);
+        String sql = "select * from vendas where data_venda='" + dia + "';";
+        ResultSet resultado = Banco.consultar(sql);
         try {
-            if(resultado.next()){
+            if (resultado.next()) {
                 vendas res = new vendas();
                 res.setCodigo(Integer.parseInt(resultado.getString("codigo")));
                 res.setDataVenda(resultado.getString("data_venda"));
                 res.setTotal(Float.parseFloat(resultado.getString("total")));
                 return res;
-            }else
-                JOptionPane.showMessageDialog(null,"Nenhuma venda localizada para o dia");
+            } else {
+                JOptionPane.showMessageDialog(null, "Nenhuma venda localizada para o dia");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    public ArrayList pesquisarData(String dia){
+    public ArrayList pesquisarData(String dia) {
         abrirConexao();
-        ArrayList lista=new ArrayList();
-        String sql="select * from vendas where data_venda='"+dia+"';";
-        ResultSet resultado=Banco.consultar(sql);
+        ArrayList lista = new ArrayList();
+        String sql = "select * from vendas where data_venda='" + dia + "';";
+        ResultSet resultado = Banco.consultar(sql);
         try {
-            if(resultado.next()){
+            if (resultado.next()) {
                 vendas venda = new vendas();
                 venda.setCodigo(Integer.parseInt(resultado.getString("codigo")));
                 venda.setDataVenda(resultado.getString("data_venda"));
@@ -116,8 +118,53 @@ public class vendasModel {
                 lista.add(venda);
                 resultado.close();
                 return lista;
-            }else
-                JOptionPane.showMessageDialog(null,"Nenhuma venda localizada para o dia");
+            } else {
+                JOptionPane.showMessageDialog(null, "Nenhuma venda localizada para o dia");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public ArrayList pesquisarIntervalo(String Ini, String Fim) {
+        abrirConexao();
+        ArrayList lista = new ArrayList();
+        String sql = "select * from vendas where data_venda>='" + Ini + "' and data_venda<='" + Fim + "';";
+        System.out.println("\n" + sql);
+        ResultSet resultado = Banco.consultar(sql);
+        try {
+            while (resultado.next()) {
+                vendas venda = new vendas();
+                venda.setCodigo(Integer.parseInt(resultado.getString("codigo")));
+                venda.setDataVenda(resultado.getString("data_venda"));
+                venda.setTotal(Float.parseFloat(resultado.getString("total")));
+                lista.add(venda);
+            }
+            resultado.close();
+            return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public ArrayList retornarTudo() {
+        abrirConexao();
+        ArrayList lista = new ArrayList();
+        String sql = "select * from vendas;";
+        System.out.println("\n" + sql);
+        ResultSet resultado = Banco.consultar(sql);
+        try {
+            while (resultado.next()) {
+                vendas venda = new vendas();
+                venda.setCodigo(Integer.parseInt(resultado.getString("codigo")));
+                venda.setDataVenda(resultado.getString("data_venda"));
+                venda.setTotal(Float.parseFloat(resultado.getString("total")));
+                lista.add(venda);
+            }
+            resultado.close();
+            return lista;
         } catch (SQLException ex) {
             Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
         }
