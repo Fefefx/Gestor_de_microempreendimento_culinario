@@ -51,6 +51,13 @@ public class vendaEncomenda extends javax.swing.JFrame {
         return formatar;
     }
 
+    public String Dataformatar(String atualizar) {
+        String formatar = atualizar.replace("-", "");
+        formatar = formatar.substring(6) + "/" + formatar.substring(4, 6) + "/" + formatar.substring(0, 4);
+        System.out.println(formatar);
+        return formatar;
+    }
+
     public void aplicarMascara() {
         try {
             MaskFormatter mascara = new MaskFormatter("##/##/####");
@@ -74,8 +81,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_alterar.setEnabled(false);
         Tab_itens.setEnabled(false);
         CT_total.setEditable(false);
-        if(pedido.isStatus())
-            CC_situacao.setSelectedIndex(1);
+        CC_situacao.setEnabled(false);
     }
 
     public void liberarEncomenda() {
@@ -85,14 +91,29 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_data_entrega.setEnabled(true);
         CT_total.setEnabled(true);
         B_salvar.setEnabled(true);
+        B_excluir.setEnabled(false);
+        B_alterar.setEnabled(false);
+        CT_produto.requestFocus();
+        Tab_itens.setEnabled(true);
+        CC_situacao.setEnabled(true);
+    }
+
+    public void liberarEncomendaUpdate() {
+        CT_produto.setEnabled(true);
+        B_pesquisar_produtos.setEnabled(false);
+        B_removerItem.setEnabled(false);
+        CT_data_entrega.setEnabled(true);
+        CT_total.setEnabled(true);
+        B_salvar.setEnabled(false);
         B_excluir.setEnabled(true);
         B_alterar.setEnabled(true);
         CT_produto.requestFocus();
-        Tab_itens.setEnabled(true);
+        Tab_itens.setEnabled(false);
+        CC_situacao.setEnabled(false);
+        Tab_cliente.setEnabled(true);
     }
 
     public void arrumaTela(encomenda dados) {
-
         codigoEncomenda = dados.getCodigoEncomenda();
         CT_data_encomenda.setText("");
         CT_data_encomenda.setText(dados.getDiaPedido());
@@ -158,11 +179,40 @@ public class vendaEncomenda extends javax.swing.JFrame {
         linha[2] = String.valueOf(pedido.client.getTelefone());
         modelo.addRow(linha);
         Tab_cliente.setModel(modelo);
-        liberarEncomenda();
+        if (codigoEncomenda == 0) {
+            liberarEncomenda();
+        }
     }
 
     public void armazenarDados(encomenda dados) {
         pedido = dados;
+        codigoEncomenda = pedido.getCodigoEncomenda();
+    }
+
+    public void arrumaTelaUpdate(encomenda pedido) {
+        arrumarCliente();
+        CT_cliente.setEditable(false);
+        CT_data_encomenda.setEditable(false);
+        CT_data_encomenda.setText(Dataformatar(pedido.getDiaPedido()));
+        CT_data_entrega.setText(Dataformatar(pedido.getDiaEntrega()));
+        CT_data_entrega.setEditable(false);
+        B_pesquisa_cliente.setEnabled(false);
+        CT_produto.setEditable(false);
+        B_pesquisar_produtos.setEnabled(false);
+        Tab_cliente.setEnabled(false);
+        Tab_itens.setEnabled(false);
+        CT_total.setEditable(false);
+        B_removerItem.setEnabled(false);
+        CC_situacao.setEnabled(false);
+        B_pesquisar_produtos.setEnabled(false);
+        CC_situacao.setEnabled(false);
+        if (pedido.isStatus()) {
+            CC_situacao.setSelectedIndex(1);
+        } else {
+            CC_situacao.setSelectedIndex(0);
+        }
+        liberarEncomendaUpdate();
+        arrumaTabela(pedido.retornarItens());
     }
 
     /**
@@ -299,6 +349,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
         });
 
         B_alterar.setText("Alterar");
+        B_alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_alterarActionPerformed(evt);
+            }
+        });
 
         B_excluir.setText("Excluir");
 
@@ -538,6 +593,23 @@ public class vendaEncomenda extends javax.swing.JFrame {
         }
         System.out.println("Status: " + pedido.isStatus());
     }//GEN-LAST:event_CC_situacaoActionPerformed
+
+    private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        B_alterar.setEnabled(false);
+        B_excluir.setEnabled(false);
+        B_salvar.setEnabled(true);
+        CT_data_entrega.setEditable(true);
+        CT_total.setEditable(false);
+        B_removerItem.setEnabled(true);
+        CC_situacao.setEnabled(true);
+        Tab_itens.setEnabled(true);
+        CT_produto.setEditable(false);
+        B_pesquisar_produtos.setEnabled(true);
+        B_pesquisa_cliente.setEnabled(true);
+        CT_cliente.setEditable(true);
+        CT_data_encomenda.setEditable(true);
+        CT_produto.setEditable(true);
+    }//GEN-LAST:event_B_alterarActionPerformed
 
     public void constroiEncomenda() {
         pedido.setCodigoEncomenda(codigoEncomenda);

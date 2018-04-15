@@ -136,6 +136,8 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         constroiEncomenda();
         vendaEncomenda ve = new vendaEncomenda();
         fechar = true;
+        ve.armazenarDados(pedido);
+        ve.arrumaTelaUpdate(pedido);
         ve.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Tab_encomendasMouseClicked
