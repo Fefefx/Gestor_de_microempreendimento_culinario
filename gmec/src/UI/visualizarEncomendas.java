@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class visualizarEncomendas extends javax.swing.JFrame {
 
     ArrayList listaEncomendas = new ArrayList();
-    encomenda  pedido = new encomenda();
+    encomenda pedido = new encomenda();
     private boolean fechar;
 
     /**
@@ -47,6 +47,11 @@ public class visualizarEncomendas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Localizar venda");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel2.setText("Digite um cliente:");
 
@@ -143,12 +148,19 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     }//GEN-LAST:event_Tab_encomendasMouseClicked
 
     private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
-        if (!fechar) {
+            fechar=true;
             vendaEncomenda ve = new vendaEncomenda();
             ve.setVisible(true);
             this.dispose();
-        }
     }//GEN-LAST:event_B_novoActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if (!fechar) {
+            telaInicial start = new telaInicial();
+            start.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     public void arrumaTabela() {
         encomendaControl enco = new encomendaControl();
@@ -173,9 +185,9 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         String dataFormatada = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4);
         return dataFormatada;
     }
-    
-    public void constroiEncomenda(){
-        produtoEncomendaControl localizarItens= new produtoEncomendaControl();
+
+    public void constroiEncomenda() {
+        produtoEncomendaControl localizarItens = new produtoEncomendaControl();
         pedido.adicionarItens(localizarItens.localizarProdutos(pedido.getCodigoEncomenda()));
     }
 

@@ -33,13 +33,24 @@ public class encomendaControl {
         }
         return false;
     }
-    
-    public ArrayList pesquisarEncomendas(String nome){
-        String testar=nome.replace(" ","");
-        if(testar.isEmpty())
-            nome=testar;
-        encomendaModel pesquisar= new encomendaModel();
-        ArrayList validar=pesquisar.pesquisar(nome);
+
+    public ArrayList pesquisarEncomendas(String nome) {
+        String testar = nome.replace(" ", "");
+        if (testar.isEmpty()) {
+            nome = testar;
+        }
+        encomendaModel pesquisar = new encomendaModel();
+        ArrayList validar = pesquisar.pesquisar(nome);
         return validar;
     }
+
+    public boolean excluir(encomenda enco) {
+        encomendaModel deletarEncomenda = new encomendaModel();
+        produtosEncomendaModel deletarItens = new produtosEncomendaModel();
+        if (deletarItens.excluirTodos(enco.getCodigoEncomenda())) {
+            return deletarEncomenda.excluir(enco.getCodigoEncomenda()); 
+        }
+        return false;
+    }
+
 }

@@ -90,7 +90,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="B_alterar" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                       <Component id="B_excluir" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="CC_situacao" min="-2" pref="127" max="-2" attributes="0"/>
@@ -132,7 +132,7 @@
                   <Component id="CC_situacao" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="34" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CT_total" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -326,6 +326,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Excluir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="B_excluirActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="B_removerItem">
       <Properties>

@@ -19,10 +19,12 @@ public class listarClientes extends javax.swing.JDialog {
 
     private cliente client = new cliente();
     private boolean controle = false;
+ 
 
     public boolean isControle() {
         return controle;
     }
+   
 
     /**
      * Creates new form listarClientes

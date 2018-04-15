@@ -29,10 +29,10 @@ public class filtrarProduto extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void armazenarDados(encomenda pedido){
-        dadosPedido=pedido;
+    public void armazenarDados(encomenda pedido) {
+        dadosPedido = pedido;
     }
-    
+
     public void arrumaTabela(String pesquisar) {
         produtoControl acessar = new produtoControl();
         lista = acessar.validarNomePesquisa(pesquisar);
@@ -46,7 +46,7 @@ public class filtrarProduto extends javax.swing.JFrame {
                 prod = (produto) lista.get(i);
                 String[] linha = new String[4];
                 linha[0] = prod.getNome();
-                linha[1] = "R$ "+prod.getValorUnitario();
+                linha[1] = "R$ " + prod.getValorUnitario();
                 modelo.addRow(linha);
                 Tab_produtos.setModel(modelo);
             }
@@ -132,9 +132,9 @@ public class filtrarProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Tab_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_produtosMouseClicked
-        int posicao=Tab_produtos.getSelectedRow();
-        produto prod= (produto) lista.get(posicao);
-        produtosEncomenda prodEncomenda= new produtosEncomenda();
+        int posicao = Tab_produtos.getSelectedRow();
+        produto prod = (produto) lista.get(posicao);
+        produtosEncomenda prodEncomenda = new produtosEncomenda();
         prodEncomenda.setCodigoProduto(prod.getCodigo());
         prodEncomenda.setNome(prod.getNome());
         prodEncomenda.setQuantidade(1);
@@ -145,8 +145,11 @@ public class filtrarProduto extends javax.swing.JFrame {
         ve.arrumaTela(dadosPedido);
         ve.armazenarDados(dadosPedido);
         ve.arrumarCliente();
+        if (dadosPedido.getCodigoEncomenda() != 0) {
+            ve.liberarAlterar();
+        }
         ve.setVisible(true);
-        System.out.println("\nCliente antes de enviar: "+dadosPedido.client.getNome());
+        System.out.println("\nCliente antes de enviar: " + dadosPedido.client.getNome());
         this.dispose();
     }//GEN-LAST:event_Tab_produtosMouseClicked
 

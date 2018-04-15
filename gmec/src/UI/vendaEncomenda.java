@@ -356,6 +356,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
         });
 
         B_excluir.setText("Excluir");
+        B_excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_excluirActionPerformed(evt);
+            }
+        });
 
         B_removerItem.setText("Remover Item");
         B_removerItem.addActionListener(new java.awt.event.ActionListener() {
@@ -429,7 +434,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(B_alterar)
-                                        .addGap(37, 37, 37)
+                                        .addGap(45, 45, 45)
                                         .addComponent(B_excluir))
                                     .addComponent(CC_situacao, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -460,7 +465,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
                     .addComponent(B_removerItem)
                     .addComponent(CC_situacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -488,9 +493,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         if (!fechar) {
-            telaInicial start = new telaInicial();
-            start.arrumaTela(user);
-            start.setVisible(true);
+            visualizarEncomendas visu = new visualizarEncomendas();
+            visu.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_formWindowClosed
 
@@ -523,6 +528,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
             pedido.client = localizar.getClient();
             System.out.println("Cliente: " + pedido.client.getNome());
             arrumarCliente();
+            if (pedido.getCodigoEncomenda() != 0) {
+                liberarAlterar();
+            }
         }
     }//GEN-LAST:event_B_pesquisa_clienteActionPerformed
 
@@ -560,6 +568,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
         itens.remove(posicao);
         itens.add(posicao, prodVenda);
         arrumaTabela(itens);
+        if (pedido.getCodigoEncomenda() != 0) {
+            liberarAlterar();
+        }
     }//GEN-LAST:event_Tab_itensKeyReleased
 
     private void Tab_itensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_itensMouseClicked
@@ -573,6 +584,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
             arrumaTabela(itens);
         }
         B_removerItem.setEnabled(false);
+        if (pedido.getCodigoEncomenda() != 0) {
+            liberarAlterar();
+        }
     }//GEN-LAST:event_B_removerItemActionPerformed
 
     private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
@@ -595,6 +609,23 @@ public class vendaEncomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_CC_situacaoActionPerformed
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
+        liberarAlterar();
+    }//GEN-LAST:event_B_alterarActionPerformed
+
+    private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
+        int res = JOptionPane.showConfirmDialog(null, "Deseja excluir a venda ?");
+        if (res == 0) {
+            encomendaControl deletar = new encomendaControl();
+            if (deletar.excluir(pedido)) {
+                fechar = true;
+                visualizarEncomendas visu = new visualizarEncomendas();
+                visu.setVisible(true);
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_B_excluirActionPerformed
+
+    public void liberarAlterar() {
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
         B_salvar.setEnabled(true);
@@ -603,13 +634,23 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_removerItem.setEnabled(true);
         CC_situacao.setEnabled(true);
         Tab_itens.setEnabled(true);
-        CT_produto.setEditable(false);
+        CT_produto.setEditable(true);
+        CT_produto.setEnabled(true);
+        CT_data_entrega.setEditable(true);
+        CT_data_entrega.setEnabled(true);
         B_pesquisar_produtos.setEnabled(true);
         B_pesquisa_cliente.setEnabled(true);
         CT_cliente.setEditable(true);
         CT_data_encomenda.setEditable(true);
         CT_produto.setEditable(true);
-    }//GEN-LAST:event_B_alterarActionPerformed
+        CT_total.setEnabled(true);
+        B_removerItem.setEnabled(false);
+        if (pedido.isStatus()) {
+            CC_situacao.setSelectedIndex(1);
+        } else {
+            CC_situacao.setSelectedIndex(0);
+        }
+    }
 
     public void constroiEncomenda() {
         pedido.setCodigoEncomenda(codigoEncomenda);
