@@ -147,7 +147,8 @@ public class filtrarProduto extends javax.swing.JFrame {
         ve.arrumarCliente();
         if (dadosPedido.getCodigoEncomenda() != 0) {
             ve.liberarAlterar();
-        }
+        }else
+            ve.arrumarCombo();
         ve.setVisible(true);
         System.out.println("\nCliente antes de enviar: " + dadosPedido.client.getNome());
         this.dispose();

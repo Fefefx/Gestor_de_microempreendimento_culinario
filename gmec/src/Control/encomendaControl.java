@@ -48,7 +48,26 @@ public class encomendaControl {
         encomendaModel deletarEncomenda = new encomendaModel();
         produtosEncomendaModel deletarItens = new produtosEncomendaModel();
         if (deletarItens.excluirTodos(enco.getCodigoEncomenda())) {
-            return deletarEncomenda.excluir(enco.getCodigoEncomenda()); 
+            return deletarEncomenda.excluir(enco.getCodigoEncomenda());
+        }
+        return false;
+    }
+
+    public boolean atualizar(encomenda enco) {
+        encomendaModel update = new encomendaModel();
+        if (update.atualizar(enco)) {
+            produtosEncomendaModel itens = new produtosEncomendaModel();
+            if (itens.excluirTodos(enco.getCodigoEncomenda())) {
+                ArrayList lista = enco.retornarItens();
+                for (int i = 0; i < lista.size(); i++) {
+                    produtosEncomenda item = (produtosEncomenda) lista.get(i);
+                    item.setCodigoEncomenda(enco.getCodigoEncomenda());
+                    if (!itens.inserir(item)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
         return false;
     }

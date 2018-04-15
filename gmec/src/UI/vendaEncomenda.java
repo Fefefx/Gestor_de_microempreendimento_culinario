@@ -215,6 +215,14 @@ public class vendaEncomenda extends javax.swing.JFrame {
         arrumaTabela(pedido.retornarItens());
     }
 
+    public void arrumarCombo() {
+        if (pedido.isStatus()) {
+            CC_situacao.setSelectedIndex(1);
+        } else {
+            CC_situacao.setSelectedIndex(0);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -570,6 +578,12 @@ public class vendaEncomenda extends javax.swing.JFrame {
         arrumaTabela(itens);
         if (pedido.getCodigoEncomenda() != 0) {
             liberarAlterar();
+        } else {
+            if (pedido.isStatus()) {
+                CC_situacao.setSelectedIndex(1);
+            } else {
+                CC_situacao.setSelectedIndex(0);
+            }
         }
     }//GEN-LAST:event_Tab_itensKeyReleased
 
@@ -582,19 +596,31 @@ public class vendaEncomenda extends javax.swing.JFrame {
         if (res != -1) {
             itens.remove(res);
             arrumaTabela(itens);
+            if (pedido.getCodigoEncomenda() != 0) {
+                liberarAlterar();
+            }
         }
         B_removerItem.setEnabled(false);
-        if (pedido.getCodigoEncomenda() != 0) {
-            liberarAlterar();
-        }
     }//GEN-LAST:event_B_removerItemActionPerformed
 
     private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
         encomendaControl validar = new encomendaControl();
         constroiEncomendaAoSalvar();
-        if (validar.verificarSalvar(pedido)) {
-            visualizarEncomendas visu = new visualizarEncomendas();
-            visu.setVisible(true);
+        if (codigoEncomenda == 0) {
+            if (validar.verificarSalvar(pedido)) {
+                visualizarEncomendas visu = new visualizarEncomendas();
+                visu.setVisible(true);
+                fechar = true;
+                this.dispose();
+            }
+        } else {
+            System.out.println("Operação de atualização");
+            if (validar.atualizar(pedido)) {
+                visualizarEncomendas visu = new visualizarEncomendas();
+                visu.setVisible(true);
+                fechar = true;
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_B_salvarActionPerformed
 
