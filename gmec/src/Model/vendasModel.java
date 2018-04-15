@@ -81,7 +81,7 @@ public class vendasModel {
         }
         return false;
     }
-
+    
     //Retorna dados de uma venda
     public vendas pesquisar(String dia) {
         abrirConexao();

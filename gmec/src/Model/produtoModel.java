@@ -76,20 +76,60 @@ public class produtoModel {
                 JOptionPane.showMessageDialog(null, "Não foi possível excluir o produto");
             } else {
                 JOptionPane.showMessageDialog(null, "Exclusão do produto realizada");
+                matarVendasVazias();
+                matarEncomendasVazias();
                 return true;
             }
         }
         return false;
     }
-    
-    public ArrayList pesquisar(String nomeProduto){
+
+    public void matarVendasVazias() {
         abrirConexao();
-        ArrayList lista= new ArrayList();
-        String sql="select * from produto where nome like '"+nomeProduto+"%';";
-        ResultSet resultado=Banco.consultar(sql);
+        String sql = "select v.codigo from vendas v left join produtos_da_venda pv on v.codigo=pv.vendas_codigo where vendas_codigo is null;";
+        System.out.println(sql);
+        ResultSet resultado = Banco.consultar(sql);
         try {
-            while(resultado.next()){
-                produto prod= new produto();
+            while (resultado.next()) {
+                int valor = resultado.getInt("codigo");
+                sql = "delete from vendas where codigo = " + valor + ";";
+                int res = Banco.manipular(sql);
+                if (res == -1) {
+                    System.out.println("\nExclusão da venda sem produtos realizada");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        public void matarEncomendasVazias() {
+        abrirConexao();
+        String sql = "select codigo from encomenda e left join produtos_da_encomenda pe on e.codigo=pe.encomenda_codigo where encomenda_codigo is null;";
+        System.out.println(sql);
+        ResultSet resultado = Banco.consultar(sql);
+        try {
+            while (resultado.next()) {
+                int valor = resultado.getInt("codigo");
+                sql = "delete from encomenda where codigo = " + valor + ";";
+                int res = Banco.manipular(sql);
+                if (res == -1) {
+                    System.out.println("\nExclusão da venda sem produtos realizada");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(vendasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public ArrayList pesquisar(String nomeProduto) {
+        abrirConexao();
+        ArrayList lista = new ArrayList();
+        String sql = "select * from produto where nome like '" + nomeProduto + "%';";
+        ResultSet resultado = Banco.consultar(sql);
+        try {
+            while (resultado.next()) {
+                produto prod = new produto();
                 prod.setCodigo(resultado.getInt("codigo"));
                 prod.setNome(resultado.getString("nome"));
                 prod.setRendimento(resultado.getInt("rendimento"));
@@ -105,5 +145,5 @@ public class produtoModel {
             Logger.getLogger(produtoModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }  
+    }
 }
