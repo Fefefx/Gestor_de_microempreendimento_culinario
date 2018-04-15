@@ -7,10 +7,6 @@ package UI;
 
 import Control.usuarioControl;
 import Objects.usuario;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -18,14 +14,21 @@ import javax.swing.text.MaskFormatter;
  */
 public class cadastroUsuario extends javax.swing.JDialog {
 
+    private boolean inserir = false;
+
+    public void setInserir(boolean inserir) {
+        this.inserir = inserir;
+    }
+
     /**
      * Creates new form cadastroUsuario
      */
     public cadastroUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        arrumarTela();
     }
-    
+
     public void arrumarTela() {
         CT_nomeUsuario.setText("");
         PF_senhaUsuario.setText("");
@@ -33,13 +36,13 @@ public class cadastroUsuario extends javax.swing.JDialog {
         B_excluir.setEnabled(false);
         B_alterar.setEnabled(false);
     }
-    
+
     public void arrumarTela(usuario user) {
         CT_nomeUsuario.setText(user.getUser());
         PF_senhaUsuario.setText(user.getSenha());
         CT_nomeUsuario.setEditable(false);
         PF_senhaUsuario.setEditable(false);
-        B_excluir.setEnabled(false);
+        B_excluir.setEnabled(true);
         B_alterar.setEnabled(true);
         B_salvar.setEnabled(false);
     }
@@ -153,35 +156,40 @@ public class cadastroUsuario extends javax.swing.JDialog {
 
     private void B_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_salvarActionPerformed
         // TODO add your handling code here:
-        usuarioControl validar= new usuarioControl();
+        usuarioControl validar = new usuarioControl();
         usuario user = new usuario();
         user.setUser(CT_nomeUsuario.getText());
         user.setSenha(PF_senhaUsuario.getText());
-        if(validar.pesquisarUsuario(user.getUser())){
-            validar.atualizarUsuario(user);
-        }else{
-            validar.validarCampos(user);
+        if (!inserir) {
+            if (validar.atualizarUsuario(user)) {
+                arrumarTela();
+                this.dispose();
+            }
+        } else {
+            if (!validar.pesquisarUsuario(user.getUser())) {
+                if (validar.validarCampos(user)) {
+                    arrumarTela();
+                    this.dispose();
+                }
+            }
         }
-        arrumarTela();
-        this.dispose();
     }//GEN-LAST:event_B_salvarActionPerformed
 
     private void B_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_excluirActionPerformed
-        // TODO add your handling code here:
-        usuarioControl validar=new usuarioControl();
-        int valor=validar.excluir(CT_nomeUsuario.getText());
-        if(valor==0)
+        usuarioControl validar = new usuarioControl();
+        int valor = validar.excluir(CT_nomeUsuario.getText());
+        if (valor == 0) {
             this.dispose();
+        }
     }//GEN-LAST:event_B_excluirActionPerformed
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
-        // TODO add your handling code here:
         CT_nomeUsuario.setEditable(false);
         PF_senhaUsuario.setEditable(true);
         B_salvar.setEnabled(true);
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
-        CT_nomeUsuario.requestFocus();
+        PF_senhaUsuario.requestFocus();
     }//GEN-LAST:event_B_alterarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

@@ -36,7 +36,7 @@ public class usuarioModel {
 
     public boolean inserir(usuario user) {
         abrirConexao();
-        String sql = "insert into usuario(user,senha) values('"+user.getUser()+"','"+user.getSenha()+"');";
+        String sql = "insert into usuario(user,senha) values('" + user.getUser() + "','" + user.getSenha() + "');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -50,7 +50,7 @@ public class usuarioModel {
 
     public boolean atualizar(usuario user) {
         abrirConexao();
-        String sql = "update usuario set senha='"+user.getSenha()+"' where user='"+user.getUser()+"';";
+        String sql = "update usuario set senha='" + user.getSenha() + "' where user='" + user.getUser() + "';";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -64,7 +64,7 @@ public class usuarioModel {
 
     public boolean excluir(String nomeUsuario) {
         abrirConexao();
-        String sql = "delete from usuario where user='"+nomeUsuario+"';";
+        String sql = "delete from usuario where user='" + nomeUsuario + "';";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -92,32 +92,32 @@ public class usuarioModel {
         }
         return false;
     }
-    
-    public boolean pesquisarUsuario(String nome){
+
+    public boolean pesquisarUsuario(String nome) {
         abrirConexao();
-        String sql = "select user from usuario where user = '"+nome+"';";
+        String sql = "select user from usuario where user = '" + nome + "';";
+        System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
-        try{
-            if(resultado.next()){
+        try {
+            if (resultado.next()) {
+                JOptionPane.showMessageDialog(null, "Usuário já cadastrado. Tente outro login!");
                 return true;
-            }else {
-                JOptionPane.showMessageDialog(null, "Usuário já cadastrado");
-            }
+            } 
         } catch (SQLException ex) {
             Logger.getLogger(usuarioModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
     public ArrayList pesquisar(String nomeUsuario) {
         abrirConexao();
-        ArrayList lista=new ArrayList();
-        String sql="select * from usuario where user like '"+nomeUsuario+"%';";
+        ArrayList lista = new ArrayList();
+        String sql = "select * from usuario where user like '" + nomeUsuario + "%';";
         System.out.println(sql);
-        ResultSet resultado=Banco.consultar(sql);
+        ResultSet resultado = Banco.consultar(sql);
         try {
-            while(resultado.next()){
-                usuario user=new usuario();
+            while (resultado.next()) {
+                usuario user = new usuario();
                 user.setUser(resultado.getString("user"));
                 lista.add(user);
             }

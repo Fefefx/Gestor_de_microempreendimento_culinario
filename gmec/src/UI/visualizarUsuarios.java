@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public final class visualizarUsuarios extends javax.swing.JFrame {
     
     usuarioControl userControl = new usuarioControl();
+    ArrayList resultado= new ArrayList();
     private String user;
 
     public void setUser(String user) {
@@ -136,7 +137,7 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(B_novo))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,9 +160,10 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
-        // TODO add your handling code here:
         this.setVisible(false);
-        new cadastroUsuario(this, rootPaneCheckingEnabled).show();
+        cadastroUsuario tela= new cadastroUsuario(this, rootPaneCheckingEnabled);
+        tela.setInserir(true);
+        tela.show();
         this.setVisible(true);
         CT_nome.setText("");
         arrumaTabela();
@@ -178,8 +180,7 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
 
     private void Tab_usuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_usuariosMouseClicked
         int linha = Tab_usuarios.getSelectedRow();
-        usuario user = new usuario();
-        user.setUser(Tab_usuarios.getValueAt(linha, 0).toString());
+        usuario user = (usuario) resultado.get(linha);
         this.setVisible(false);
         cadastroUsuario usercad = new cadastroUsuario(this, rootPaneCheckingEnabled);
         usercad.arrumarTela(user);
@@ -208,7 +209,7 @@ public final class visualizarUsuarios extends javax.swing.JFrame {
     }
     
     public void arrumaTabela() {
-        ArrayList resultado = userControl.validarNomePesquisa(CT_nome.getText());
+        resultado = userControl.validarNomePesquisa(CT_nome.getText());
         if (resultado != null) {
             DefaultTableModel modelo = (DefaultTableModel) Tab_usuarios.getModel();
             while (modelo.getRowCount() != 0) {

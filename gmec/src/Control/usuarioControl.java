@@ -50,7 +50,7 @@ public class usuarioControl {
     public boolean atualizarUsuario(usuario user){
         if("".equals(user.getSenha().trim())){
             JOptionPane.showMessageDialog(null,"Digite uma senha");
-        }else if(user.getSenha().length() < 8){
+        }else if(user.getSenha().length() != 8){
             JOptionPane.showMessageDialog(null, "A senha precisa ter 8 caracteres");
         }else{
             usuarioModel userModel = new usuarioModel();
@@ -63,7 +63,7 @@ public class usuarioControl {
     
     public boolean pesquisarUsuario(String nome){
         usuarioModel userModel = new usuarioModel();
-        return userModel.pesquisarUsuario(nome);
+       return userModel.pesquisarUsuario(nome);
     }
     
     public ArrayList validarNomePesquisa(String nome) {
