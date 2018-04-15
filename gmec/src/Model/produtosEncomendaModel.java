@@ -10,6 +10,7 @@ import Bank.infoBanco;
 import Objects.produtosEncomenda;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -111,16 +112,25 @@ public class produtosEncomendaModel {
     }
 
     // produtosEncomenda é uma view que junta os dados de produtos_da_encomenda e produto
-    public ResultSet pesquisar(int codigoEncomenda) {
+    public ArrayList pesquisar(int codigoEncomenda) {
         abrirConexao();
+        ArrayList lista = new ArrayList();
         String sql = "select * from produtosEncomenda where encomenda_codigo=" + codigoEncomenda + ";";
         System.out.println(sql);
         ResultSet registro = Banco.consultar(sql);
         try {
-            if (registro.next()) {
-                System.out.println("Registros encontrados");
-                return registro;
+            while (registro.next()) {
+                produtosEncomenda prod= new produtosEncomenda();
+                prod.setNome(registro.getString("nome"));
+                prod.setCodigoEncomenda(registro.getInt("encomenda_codigo"));
+                prod.setCodigoProduto(registro.getInt("codigo"));
+                prod.setQuantidade(registro.getInt("quantidade"));
+                prod.setTotalProduto(registro.getFloat("total_produto"));
+                prod.setValorUnitario(registro.getFloat("valor_unitario"));
+                lista.add(prod);
             }
+            registro.close();
+            return lista;
         } catch (SQLException ex) {
             Logger.getLogger(produtosEncomendaModel.class.getName()).log(Level.SEVERE, null, ex);
         }

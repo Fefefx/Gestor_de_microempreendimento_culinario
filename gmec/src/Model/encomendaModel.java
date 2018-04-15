@@ -122,13 +122,13 @@ public class encomendaModel {
     //listarEncomendas é uma view que reúne dados de produtos e encomendas
     public ArrayList pesquisar(String clienteEncomenda) {
         abrirConexao();
-        encomenda enco = new encomenda();
         ArrayList lista = new ArrayList();
         String sql = "select * from listarEncomendas where nome like '" + clienteEncomenda + "%';";
+        System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {
             while (resultado.next()) {
-                System.out.println("\nEncomenda encontrada");
+                encomenda enco = new encomenda();
                 enco.setCodigoEncomenda(resultado.getInt("codigo"));
                 enco.setDiaEntrega(resultado.getString("dia_entrega"));
                 enco.setDiaPedido(resultado.getString("dia_pedido"));
@@ -140,6 +140,7 @@ public class encomendaModel {
                 enco.client.setTelefone(resultado.getInt("telefone"));
                 lista.add(enco);
             }
+            resultado.close();
             return lista;
         } catch (SQLException ex) {
             Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,14 +169,14 @@ public class encomendaModel {
 
     public int pesquisarCodigo(encomenda enco) {
         abrirConexao();
-        String sql = "select codigo from encomenda where dia_pedido='"+enco.getDiaPedido()+"' "
-                + "and dia_entrega='"+enco.getDiaEntrega() + "' and cliente_idcliente="+enco.client.getIdCliente()
-                +" and status is "+enco.isStatus()+"; ";
+        String sql = "select codigo from encomenda where dia_pedido='" + enco.getDiaPedido() + "' "
+                + "and dia_entrega='" + enco.getDiaEntrega() + "' and cliente_idcliente=" + enco.client.getIdCliente()
+                + " and status is " + enco.isStatus() + "; ";
         System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {
             if (resultado.next()) {
-                int codigo= resultado.getInt("codigo");
+                int codigo = resultado.getInt("codigo");
                 return codigo;
             } else {
                 System.out.println("\nNenhuma encomenda do cliente encontrada");

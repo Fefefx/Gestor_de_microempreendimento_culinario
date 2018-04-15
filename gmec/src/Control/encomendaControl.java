@@ -33,4 +33,13 @@ public class encomendaControl {
         }
         return false;
     }
+    
+    public ArrayList pesquisarEncomendas(String nome){
+        String testar=nome.replace(" ","");
+        if(testar.isEmpty())
+            nome=testar;
+        encomendaModel pesquisar= new encomendaModel();
+        ArrayList validar=pesquisar.pesquisar(nome);
+        return validar;
+    }
 }

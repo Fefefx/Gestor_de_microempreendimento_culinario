@@ -5,17 +5,28 @@
  */
 package UI;
 
+import Control.encomendaControl;
+import Control.produtoEncomendaControl;
+import Objects.encomenda;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author felip
  */
 public class visualizarEncomendas extends javax.swing.JFrame {
 
+    ArrayList listaEncomendas = new ArrayList();
+    encomenda  pedido = new encomenda();
+    private boolean fechar;
+
     /**
      * Creates new form visualizarEncomendas
      */
     public visualizarEncomendas() {
         initComponents();
+        arrumaTabela();
     }
 
     /**
@@ -27,26 +38,26 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        CAL_data = new com.toedter.calendar.JDateChooser();
-        jLabel1 = new javax.swing.JLabel();
-        B_data = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         CT_user = new javax.swing.JTextField();
-        B_usuario = new javax.swing.JButton();
+        B_filtrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tab_encomendas = new javax.swing.JTable();
+        B_novo = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Localizar venda");
 
-        jLabel1.setText("Selecione a Data:");
+        jLabel2.setText("Digite um cliente:");
 
-        B_data.setText("Filtrar por data");
+        B_filtrar.setText("Filtrar");
+        B_filtrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_filtrarActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Digite um usuário:");
-
-        B_usuario.setText("Filtrar por usuário");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tab_encomendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -65,7 +76,19 @@ public class visualizarEncomendas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        Tab_encomendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tab_encomendasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Tab_encomendas);
+
+        B_novo.setText("Novo");
+        B_novo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_novoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,39 +99,83 @@ public class visualizarEncomendas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(26, 26, 26)
-                        .addComponent(CAL_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(B_data)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(B_usuario)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addComponent(B_filtrar)
+                        .addGap(35, 35, 35)
+                        .addComponent(B_novo)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(B_data)
-                        .addComponent(jLabel2)
-                        .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(B_usuario))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(CAL_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(B_filtrar)
+                    .addComponent(B_novo))
+                .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void B_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_filtrarActionPerformed
+        arrumaTabela();
+    }//GEN-LAST:event_B_filtrarActionPerformed
+
+    private void Tab_encomendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_encomendasMouseClicked
+        int res = Tab_encomendas.getSelectedRow();
+        pedido = (encomenda) listaEncomendas.get(res);
+        constroiEncomenda();
+        vendaEncomenda ve = new vendaEncomenda();
+        fechar = true;
+        ve.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Tab_encomendasMouseClicked
+
+    private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
+        if (!fechar) {
+            vendaEncomenda ve = new vendaEncomenda();
+            ve.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_B_novoActionPerformed
+
+    public void arrumaTabela() {
+        encomendaControl enco = new encomendaControl();
+        listaEncomendas = enco.pesquisarEncomendas(CT_user.getText());
+        DefaultTableModel modelo = (DefaultTableModel) Tab_encomendas.getModel();
+        while (modelo.getRowCount() != 0) {
+            modelo.removeRow(0);
+        }
+        for (int i = 0; i < listaEncomendas.size(); i++) {
+            encomenda dado = (encomenda) listaEncomendas.get(i);
+            String[] linha = new String[4];
+            linha[0] = dado.client.getNome();
+            linha[1] = String.valueOf(dado.client.getTelefone());
+            linha[2] = formataData(dado.getDiaEntrega());
+            linha[3] = String.valueOf(dado.isStatus());
+            modelo.addRow(linha);
+        }
+        Tab_encomendas.setModel(modelo);
+    }
+
+    public String formataData(String data) {
+        String dataFormatada = data.substring(8, 10) + "/" + data.substring(5, 7) + "/" + data.substring(0, 4);
+        return dataFormatada;
+    }
+    
+    public void constroiEncomenda(){
+        produtoEncomendaControl localizarItens= new produtoEncomendaControl();
+        pedido.adicionarItens(localizarItens.localizarProdutos(pedido.getCodigoEncomenda()));
+    }
 
     /**
      * @param args the command line arguments
@@ -146,13 +213,11 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton B_data;
-    private javax.swing.JButton B_usuario;
-    private com.toedter.calendar.JDateChooser CAL_data;
+    private javax.swing.JButton B_filtrar;
+    private javax.swing.JButton B_novo;
     private javax.swing.JTextField CT_user;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTable Tab_encomendas;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
