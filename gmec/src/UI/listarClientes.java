@@ -19,16 +19,24 @@ public class listarClientes extends javax.swing.JDialog {
 
     private cliente client = new cliente();
     private boolean controle = false;
- 
+    private String usuario;
 
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+ 
     public boolean isControle() {
         return controle;
     }
    
-
     /**
      * Creates new form listarClientes
      */
+    
     public listarClientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

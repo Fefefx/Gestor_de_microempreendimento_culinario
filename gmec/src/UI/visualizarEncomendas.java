@@ -20,6 +20,11 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     ArrayList listaEncomendas = new ArrayList();
     encomenda pedido = new encomenda();
     private boolean fechar;
+    private String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     /**
      * Creates new form visualizarEncomendas
@@ -46,7 +51,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         B_novo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Localizar venda");
+        setTitle("Localizar encomenda");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -141,6 +146,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         constroiEncomenda();
         vendaEncomenda ve = new vendaEncomenda();
         fechar = true;
+        ve.setUser(user);
         ve.armazenarDados(pedido);
         ve.arrumaTelaUpdate(pedido);
         ve.setVisible(true);
@@ -150,6 +156,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     private void B_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_novoActionPerformed
             fechar=true;
             vendaEncomenda ve = new vendaEncomenda();
+            ve.setUser(user);
             ve.setVisible(true);
             this.dispose();
     }//GEN-LAST:event_B_novoActionPerformed
@@ -157,6 +164,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         if (!fechar) {
             telaInicial start = new telaInicial();
+            start.arrumaTela(user);
             start.setVisible(true);
             this.dispose();
         }

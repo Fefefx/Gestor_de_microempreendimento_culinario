@@ -182,6 +182,7 @@ public class telaInicial extends javax.swing.JFrame {
 
     private void B_encomendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_encomendasActionPerformed
         visualizarEncomendas visu = new visualizarEncomendas();
+        visu.setUser(CT_usuario.getText());
         this.setVisible(false);
         visu.setVisible(true);
     }//GEN-LAST:event_B_encomendasActionPerformed

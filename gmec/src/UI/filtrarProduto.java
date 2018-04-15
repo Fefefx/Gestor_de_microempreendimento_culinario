@@ -21,6 +21,11 @@ public class filtrarProduto extends javax.swing.JFrame {
     ArrayList lista;
     private String usuario;
     encomenda dadosPedido = new encomenda();
+    private boolean fechar = false;
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     /**
      * Creates new form filtrarProduto
@@ -68,7 +73,12 @@ public class filtrarProduto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tab_produtos = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Produtos Encontrados:");
@@ -142,17 +152,37 @@ public class filtrarProduto extends javax.swing.JFrame {
         prodEncomenda.setValorUnitario(prod.getValorUnitario());
         dadosPedido.addItem(prodEncomenda);
         vendaEncomenda ve = new vendaEncomenda();
+        ve.setUser(usuario);
         ve.arrumaTela(dadosPedido);
         ve.armazenarDados(dadosPedido);
         ve.arrumarCliente();
         if (dadosPedido.getCodigoEncomenda() != 0) {
             ve.liberarAlterar();
-        }else
+        } else {
             ve.arrumarCombo();
+        }
         ve.setVisible(true);
         System.out.println("\nCliente antes de enviar: " + dadosPedido.client.getNome());
+        fechar = true;
         this.dispose();
+
     }//GEN-LAST:event_Tab_produtosMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        if (!fechar) {
+            vendaEncomenda ve = new vendaEncomenda();
+            ve.setUser(usuario);
+            ve.arrumaTela(dadosPedido);
+            ve.armazenarDados(dadosPedido);
+            ve.arrumarCliente();
+            if (dadosPedido.getCodigoEncomenda() != 0) {
+                ve.liberarAlterar();
+            } else {
+                ve.arrumarCombo();
+            }
+            ve.setVisible(true);
+        }
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

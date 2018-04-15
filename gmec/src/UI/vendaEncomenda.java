@@ -502,6 +502,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         if (!fechar) {
             visualizarEncomendas visu = new visualizarEncomendas();
+            visu.setUser(user);
             visu.setVisible(true);
             this.dispose();
         }
@@ -514,6 +515,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             filtrarProduto buscar = new filtrarProduto();
             buscar.armazenarDados(pedido);
             buscar.arrumaTabela(CT_produto.getText());
+            buscar.setUsuario(user);
             buscar.setVisible(true);
             fechar = true;
             this.dispose();
@@ -530,8 +532,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         listarClientes localizar = new listarClientes(this, true);
         this.setVisible(false);
         localizar.arrumaTabela(CT_cliente.getText());
+        localizar.setUsuario(user);
         localizar.setVisible(true);
         this.setVisible(true);
+        user=localizar.getUsuario();
         if (localizar.isControle()) {
             pedido.client = localizar.getClient();
             System.out.println("Cliente: " + pedido.client.getNome());
@@ -609,6 +613,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         if (codigoEncomenda == 0) {
             if (validar.verificarSalvar(pedido)) {
                 visualizarEncomendas visu = new visualizarEncomendas();
+                visu.setUser(user);
                 visu.setVisible(true);
                 fechar = true;
                 this.dispose();
@@ -617,6 +622,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             System.out.println("Operação de atualização");
             if (validar.atualizar(pedido)) {
                 visualizarEncomendas visu = new visualizarEncomendas();
+                visu.setUser(user);
                 visu.setVisible(true);
                 fechar = true;
                 this.dispose();
@@ -645,6 +651,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             if (deletar.excluir(pedido)) {
                 fechar = true;
                 visualizarEncomendas visu = new visualizarEncomendas();
+                visu.setUser(user);
                 visu.setVisible(true);
                 this.dispose();
             }
