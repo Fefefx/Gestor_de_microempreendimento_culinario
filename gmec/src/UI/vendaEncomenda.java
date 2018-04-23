@@ -19,6 +19,8 @@ import java.math.RoundingMode;
 import Control.produtoControl;
 import Objects.cliente;
 import javax.swing.JOptionPane;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -42,6 +44,14 @@ public class vendaEncomenda extends javax.swing.JFrame {
     public vendaEncomenda() {
         initComponents();
         arrumaTela();
+        colocarData();
+    }
+
+    public void colocarData() {
+        LocalDate dia = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String data_formatada = dia.format(formato);
+        CT_data_encomenda.setText(data_formatada);
     }
 
     public String formataData(String atualizar) {
@@ -82,6 +92,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         Tab_itens.setEnabled(false);
         CT_total.setEditable(false);
         CC_entrega.setEnabled(false);
+        CC_pagamento.setEnabled(false);
+        CT_enderecoEntrega.setEditable(false);
+        CT_observacoes.setEditable(false);
+        B_residencia.setEnabled(false);
     }
 
     public void liberarEncomenda() {
@@ -96,6 +110,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_produto.requestFocus();
         Tab_itens.setEnabled(true);
         CC_entrega.setEnabled(true);
+        CC_pagamento.setEnabled(false);
+        B_residencia.setEnabled(false);
+        CT_observacoes.setEditable(false);
+        CT_enderecoEntrega.setEditable(false);
     }
 
     public void liberarEncomendaUpdate() {
@@ -213,10 +231,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         } else {
             CC_entrega.setSelectedIndex(0);
         }
-        if(pedido.isStatusPagamento()){
-            CC_pagamento.setSelectedIndex(0);
-        }else{
+        if (pedido.isStatusPagamento()) {
             CC_pagamento.setSelectedIndex(1);
+        } else {
+            CC_pagamento.setSelectedIndex(0);
         }
         CT_enderecoEntrega.setText(pedido.getEnderecoEntrega());
         CT_observacoes.setText(pedido.getObservacoes());
@@ -234,10 +252,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         } else {
             CC_entrega.setSelectedIndex(0);
         }
-        if(pedido.isStatusPagamento()){
-            CC_pagamento.setSelectedItem(0);
-        }else{
+        if (pedido.isStatusPagamento()) {
             CC_pagamento.setSelectedItem(1);
+        } else {
+            CC_pagamento.setSelectedItem(0);
         }
     }
 
@@ -416,7 +434,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
         jLabel7.setText("Status:");
 
-        CC_pagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paga", "Não paga" }));
+        CC_pagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não paga", "paga" }));
         CC_pagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CC_pagamentoActionPerformed(evt);
@@ -465,8 +483,8 @@ public class vendaEncomenda extends javax.swing.JFrame {
                         .addComponent(B_pesquisa_cliente))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(B_pesquisar_produtos))
@@ -613,7 +631,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         localizar.setUsuario(user);
         localizar.setVisible(true);
         this.setVisible(true);
-        user=localizar.getUsuario();
+        user = localizar.getUsuario();
         if (localizar.isControle()) {
             pedido.client = localizar.getClient();
             System.out.println("Cliente: " + pedido.client.getNome());
@@ -665,6 +683,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
                 CC_entrega.setSelectedIndex(1);
             } else {
                 CC_entrega.setSelectedIndex(0);
+            }
+            if(pedido.isStatusPagamento()){
+                CC_pagamento.setSelectedIndex(1);
+            }else{
+                CC_pagamento.setSelectedIndex(0);
             }
         }
     }//GEN-LAST:event_Tab_itensKeyReleased
@@ -738,9 +761,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
     private void CC_pagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CC_pagamentoActionPerformed
         int res = CC_pagamento.getSelectedIndex();
-        if(res==0){
+        if (res == 1) {
             pedido.setStatusPagamento(true);
-        }else{
+        } else {
             pedido.setStatusPagamento(false);
         }
     }//GEN-LAST:event_CC_pagamentoActionPerformed
@@ -782,10 +805,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         } else {
             CC_entrega.setSelectedIndex(0);
         }
-        if(pedido.isStatusPagamento()){
-            CC_pagamento.setSelectedIndex(0);
-        }else{
+        if (pedido.isStatusPagamento()) {
             CC_pagamento.setSelectedIndex(1);
+        } else {
+            CC_pagamento.setSelectedIndex(0);
         }
         CT_enderecoEntrega.setEditable(true);
         B_residencia.setEnabled(true);
@@ -796,7 +819,6 @@ public class vendaEncomenda extends javax.swing.JFrame {
     public void constroiEncomenda() {
         pedido.setCodigoEncomenda(codigoEncomenda);
         pedido.setDiaEntrega(CT_data_entrega.getText());
-        pedido.setDiaPedido(CT_data_encomenda.getText());
         pedido.setDiaPedido(CT_data_encomenda.getText());
         if (!CT_total.getText().isEmpty()) {
             pedido.setTotal(Float.parseFloat(CT_total.getText()));
@@ -816,7 +838,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         pedido.adicionarItens(itens);
         pedido.setObservacoes(CT_observacoes.getText());
         pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
-            
+
     }
 
     /**
