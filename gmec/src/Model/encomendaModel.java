@@ -59,7 +59,7 @@ public class encomendaModel {
             JOptionPane.showMessageDialog(null, "Encomenda inserida com sucesso");
             return true;
         }
-        return false;
+        return false; 
     }
 
     public boolean atualizar(encomenda enco) {
@@ -188,7 +188,8 @@ public class encomendaModel {
         abrirConexao();
         String sql = "select codigo from encomenda where dia_pedido='" + enco.getDiaPedido() + "' "
                 + "and dia_entrega='" + enco.getDiaEntrega() + "' and cliente_idcliente=" + enco.client.getIdCliente()
-                + " and status is " + enco.isStatus() + "; ";
+                + " and status_entrega is " + enco.isStatus() + " and  status_pagamento is "+enco.isStatusPagamento()
+                +" and endereco_entrega='"+enco.getEnderecoEntrega()+"' and observacoes='"+enco.getObservacoes()+"';";
         System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {

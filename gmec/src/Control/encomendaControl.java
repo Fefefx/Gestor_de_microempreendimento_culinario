@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class encomendaControl {
 
     public boolean verificarSalvar(encomenda enco) {
-        ArrayList itens = enco.retornarItens();
+        ArrayList itens = eliminarRepetidos(enco.retornarItens());
         produtosEncomendaModel pem = new produtosEncomendaModel();
         if (!itens.isEmpty()) {
             encomendaModel salvar = new encomendaModel();
@@ -58,7 +58,7 @@ public class encomendaControl {
         if (update.atualizar(enco)) {
             produtosEncomendaModel itens = new produtosEncomendaModel();
             if (itens.excluirTodos(enco.getCodigoEncomenda())) {
-                ArrayList lista = enco.retornarItens();
+                ArrayList lista = eliminarRepetidos(enco.retornarItens());
                 for (int i = 0; i < lista.size(); i++) {
                     produtosEncomenda item = (produtosEncomenda) lista.get(i);
                     item.setCodigoEncomenda(enco.getCodigoEncomenda());
@@ -70,6 +70,21 @@ public class encomendaControl {
             }
         }
         return false;
+    }
+    
+    public ArrayList eliminarRepetidos(ArrayList lista){
+        for(int i1=0;i1<lista.size();i1++){
+            produtosEncomenda item1=(produtosEncomenda) lista.get(i1);
+            for(int i2=(i1+1);i2<lista.size();i2++){
+                produtosEncomenda item2=(produtosEncomenda) lista.get(i2);
+                if(item1.getCodigoProduto()==item2.getCodigoProduto()){
+                    item1.setQuantidade(item1.getQuantidade()+1);
+                    item1.setTotalProduto(item1.getQuantidade()*item1.getValorUnitario());
+                    lista.remove(i2);
+                }
+            }
+        }
+        return lista;
     }
 
 }
