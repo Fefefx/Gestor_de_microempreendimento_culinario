@@ -81,7 +81,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_alterar.setEnabled(false);
         Tab_itens.setEnabled(false);
         CT_total.setEditable(false);
-        CC_situacao.setEnabled(false);
+        CC_entrega.setEnabled(false);
     }
 
     public void liberarEncomenda() {
@@ -95,7 +95,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_alterar.setEnabled(false);
         CT_produto.requestFocus();
         Tab_itens.setEnabled(true);
-        CC_situacao.setEnabled(true);
+        CC_entrega.setEnabled(true);
     }
 
     public void liberarEncomendaUpdate() {
@@ -109,7 +109,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_alterar.setEnabled(true);
         CT_produto.requestFocus();
         Tab_itens.setEnabled(false);
-        CC_situacao.setEnabled(false);
+        CC_entrega.setEnabled(false);
         Tab_cliente.setEnabled(true);
     }
 
@@ -122,6 +122,8 @@ public class vendaEncomenda extends javax.swing.JFrame {
         itens = dados.retornarItens();
         arrumarCliente();
         arrumaTabela(dados.retornarItens());
+        CT_enderecoEntrega.setText(dados.getEnderecoEntrega());
+        CT_observacoes.setText(dados.getObservacoes());
     }
 
     public void arrumaTabela(ArrayList valores) {
@@ -203,23 +205,39 @@ public class vendaEncomenda extends javax.swing.JFrame {
         Tab_itens.setEnabled(false);
         CT_total.setEditable(false);
         B_removerItem.setEnabled(false);
-        CC_situacao.setEnabled(false);
+        CC_entrega.setEnabled(false);
         B_pesquisar_produtos.setEnabled(false);
-        CC_situacao.setEnabled(false);
+        CC_entrega.setEnabled(false);
         if (pedido.isStatus()) {
-            CC_situacao.setSelectedIndex(1);
+            CC_entrega.setSelectedIndex(1);
         } else {
-            CC_situacao.setSelectedIndex(0);
+            CC_entrega.setSelectedIndex(0);
         }
+        if(pedido.isStatusPagamento()){
+            CC_pagamento.setSelectedIndex(0);
+        }else{
+            CC_pagamento.setSelectedIndex(1);
+        }
+        CT_enderecoEntrega.setText(pedido.getEnderecoEntrega());
+        CT_observacoes.setText(pedido.getObservacoes());
+        CC_pagamento.setEnabled(false);
+        CT_observacoes.setEditable(false);
+        CT_enderecoEntrega.setEditable(false);
+        B_residencia.setEnabled(false);
         liberarEncomendaUpdate();
         arrumaTabela(pedido.retornarItens());
     }
 
     public void arrumarCombo() {
         if (pedido.isStatus()) {
-            CC_situacao.setSelectedIndex(1);
+            CC_entrega.setSelectedIndex(1);
         } else {
-            CC_situacao.setSelectedIndex(0);
+            CC_entrega.setSelectedIndex(0);
+        }
+        if(pedido.isStatusPagamento()){
+            CC_pagamento.setSelectedItem(0);
+        }else{
+            CC_pagamento.setSelectedItem(1);
         }
     }
 
@@ -252,8 +270,15 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_alterar = new javax.swing.JButton();
         B_excluir = new javax.swing.JButton();
         B_removerItem = new javax.swing.JButton();
-        CC_situacao = new javax.swing.JComboBox<>();
+        CC_entrega = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        CC_pagamento = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        CT_enderecoEntrega = new javax.swing.JTextField();
+        B_residencia = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        CT_observacoes = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Encomenda");
@@ -338,8 +363,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(Tab_itens);
+        if (Tab_itens.getColumnModel().getColumnCount() > 0) {
+            Tab_itens.getColumnModel().getColumn(0).setPreferredWidth(25);
+        }
 
-        jLabel4.setText("Data da Entrega");
+        jLabel4.setText("Data da Entrega:");
 
         CT_data_entrega.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,7 +375,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Total do Pedido");
+        jLabel5.setText("Total do Pedido:");
 
         B_salvar.setText("Salvar");
         B_salvar.addActionListener(new java.awt.event.ActionListener() {
@@ -377,14 +405,46 @@ public class vendaEncomenda extends javax.swing.JFrame {
             }
         });
 
-        CC_situacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Entregue" }));
-        CC_situacao.addActionListener(new java.awt.event.ActionListener() {
+        CC_entrega.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Entregue" }));
+        CC_entrega.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CC_situacaoActionPerformed(evt);
+                CC_entregaActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("Situação:");
+        jLabel6.setText("Entrega:");
+
+        jLabel7.setText("Status:");
+
+        CC_pagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paga", "Não paga" }));
+        CC_pagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CC_pagamentoActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Endereço de entrega:");
+
+        CT_enderecoEntrega.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CT_enderecoEntregaActionPerformed(evt);
+            }
+        });
+
+        B_residencia.setText("Residência");
+        B_residencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_residenciaActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Observações:");
+
+        CT_observacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CT_observacoesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -393,59 +453,64 @@ public class vendaEncomenda extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 16, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CT_data_encomenda, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(B_pesquisa_cliente))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(B_pesquisar_produtos))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(CT_enderecoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(B_residencia))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(CT_data_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(B_salvar)
+                            .addGap(43, 43, 43)
+                            .addComponent(B_alterar)
+                            .addGap(45, 45, 45)
+                            .addComponent(B_excluir))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addGap(18, 18, 18)
+                            .addComponent(CC_pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(CT_data_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(30, 30, 30)
-                                    .addComponent(B_removerItem))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(33, 33, 33))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CT_data_encomenda, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(CT_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B_pesquisa_cliente))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(B_pesquisar_produtos))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(266, 266, 266)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(88, 88, 88)
-                                        .addComponent(B_salvar)
-                                        .addGap(43, 43, 43))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(29, 29, 29)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(B_alterar)
-                                        .addGap(45, 45, 45)
-                                        .addComponent(B_excluir))
-                                    .addComponent(CC_situacao, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addGap(29, 29, 29)
+                                    .addComponent(B_removerItem)
+                                    .addGap(37, 37, 37)
+                                    .addComponent(jLabel6)
+                                    .addGap(29, 29, 29)
+                                    .addComponent(CC_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(15, 15, 15)
+                                    .addComponent(jLabel9)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(CT_observacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -464,23 +529,36 @@ public class vendaEncomenda extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(CT_produto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(B_pesquisar_produtos))
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(CT_data_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(B_removerItem)
-                    .addComponent(CC_situacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                    .addComponent(CC_entrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(B_removerItem))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(CC_pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(CT_observacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(CT_enderecoEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(B_residencia))
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CT_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(B_salvar)
                     .addComponent(B_alterar)
                     .addComponent(B_excluir))
-                .addGap(30, 30, 30))
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -584,9 +662,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
             liberarAlterar();
         } else {
             if (pedido.isStatus()) {
-                CC_situacao.setSelectedIndex(1);
+                CC_entrega.setSelectedIndex(1);
             } else {
-                CC_situacao.setSelectedIndex(0);
+                CC_entrega.setSelectedIndex(0);
             }
         }
     }//GEN-LAST:event_Tab_itensKeyReleased
@@ -630,15 +708,15 @@ public class vendaEncomenda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_B_salvarActionPerformed
 
-    private void CC_situacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CC_situacaoActionPerformed
-        int res = CC_situacao.getSelectedIndex();
+    private void CC_entregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CC_entregaActionPerformed
+        int res = CC_entrega.getSelectedIndex();
         if (res == 0) {
             pedido.setStatus(false);
         } else {
             pedido.setStatus(true);
         }
         System.out.println("Status: " + pedido.isStatus());
-    }//GEN-LAST:event_CC_situacaoActionPerformed
+    }//GEN-LAST:event_CC_entregaActionPerformed
 
     private void B_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_alterarActionPerformed
         liberarAlterar();
@@ -658,6 +736,27 @@ public class vendaEncomenda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_B_excluirActionPerformed
 
+    private void CC_pagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CC_pagamentoActionPerformed
+        int res = CC_pagamento.getSelectedIndex();
+        if(res==0){
+            pedido.setStatusPagamento(true);
+        }else{
+            pedido.setStatusPagamento(false);
+        }
+    }//GEN-LAST:event_CC_pagamentoActionPerformed
+
+    private void CT_enderecoEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_enderecoEntregaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CT_enderecoEntregaActionPerformed
+
+    private void B_residenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_residenciaActionPerformed
+        CT_enderecoEntrega.setText(pedido.client.getEndereco());
+    }//GEN-LAST:event_B_residenciaActionPerformed
+
+    private void CT_observacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_observacoesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CT_observacoesActionPerformed
+
     public void liberarAlterar() {
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
@@ -665,7 +764,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_data_entrega.setEditable(true);
         CT_total.setEditable(false);
         B_removerItem.setEnabled(true);
-        CC_situacao.setEnabled(true);
+        CC_entrega.setEnabled(true);
         Tab_itens.setEnabled(true);
         CT_produto.setEditable(true);
         CT_produto.setEnabled(true);
@@ -679,10 +778,19 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_total.setEnabled(true);
         B_removerItem.setEnabled(false);
         if (pedido.isStatus()) {
-            CC_situacao.setSelectedIndex(1);
+            CC_entrega.setSelectedIndex(1);
         } else {
-            CC_situacao.setSelectedIndex(0);
+            CC_entrega.setSelectedIndex(0);
         }
+        if(pedido.isStatusPagamento()){
+            CC_pagamento.setSelectedIndex(0);
+        }else{
+            CC_pagamento.setSelectedIndex(1);
+        }
+        CT_enderecoEntrega.setEditable(true);
+        B_residencia.setEnabled(true);
+        CT_observacoes.setEditable(true);
+        CC_pagamento.setEnabled(true);
     }
 
     public void constroiEncomenda() {
@@ -694,6 +802,8 @@ public class vendaEncomenda extends javax.swing.JFrame {
             pedido.setTotal(Float.parseFloat(CT_total.getText()));
         }
         pedido.adicionarItens(itens);
+        pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
+        pedido.setObservacoes(CT_observacoes.getText());
     }
 
     public void constroiEncomendaAoSalvar() {
@@ -704,6 +814,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
             pedido.setTotal(Float.parseFloat(CT_total.getText()));
         }
         pedido.adicionarItens(itens);
+        pedido.setObservacoes(CT_observacoes.getText());
+        pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
+            
     }
 
     /**
@@ -747,11 +860,15 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private javax.swing.JButton B_pesquisa_cliente;
     private javax.swing.JButton B_pesquisar_produtos;
     private javax.swing.JButton B_removerItem;
+    private javax.swing.JButton B_residencia;
     private javax.swing.JButton B_salvar;
-    private javax.swing.JComboBox<String> CC_situacao;
+    private javax.swing.JComboBox<String> CC_entrega;
+    private javax.swing.JComboBox<String> CC_pagamento;
     private javax.swing.JTextField CT_cliente;
     private javax.swing.JFormattedTextField CT_data_encomenda;
     private javax.swing.JFormattedTextField CT_data_entrega;
+    private javax.swing.JTextField CT_enderecoEntrega;
+    private javax.swing.JTextField CT_observacoes;
     private javax.swing.JTextField CT_produto;
     private javax.swing.JTextField CT_total;
     private javax.swing.JTable Tab_cliente;
@@ -762,6 +879,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

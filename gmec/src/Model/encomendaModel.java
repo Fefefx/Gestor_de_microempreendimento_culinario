@@ -36,16 +36,21 @@ public class encomendaModel {
 
     public boolean inserir(encomenda enco) {
         abrirConexao();
-        int valor;
+        int valor,sit;
         //Troca o verdadeiro ou falso por 0 ou 1
         if (!enco.isStatus()) {
             valor = 0;
         } else {
             valor = 1;
         }
-        String sql = "insert into encomenda(dia_pedido,dia_entrega,total,cliente_idcliente,status)"
+        if(!enco.isStatusPagamento()){
+            sit=0;
+        }else{
+            sit=1;
+        }
+        String sql = "insert into encomenda(dia_pedido,dia_entrega,total,cliente_idcliente,status_entrega,status_pagamento,endereco_entrega,observacoes)"
                 + " values('" + enco.getDiaPedido() + "','" + enco.getDiaEntrega() + "','" + enco.getTotal()
-                + "'," + enco.client.getIdCliente() + "," + valor + ");";
+                + "'," + enco.client.getIdCliente() + "," + valor + ","+sit+",'"+enco.getEnderecoEntrega()+"','"+enco.getObservacoes()+"');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -59,17 +64,26 @@ public class encomendaModel {
 
     public boolean atualizar(encomenda enco) {
         abrirConexao();
-        int valor;
+        int valor,sit;
         //Troca o verdadeiro ou falso por 0 ou 1
         if (!enco.isStatus()) {
             valor = 0;
         } else {
             valor = 1;
         }
+        if(!enco.isStatusPagamento()){
+            sit=0;
+        }else{
+            sit=1;
+        }    
         String sql = "update encomenda set dia_pedido='" + enco.getDiaPedido() + "',"
                 + "dia_entrega='" + enco.getDiaEntrega() + "',total='" + enco.getTotal() + "',"
                 + "cliente_idcliente=" + enco.client.getIdCliente()
-                + ", status=" + valor + " where codigo=" + enco.getCodigoEncomenda() + ";";
+                + ", status_entrega=" + valor 
+                + ", status_pagamento=" + sit
+                + ", endereco_entrega='" +enco.getEnderecoEntrega()+"',"
+                + "observacoes='"+enco.getObservacoes()+"'"
+                + " where codigo=" + enco.getCodigoEncomenda() + ";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -133,11 +147,14 @@ public class encomendaModel {
                 enco.setDiaEntrega(resultado.getString("dia_entrega"));
                 enco.setDiaPedido(resultado.getString("dia_pedido"));
                 enco.setTotal(resultado.getFloat("total"));
-                enco.setStatus(resultado.getBoolean("status")); //pode dar erro aqui
+                enco.setStatus(resultado.getBoolean("status_entrega"));
                 enco.client.setIdCliente(resultado.getInt("idcliente"));
                 enco.client.setNome(resultado.getString("nome"));
                 enco.client.setEndereco(resultado.getString("endereco"));
                 enco.client.setTelefone(resultado.getInt("telefone"));
+                enco.setStatusPagamento(resultado.getBoolean("status_pagamento"));
+                enco.setEnderecoEntrega(resultado.getString("endereco_entrega"));
+                enco.setObservacoes(resultado.getString("observacoes"));
                 lista.add(enco);
             }
             resultado.close();

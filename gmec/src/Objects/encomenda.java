@@ -17,6 +17,9 @@ public class encomenda {
     private float total;
     private String diaPedido, diaEntrega;
     private boolean status;
+    private boolean statusPagamento;
+    private String enderecoEntrega;
+    private String observacoes;
     ArrayList encomendaProdutos = new ArrayList();// Produtos da encomenda
     public cliente client = new cliente();  //Dono da encomenda
 
@@ -60,6 +63,30 @@ public class encomenda {
         this.status = status;
     }
 
+    public boolean isStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public void setStatusPagamento(boolean statusPagamento) {
+        this.statusPagamento = statusPagamento;
+    }
+
+    public String getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+    public void setEnderecoEntrega(String enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
+    
     public void addItem(produtosEncomenda elemento) {
         encomendaProdutos.add(elemento);
     }
