@@ -164,6 +164,7 @@ public class filtrarProduto extends javax.swing.JFrame {
             ve.arrumarCombo();
         }
         ve.setVisible(true);
+        ve.corrigeComboBox();
         fechar = true;
         this.dispose();
 
@@ -183,6 +184,7 @@ public class filtrarProduto extends javax.swing.JFrame {
                 ve.arrumarCombo();
             }
             ve.setVisible(true);
+            ve.corrigeComboBox();
         }
     }//GEN-LAST:event_formWindowClosed
 

@@ -838,7 +838,14 @@ public class vendaEncomenda extends javax.swing.JFrame {
         pedido.adicionarItens(itens);
         pedido.setObservacoes(CT_observacoes.getText());
         pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
-
+    }
+    
+    public void corrigeComboBox(){
+        if(pedido.isStatusPagamento()){
+            CC_pagamento.setSelectedIndex(1);
+        }else{
+            CC_pagamento.setSelectedIndex(0);
+        }
     }
 
     /**
