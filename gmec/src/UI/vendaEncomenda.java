@@ -645,6 +645,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private void Tab_clienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_clienteMouseClicked
         int res = JOptionPane.showConfirmDialog(null, "Deseja remover esse cliente da venda ?");
         if (res == 0) {
+            if (pedido.client.getEndereco().equals(CT_enderecoEntrega.getText())) {
+                CT_enderecoEntrega.setText("");
+            }
             pedido.client = new cliente();
             DefaultTableModel modelo = (DefaultTableModel) Tab_cliente.getModel();
             while (modelo.getRowCount() != 0) {
@@ -657,6 +660,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
             modelo.addRow(linha);
             Tab_cliente.setModel(modelo);
             arrumaTela();
+            if (codigoEncomenda != 0) {
+                liberarAlterar();
+            } else {
+                CT_cliente.requestFocus();
+            }
         }
     }//GEN-LAST:event_Tab_clienteMouseClicked
 
@@ -684,9 +692,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
             } else {
                 CC_entrega.setSelectedIndex(0);
             }
-            if(pedido.isStatusPagamento()){
+            if (pedido.isStatusPagamento()) {
                 CC_pagamento.setSelectedIndex(1);
-            }else{
+            } else {
                 CC_pagamento.setSelectedIndex(0);
             }
         }
@@ -839,11 +847,11 @@ public class vendaEncomenda extends javax.swing.JFrame {
         pedido.setObservacoes(CT_observacoes.getText());
         pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
     }
-    
-    public void corrigeComboBox(){
-        if(pedido.isStatusPagamento()){
+
+    public void corrigeComboBox() {
+        if (pedido.isStatusPagamento()) {
             CC_pagamento.setSelectedIndex(1);
-        }else{
+        } else {
             CC_pagamento.setSelectedIndex(0);
         }
     }
