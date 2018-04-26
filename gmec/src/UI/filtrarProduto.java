@@ -164,7 +164,6 @@ public class filtrarProduto extends javax.swing.JFrame {
             ve.arrumarCombo();
         }
         ve.setVisible(true);
-        System.out.println("\nCliente antes de enviar: " + dadosPedido.client.getNome());
         fechar = true;
         this.dispose();
 

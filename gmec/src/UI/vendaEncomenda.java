@@ -110,10 +110,10 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_produto.requestFocus();
         Tab_itens.setEnabled(true);
         CC_entrega.setEnabled(true);
-        CC_pagamento.setEnabled(false);
-        B_residencia.setEnabled(false);
-        CT_observacoes.setEditable(false);
-        CT_enderecoEntrega.setEditable(false);
+        CC_pagamento.setEnabled(true);
+        B_residencia.setEnabled(true);
+        CT_observacoes.setEditable(true);
+        CT_enderecoEntrega.setEditable(true);
     }
 
     public void liberarEncomendaUpdate() {
