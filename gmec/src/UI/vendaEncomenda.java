@@ -27,13 +27,13 @@ import java.time.format.DateTimeFormatter;
  * @author Beth
  */
 public class vendaEncomenda extends javax.swing.JFrame {
-    
+
     encomenda pedido = new encomenda();
     private String user;
     private int codigoEncomenda = 0;
     ArrayList itens = new ArrayList();
     private boolean fechar = false;
-    
+
     public void setUser(String user) {
         this.user = user;
     }
@@ -46,28 +46,28 @@ public class vendaEncomenda extends javax.swing.JFrame {
         arrumaTela();
         colocarData();
     }
-    
+
     public void colocarData() {
         LocalDate dia = LocalDate.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String data_formatada = dia.format(formato);
         CT_data_encomenda.setText(data_formatada);
     }
-    
+
     public String formataData(String atualizar) {
         String formatar = atualizar.replace("/", "-");
         formatar = formatar.substring(6) + "-" + formatar.substring(3, 5) + "-" + formatar.substring(0, 2);
         System.out.println(formatar);
         return formatar;
     }
-    
+
     public String Dataformatar(String atualizar) {
         String formatar = atualizar.replace("-", "");
         formatar = formatar.substring(6) + "/" + formatar.substring(4, 6) + "/" + formatar.substring(0, 4);
         System.out.println(formatar);
         return formatar;
     }
-    
+
     public void aplicarMascara() {
         try {
             MaskFormatter mascara = new MaskFormatter("##/##/####");
@@ -78,7 +78,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             Logger.getLogger(vendaEncomenda.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void arrumaTela() {
         aplicarMascara();
         CT_produto.setEnabled(false);
@@ -97,7 +97,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_observacoes.setEditable(false);
         B_residencia.setEnabled(false);
     }
-    
+
     public void liberarEncomenda() {
         CT_produto.setEnabled(true);
         B_pesquisar_produtos.setEnabled(true);
@@ -115,7 +115,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_observacoes.setEditable(true);
         CT_enderecoEntrega.setEditable(true);
     }
-    
+
     public void liberarEncomendaUpdate() {
         CT_produto.setEnabled(true);
         B_pesquisar_produtos.setEnabled(false);
@@ -130,7 +130,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CC_entrega.setEnabled(false);
         Tab_cliente.setEnabled(true);
     }
-    
+
     public void arrumaTela(encomenda dados) {
         codigoEncomenda = dados.getCodigoEncomenda();
         CT_data_encomenda.setText("");
@@ -143,7 +143,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_enderecoEntrega.setText(dados.getEnderecoEntrega());
         CT_observacoes.setText(dados.getObservacoes());
     }
-    
+
     public void arrumaTabela(ArrayList valores) {
         float valorTotal = 0;
         DefaultTableModel modelo = (DefaultTableModel) Tab_itens.getModel();
@@ -157,7 +157,12 @@ public class vendaEncomenda extends javax.swing.JFrame {
             linha[1] = String.valueOf(prodVenda.getQuantidade());
             linha[2] = String.valueOf(prodVenda.getValorUnitario());
             linha[3] = String.valueOf(prodVenda.getTotalProduto());
-            linha[4] = prodVenda.getDescricao();
+            if (prodVenda.getDescricao() != null) {
+                linha[4] = prodVenda.getDescricao();
+            } else {
+                linha[4] = "";
+            }
+            System.out.println("Descrição [" + i + "]:" + prodVenda.getDescricao());
             valorTotal += prodVenda.getTotalProduto();
             modelo.addRow(linha);
         }
@@ -177,7 +182,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
             desativaBTela();
         }
     }
-    
+
     public void desativaBTela() {
         aplicarMascara();
         CT_total.setEditable(false);
@@ -188,7 +193,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
     }
-    
+
     public void arrumarCliente() {
         DefaultTableModel modelo = (DefaultTableModel) Tab_cliente.getModel();
         while (modelo.getRowCount() != 0) {
@@ -204,12 +209,12 @@ public class vendaEncomenda extends javax.swing.JFrame {
             liberarEncomenda();
         }
     }
-    
+
     public void armazenarDados(encomenda dados) {
         pedido = dados;
         codigoEncomenda = pedido.getCodigoEncomenda();
     }
-    
+
     public void arrumaTelaUpdate(encomenda pedido) {
         arrumarCliente();
         CT_cliente.setEditable(false);
@@ -246,7 +251,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         liberarEncomendaUpdate();
         arrumaTabela(pedido.retornarItens());
     }
-    
+
     public void arrumarCombo() {
         if (pedido.isStatus()) {
             CC_entrega.setSelectedIndex(1);
@@ -611,6 +616,9 @@ public class vendaEncomenda extends javax.swing.JFrame {
 
     private void B_pesquisar_produtosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_pesquisar_produtosActionPerformed
         produtoControl validar = new produtoControl();
+        if (itens.size() != 0) {
+            salvaDescricao();
+        }
         constroiEncomenda();
         if (validar.validaProduto(CT_produto.getText())) {
             filtrarProduto buscar = new filtrarProduto();
@@ -674,6 +682,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_Tab_clienteMouseClicked
 
     private void Tab_itensKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Tab_itensKeyReleased
+        salvaDescricao();
         int posicao = Tab_itens.getSelectedRow();
         int unidade = Integer.parseInt(Tab_itens.getValueAt(posicao, 1).toString());
         if (unidade <= 0) {
@@ -703,6 +712,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
                 CC_pagamento.setSelectedIndex(0);
             }
         }
+        Tab_itens.clearSelection();
     }//GEN-LAST:event_Tab_itensKeyReleased
 
     private void Tab_itensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_itensMouseClicked
@@ -793,7 +803,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
     private void CT_observacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_observacoesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_observacoesActionPerformed
-    
+
     public void liberarAlterar() {
         B_alterar.setEnabled(false);
         B_excluir.setEnabled(false);
@@ -829,7 +839,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         CT_observacoes.setEditable(true);
         CC_pagamento.setEnabled(true);
     }
-    
+
     public void constroiEncomenda() {
         pedido.setCodigoEncomenda(codigoEncomenda);
         pedido.setDiaEntrega(CT_data_entrega.getText());
@@ -841,7 +851,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
         pedido.setObservacoes(CT_observacoes.getText());
     }
-    
+
     public void constroiEncomendaAoSalvar() {
         pedido.setCodigoEncomenda(codigoEncomenda);
         pedido.setDiaEntrega(formataData(CT_data_entrega.getText()));
@@ -853,7 +863,7 @@ public class vendaEncomenda extends javax.swing.JFrame {
         pedido.setObservacoes(CT_observacoes.getText());
         pedido.setEnderecoEntrega(CT_enderecoEntrega.getText());
     }
-    
+
     public void corrigeComboBox() {
         if (pedido.isStatusPagamento()) {
             CC_pagamento.setSelectedIndex(1);
@@ -861,19 +871,19 @@ public class vendaEncomenda extends javax.swing.JFrame {
             CC_pagamento.setSelectedIndex(0);
         }
     }
-    
+
     public void salvaDescricao() {
         int qtdItens = Tab_itens.getRowCount();
         for (int i = 0; i < qtdItens; i++) {
             produtosEncomenda prodEnco = (produtosEncomenda) itens.get(i);
-            String descricao = String.valueOf(Tab_itens.getValueAt(i,4));
+            String descricao = String.valueOf(Tab_itens.getValueAt(i, 4));
             if (descricao != null) {
                 prodEnco.setDescricao(descricao);
-            }else{
+            } else {
                 prodEnco.setDescricao("");
             }
             itens.remove(i);
-            itens.add(i,prodEnco);
+            itens.add(i, prodEnco);
         }
     }
 

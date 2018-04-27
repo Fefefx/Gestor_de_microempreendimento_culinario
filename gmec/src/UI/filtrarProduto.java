@@ -167,7 +167,6 @@ public class filtrarProduto extends javax.swing.JFrame {
         ve.corrigeComboBox();
         fechar = true;
         this.dispose();
-
     }//GEN-LAST:event_Tab_produtosMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
