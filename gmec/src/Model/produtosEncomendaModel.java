@@ -36,8 +36,9 @@ public class produtosEncomendaModel {
 
     public boolean inserir(produtosEncomenda itens) {
         abrirConexao();
-        String sql = "insert into produtos_da_encomenda(encomenda_codigo,produto_codigo,quantidade,total_produto) values("
-                + itens.getCodigoEncomenda() + "," + itens.getCodigoProduto() + "," + itens.getQuantidade() + ",'" + itens.getTotalProduto() + "');";
+        String sql = "insert into produtos_da_encomenda(encomenda_codigo,produto_codigo,quantidade,total_produto,descricao) values("
+                + itens.getCodigoEncomenda() + "," + itens.getCodigoProduto() + "," + itens.getQuantidade() + ",'" 
+                + itens.getTotalProduto() + "','"+itens.getDescricao()+"');";
         System.out.println(sql);
         int res = Banco.manipular(sql);
         if (res == -1) {
@@ -52,7 +53,8 @@ public class produtosEncomendaModel {
     public boolean atualizar(produtosEncomenda itens) {
         abrirConexao();
         String sql = "update produtos_da_encomenda set quantidade=" + itens.getQuantidade()
-                + ",total_produto='" + itens.getTotalProduto() + "' where encomenda_codigo=" + itens.getCodigoEncomenda()
+                + ",total_produto='" + itens.getTotalProduto() +"',descricao='"+itens.getDescricao()
+                + "' where encomenda_codigo=" + itens.getCodigoEncomenda()
                 + " and produto_codigo=" + itens.getCodigoProduto() + ";";
         System.out.println(sql);
         int res = Banco.manipular(sql);
@@ -127,6 +129,7 @@ public class produtosEncomendaModel {
                 prod.setQuantidade(registro.getInt("quantidade"));
                 prod.setTotalProduto(registro.getFloat("total_produto"));
                 prod.setValorUnitario(registro.getFloat("valor_unitario"));
+                prod.setDescricao(registro.getString("descricao"));
                 lista.add(prod);
             }
             registro.close();

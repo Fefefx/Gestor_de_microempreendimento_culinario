@@ -12,7 +12,7 @@ package Objects;
 public class produtosEncomenda {
     private int quantidade, codigoProduto,codigoEncomenda;
     private float totalProduto,valorUnitario;
-    private String nome;
+    private String nome,descricao;
 
     public int getQuantidade() {
         return quantidade;
@@ -61,5 +61,13 @@ public class produtosEncomenda {
     public void setCodigoEncomenda(int codigoEncomenda) {
         this.codigoEncomenda = codigoEncomenda;
     }
-         
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+    
 }
