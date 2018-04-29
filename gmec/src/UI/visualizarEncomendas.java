@@ -33,7 +33,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
      */
     public visualizarEncomendas() {
         initComponents();
-        arrumaTabela();
+        localizarTodos();
     }
 
     /**
@@ -79,18 +79,18 @@ public class visualizarEncomendas extends javax.swing.JFrame {
 
         Tab_encomendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Telefone", "Data de Entrega", "Status"
+                "Nome", "Telefone", "Data de Entrega", "Entrega", "Pagamento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -122,6 +122,11 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         CC_statusPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Pagas", "Não pagas" }));
 
         B_mostrarTudo.setText("Mostrar Tudo");
+        B_mostrarTudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_mostrarTudoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,9 +135,20 @@ public class visualizarEncomendas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(CAL_limiteData, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(B_mostrarTudo)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(29, 29, 29)
@@ -142,20 +158,10 @@ public class visualizarEncomendas extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CC_statusPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(34, 34, 34)
-                                .addComponent(B_filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(CAL_limiteData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(B_mostrarTudo)
-                            .addComponent(B_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addComponent(B_filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addComponent(B_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(23, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,15 +170,20 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1))
-                    .addComponent(CAL_limiteData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(B_mostrarTudo))
-                .addGap(30, 30, 30)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(CAL_limiteData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(B_mostrarTudo))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CT_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(20, 20, 20)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CC_statusEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
@@ -184,7 +195,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,7 +203,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_filtrarActionPerformed
-        arrumaTabela();
+        localizaRegistros();
     }//GEN-LAST:event_B_filtrarActionPerformed
 
     private void Tab_encomendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_encomendasMouseClicked
@@ -225,20 +236,83 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosed
 
-    public void arrumaTabela() {
+    private void B_mostrarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_mostrarTudoActionPerformed
+        localizarTodos();
+        CC_statusEntrega.setSelectedIndex(0);
+        CC_statusPagamento.setSelectedIndex(0);
+    }//GEN-LAST:event_B_mostrarTudoActionPerformed
+
+    public void localizarTodos() {
+        encomendaControl buscar = new encomendaControl();
+        listaEncomendas = buscar.retornarTodasEncomendas();
+        arrumaTabela();
+    }
+
+    public void localizaRegistros() {
         encomendaControl enco = new encomendaControl();
         listaEncomendas = enco.pesquisarEncomendas(constroiObjetoPesquisa());
+        arrumaTabelaSelecionada();
+    }
+
+    public void arrumaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) Tab_encomendas.getModel();
         while (modelo.getRowCount() != 0) {
             modelo.removeRow(0);
         }
         for (int i = 0; i < listaEncomendas.size(); i++) {
             encomenda dado = (encomenda) listaEncomendas.get(i);
-            String[] linha = new String[4];
+            String[] linha = new String[5];
             linha[0] = dado.client.getNome();
             linha[1] = String.valueOf(dado.client.getTelefone());
             linha[2] = formataData(dado.getDiaEntrega());
-            linha[3] = String.valueOf(dado.isStatus());
+            if (dado.isStatus()) {
+                linha[3] = "Entregue";
+            } else {
+                linha[3] = "Não Entregue";
+            }
+            if (dado.isStatusPagamento()) {
+                linha[4] = "Pago";
+            } else {
+                linha[4] = "Pendente";
+            }
+            modelo.addRow(linha);
+        }
+        Tab_encomendas.setModel(modelo);
+    }
+
+    public void arrumaTabelaSelecionada() {
+        DefaultTableModel modelo = (DefaultTableModel) Tab_encomendas.getModel();
+        while (modelo.getRowCount() != 0) {
+            modelo.removeRow(0);
+        }
+        for (int i = 0; i < listaEncomendas.size(); i++) {
+            encomenda dado = (encomenda) listaEncomendas.get(i);
+            int status_entrega = CC_statusEntrega.getSelectedIndex();
+            int status_pagamento = CC_statusPagamento.getSelectedIndex();
+            if (status_entrega != 0) {
+                if (status_entrega == 1 && !dado.isStatus() || status_entrega == 2 && dado.isStatus()) {
+                    continue;
+                }
+            }
+            if (status_pagamento != 0) {
+                if (status_pagamento == 1 && !dado.isStatusPagamento() || status_pagamento == 2 && dado.isStatusPagamento()) {
+                    continue;
+                }
+            }
+            String[] linha = new String[5];
+            linha[0] = dado.client.getNome();
+            linha[1] = String.valueOf(dado.client.getTelefone());
+            linha[2] = formataData(dado.getDiaEntrega());
+            if (dado.isStatus()) {
+                linha[3] = "Entregue";
+            } else {
+                linha[3] = "Não Entregue";
+            }
+            if (dado.isStatusPagamento()) {
+                linha[4] = "Pago";
+            } else {
+                linha[4] = "Pendente";
+            }
             modelo.addRow(linha);
         }
         Tab_encomendas.setModel(modelo);
@@ -260,36 +334,6 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         data time = new data();
         dados.setDiaAtual(time.formatarBanco(time.obterData()));
         dados.setDiaLimite(time.formatarBanco(CAL_limiteData.getDate()));
-        int res = CC_statusEntrega.getSelectedIndex();
-        switch (res) {
-            case 0:
-                dados.setEntrega1(true);
-                dados.setEntrega2(false);
-                break;
-            case 1:
-                dados.setEntrega1(true);
-                dados.setEntrega2(true);
-                break;
-            default:
-                dados.setEntrega1(false);
-                dados.setEntrega2(false);
-                break;
-        }
-        res = CC_statusPagamento.getSelectedIndex();
-        switch (res) {
-            case 0:
-                dados.setPagamento1(true);
-                dados.setPagamento2(false);
-                break;
-            case 1:
-                dados.setPagamento1(true);
-                dados.setPagamento2(true);
-                break;
-            default:
-                dados.setPagamento1(false);
-                dados.setPagamento2(false);
-                break;
-        }
         return dados;
     }
 
