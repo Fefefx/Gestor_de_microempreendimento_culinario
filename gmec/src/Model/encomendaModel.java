@@ -201,7 +201,7 @@ public class encomendaModel {
     //Verifica se existem encomendas pendentes para o cliente 
     public boolean pesquisarEncomendasCliente(int idCliente) {
         abrirConexao();
-        String sql = "select * from encomenda e where e.cliente_idcliente=" + idCliente + " and e.status=false;";
+        String sql = "select * from encomenda e where e.cliente_idcliente=" + idCliente + " and e.status_pagamento=false or e.status_entrega=false;";
         System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {
@@ -242,7 +242,8 @@ public class encomendaModel {
     public boolean verificarProdutoNasEncomendas(int codigoProduto) {
         abrirConexao();
         String sql = "select * from produtos_da_encomenda pe inner join encomenda"
-                + " e on pe.encomenda_codigo=e.codigo where e.status=false and pe.produto_codigo=" + codigoProduto + ";";
+                + " e on pe.encomenda_codigo=e.codigo where e.status_pagamento=false or e.status_entrega=false and pe.produto_codigo=" 
+                + codigoProduto + ";";
         System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {

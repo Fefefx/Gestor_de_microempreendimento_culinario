@@ -4,21 +4,28 @@
  * and open the template in the editor.
  */
 package UI;
+
 import Objects.usuario;
 import Control.usuarioControl;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
  * @author felipe
  */
 public class login extends javax.swing.JFrame {
+
     private usuario user;
     private usuarioControl userControl;
+
     /**
      * Creates new form login
      */
     public login() {
         initComponents();
+        LookAndFeel();
     }
 
     /**
@@ -113,11 +120,11 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_acessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_acessarActionPerformed
-        user=new usuario(CT_usuario.getText(), PF_senha.getText());
-        userControl=new usuarioControl();
-        boolean valor =userControl.verificarCampos(user);
-        if(valor){
-            telaInicial iniciar= new telaInicial();
+        user = new usuario(CT_usuario.getText(), PF_senha.getText());
+        userControl = new usuarioControl();
+        boolean valor = userControl.verificarCampos(user);
+        if (valor) {
+            telaInicial iniciar = new telaInicial();
             iniciar.setVisible(true);
             iniciar.arrumaTela(CT_usuario.getText());
             this.dispose();
@@ -127,6 +134,17 @@ public class login extends javax.swing.JFrame {
     private void CT_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_usuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_usuarioActionPerformed
+
+    String look = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+
+    public void LookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(look);
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+            System.out.println("Erro ao aplicar tema !");
+        }
+    }
 
     /**
      * @param args the command line arguments
