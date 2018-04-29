@@ -5,8 +5,7 @@
  */
 package UI;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import Services.data;
 
 /**
  *
@@ -14,17 +13,14 @@ import java.time.format.DateTimeFormatter;
  */
 public class telaInicial extends javax.swing.JFrame {
 
-    LocalDate dia;
+    data time = new data();
 
     /**
      * Creates new form telaInicial
      */
     public telaInicial() {
         initComponents();
-        dia = LocalDate.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String data_formatada = dia.format(formato);
-        CT_data.setText(data_formatada);
+        CT_data.setText(time.obterData());
         CT_data.setEditable(false);
         CT_usuario.setEditable(false);
     }

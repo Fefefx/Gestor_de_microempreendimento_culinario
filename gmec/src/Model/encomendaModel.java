@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import Services.objetoPesquisa;
 
 /**
  *
@@ -134,10 +135,13 @@ public class encomendaModel {
     }
 
     //listarEncomendas é uma view que reúne dados de produtos e encomendas
-    public ArrayList pesquisar(String clienteEncomenda) {
+    public ArrayList pesquisar(objetoPesquisa dados) {
         abrirConexao();
         ArrayList lista = new ArrayList();
-        String sql = "select * from listarEncomendas where nome like '" + clienteEncomenda + "%';";
+        String sql = "select * from listarEncomendas where nome like '" + dados.getCliente() + "%'"
+                + " and status_entrega = "+dados.isEntrega1()+" or status_entrega =" +dados.isEntrega2()
+                + " and status_pagamento = "+dados.isPagamento1()+" or status_pagamento = "+dados.isPagamento2()
+                + " and dia_entrega >= '"+dados.getDiaAtual()+"' and dia_entrega <= '"+dados.getDiaLimite()+"';";
         System.out.println(sql);
         ResultSet resultado = Banco.consultar(sql);
         try {

@@ -10,6 +10,7 @@ import Model.produtosEncomendaModel;
 import Objects.encomenda;
 import Objects.produtosEncomenda;
 import java.util.ArrayList;
+import Services.objetoPesquisa;
 
 /**
  *
@@ -34,13 +35,13 @@ public class encomendaControl {
         return false;
     }
 
-    public ArrayList pesquisarEncomendas(String nome) {
-        String testar = nome.replace(" ", "");
+    public ArrayList pesquisarEncomendas(objetoPesquisa dados) {
+        String testar = dados.getCliente().replace(" ", "");
         if (testar.isEmpty()) {
-            nome = testar;
+            dados.setCliente(testar);
         }
         encomendaModel pesquisar = new encomendaModel();
-        ArrayList validar = pesquisar.pesquisar(nome);
+        ArrayList validar = pesquisar.pesquisar(dados);
         return validar;
     }
 
