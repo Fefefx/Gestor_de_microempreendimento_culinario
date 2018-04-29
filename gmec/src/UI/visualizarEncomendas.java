@@ -207,8 +207,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
     }//GEN-LAST:event_B_filtrarActionPerformed
 
     private void Tab_encomendasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tab_encomendasMouseClicked
-        int res = Tab_encomendas.getSelectedRow();
-        pedido = (encomenda) listaEncomendas.get(res);
+        pedido = localizarEncomenda();
         constroiEncomenda();
         vendaEncomenda ve = new vendaEncomenda();
         fechar = true;
@@ -335,6 +334,38 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         dados.setDiaAtual(time.formatarBanco(time.obterData()));
         dados.setDiaLimite(time.formatarBanco(CAL_limiteData.getDate()));
         return dados;
+    }
+    
+    public encomenda localizarEncomenda(){
+        int linha= Tab_encomendas.getSelectedRow();
+        if(linha!=-1){
+            boolean entrega, pagamento;
+            String nome=String.valueOf(Tab_encomendas.getValueAt(linha, 0));
+            String dataEntrega=String.valueOf(Tab_encomendas.getValueAt(linha, 2));
+            data time = new data();
+            dataEntrega=time.formatarBanco(dataEntrega);
+            String temp=String.valueOf(Tab_encomendas.getValueAt(linha, 3));
+            if(temp.equals("Entregue")){
+                entrega=true;
+            }else{
+                entrega=false;
+            }
+            temp=String.valueOf(Tab_encomendas.getValueAt(linha, 4));
+            if(temp.equals("Pago")){
+                pagamento=true;
+            }else{
+                pagamento=false;
+            }
+            for(int i=0;i<listaEncomendas.size();i++){
+                encomenda enco = (encomenda) listaEncomendas.get(i);
+                if(nome.equals(enco.client.getNome()) && dataEntrega.equals(enco.getDiaEntrega())){
+                    if(entrega==enco.isStatus() && pagamento==enco.isStatusPagamento()){
+                        return enco;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
