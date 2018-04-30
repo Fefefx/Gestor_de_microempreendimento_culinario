@@ -134,10 +134,19 @@ public class login extends javax.swing.JFrame {
     private void CT_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CT_usuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_usuarioActionPerformed
-
-    String look = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-
+    
+    /*Verifica o sistema operacional e aplica o tema padrão do mesmo ao sistema. 
+     Caso o S.O. seja diferente do especificado, imprime mensagem de erro e usa o tema Nimbus.  */  
     public void LookAndFeel() {
+        String look="";
+        String text = System.getProperty("os.name");
+        if (text.equals("Windows")) {
+            look = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+        } else if (text.equals("Linux")) {
+            look = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+        } else if(text.equals("Mac OS X")){
+            look = "com.sun.java.swing.plaf.mac.MacLookAndFeel";
+        }
         try {
             UIManager.setLookAndFeel(look);
             SwingUtilities.updateComponentTreeUI(this);
