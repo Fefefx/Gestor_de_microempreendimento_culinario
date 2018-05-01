@@ -92,5 +92,9 @@ public class encomendaControl {
         }
         return lista;
     }
+    
+    public int qtdEncomendas(String data){
+        return new encomendaModel().qtdEncomendas(data);
+    }
 
 }

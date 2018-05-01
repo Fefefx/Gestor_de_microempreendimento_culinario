@@ -258,4 +258,20 @@ public class encomendaModel {
         }
         return false;
     }
+    
+    //Retorna a quantidade de encomendas de hoje até determinado dia
+    public int qtdEncomendas(String data){
+        abrirConexao();
+        String sql="select count(*) 'Qtd' from encomenda where dia_entrega >= curdate() and dia_entrega <= '"+data+"';";
+        System.out.println(sql);
+        ResultSet dado = Banco.consultar(sql);
+        try {
+            if(dado.next()){
+                return dado.getInt("Qtd");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(encomendaModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 }

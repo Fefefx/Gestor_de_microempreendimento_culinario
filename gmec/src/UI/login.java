@@ -7,6 +7,11 @@ package UI;
 
 import Objects.usuario;
 import Control.usuarioControl;
+import Services.notificacao;
+import java.awt.AWTException;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -52,6 +57,7 @@ public class login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Acessar o sistema");
+        setIconImages(null);
 
         CT_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +132,14 @@ public class login extends javax.swing.JFrame {
         if (valor) {
             telaInicial iniciar = new telaInicial();
             iniciar.setVisible(true);
+            notificacao noti = new notificacao();
+            try {
+                noti.displayTray(); // Dispara o serviço de notificação
+            } catch (AWTException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
             iniciar.arrumaTela(CT_usuario.getText());
             this.dispose();
         }
@@ -140,7 +154,8 @@ public class login extends javax.swing.JFrame {
     public void LookAndFeel() {
         String look="";
         String text = System.getProperty("os.name");
-        if (text.equals("Windows")) {
+        System.out.println(text);
+        if (text.contains("Windows")) {
             look = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
         } else if (text.equals("Linux")) {
             look = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
