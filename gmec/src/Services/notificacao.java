@@ -9,6 +9,12 @@ import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 import java.net.MalformedURLException;
 import Control.encomendaControl;
+import UI.visualizarEncomendas;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +32,7 @@ public class notificacao {
     }
 
     public void displayTray(String user) throws AWTException, MalformedURLException {
+        String location;
         //Realiza uma instância do objeto SystemTray
         SystemTray tray = SystemTray.getSystemTray();
         //Se o icone é um arquivo
@@ -35,6 +42,13 @@ public class notificacao {
         TrayIcon trayIcon = new TrayIcon(image, "Tray Demo");
         //Se necessário redimensiona a imagem do sistema
         trayIcon.setImageAutoSize(true);
+        trayIcon.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Você clicou");
+            }
+            
+        });
         //Coloca texto no icone da barra de tarefas
         trayIcon.setToolTip("GMEC executando");
         int valor = new encomendaControl().qtdEncomendas();
