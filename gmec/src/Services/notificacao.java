@@ -8,6 +8,7 @@ package Services;
 import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 import java.net.MalformedURLException;
+import Control.encomendaControl;
 
 /**
  *
@@ -18,13 +19,13 @@ public class notificacao {
     public static void main(String[] args) throws AWTException, MalformedURLException {
         if (SystemTray.isSupported()) {
             notificacao not = new notificacao();
-            not.displayTray();
+            not.displayTray("João");
         } else {
             System.err.println("Recurso System tray não supotado!");
         }
     }
 
-    public void displayTray() throws AWTException, MalformedURLException {
+    public void displayTray(String user) throws AWTException, MalformedURLException {
         //Realiza uma instância do objeto SystemTray
         SystemTray tray = SystemTray.getSystemTray();
         //Se o icone é um arquivo
@@ -36,14 +37,16 @@ public class notificacao {
         trayIcon.setImageAutoSize(true);
         //Coloca texto no icone da barra de tarefas
         trayIcon.setToolTip("GMEC executando");
-        tray.add(trayIcon);
-        trayIcon.displayMessage("Bem vindo José", "Você possui 3 encomendas", MessageType.INFO);
+        int valor = new encomendaControl().qtdEncomendas();
+        if (valor == 0) {
+            System.out.println("Nenhuma encomenda encontrada");
+        } else {
+            tray.add(trayIcon);
+            if(valor==1)
+                trayIcon.displayMessage("Bem vindo "+user, "Você possui "+valor+" encomenda", MessageType.INFO);
+            else
+               trayIcon.displayMessage("Bem vindo "+user, "Você possui "+valor+" encomendas", MessageType.INFO); 
+        }
     }
-    
-    public int buscarEncomendas(){
-        data time = new data();
-        
-        return -1;
-    }
-    
+
 }

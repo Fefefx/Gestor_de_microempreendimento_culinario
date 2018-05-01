@@ -134,7 +134,7 @@ public class login extends javax.swing.JFrame {
             iniciar.setVisible(true);
             notificacao noti = new notificacao();
             try {
-                noti.displayTray(); // Dispara o serviço de notificação
+                noti.displayTray(CT_usuario.getText()); // Dispara o serviço de notificação
             } catch (AWTException ex) {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {
@@ -149,17 +149,16 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CT_usuarioActionPerformed
     
-    /*Verifica o sistema operacional e aplica o tema padrão do mesmo ao sistema. 
+    /*Verifica o sistema operacional e aplica o tema padrão do mesmo ao GMEC. 
      Caso o S.O. seja diferente do especificado, imprime mensagem de erro e usa o tema Nimbus.  */  
     public void LookAndFeel() {
         String look="";
         String text = System.getProperty("os.name");
-        System.out.println(text);
         if (text.contains("Windows")) {
             look = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
         } else if (text.equals("Linux")) {
             look = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
-        } else if(text.equals("Mac OS X")){
+        } else if(text.contains("Mac")){
             look = "com.sun.java.swing.plaf.mac.MacLookAndFeel";
         }
         try {

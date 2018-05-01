@@ -259,10 +259,10 @@ public class encomendaModel {
         return false;
     }
     
-    //Retorna a quantidade de encomendas de hoje até determinado dia
-    public int qtdEncomendas(String data){
+    //Retorna a quantidade de encomendas nos próximos 3 dias
+    public int qtdEncomendas(){
         abrirConexao();
-        String sql="select count(*) 'Qtd' from encomenda where dia_entrega >= curdate() and dia_entrega <= '"+data+"';";
+        String sql="select count(*) 'Qtd' from encomenda where dia_entrega>=curdate() and dia_entrega <= curdate()+3;";
         System.out.println(sql);
         ResultSet dado = Banco.consultar(sql);
         try {
