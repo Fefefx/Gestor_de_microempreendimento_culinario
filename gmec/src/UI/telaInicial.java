@@ -6,6 +6,7 @@
 package UI;
 
 import Services.data;
+import Services.notificacao;
 
 /**
  *
@@ -215,6 +216,13 @@ public class telaInicial extends javax.swing.JFrame {
         venda.setUser(CT_usuario.getText());
     }//GEN-LAST:event_B_vendasActionPerformed
 
+    public void dipararServico(){
+        notificacao servico = new notificacao();
+        if(servico.dispararNotificacao(CT_usuario.getText())){
+            this.dispose();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

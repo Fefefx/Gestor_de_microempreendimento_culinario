@@ -7,11 +7,6 @@ package UI;
 
 import Objects.usuario;
 import Control.usuarioControl;
-import Services.notificacao;
-import java.awt.AWTException;
-import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -132,15 +127,8 @@ public class login extends javax.swing.JFrame {
         if (valor) {
             telaInicial iniciar = new telaInicial();
             iniciar.setVisible(true);
-            notificacao noti = new notificacao();
-            try {
-                noti.displayTray(CT_usuario.getText()); // Dispara o serviço de notificação
-            } catch (AWTException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            }
             iniciar.arrumaTela(CT_usuario.getText());
+            iniciar.dipararServico();
             this.dispose();
         }
     }//GEN-LAST:event_B_acessarActionPerformed

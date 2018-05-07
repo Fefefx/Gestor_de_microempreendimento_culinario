@@ -9,12 +9,10 @@ import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 import java.net.MalformedURLException;
 import Control.encomendaControl;
-import UI.visualizarEncomendas;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
+import UI.visualizarEncomendas;
 
 /**
  *
@@ -62,5 +60,23 @@ public class notificacao {
                trayIcon.displayMessage("Bem vindo "+user, "Você possui "+valor+" encomendas", MessageType.INFO); 
         }
     }
-
+    
+    public boolean dispararNotificacao(String user){
+        int valor = new encomendaControl().qtdEncomendas();
+        if(valor==0)
+            System.out.println("Nenhuma encomenda encontrada");
+        else{
+            String mensagem="Bem vindo "+user+"\n Você possui "+valor+" encomendas \n Deseja vê-las ?";
+            int opcao = JOptionPane.showConfirmDialog(null, mensagem);
+            if(opcao==0){
+               visualizarEncomendas tela = new visualizarEncomendas();
+               tela.setUser(user);
+               tela.encomendaDias();
+               tela.setVisible(true);
+               return true;
+            }
+        }
+        return false;
+    }
+                
 }

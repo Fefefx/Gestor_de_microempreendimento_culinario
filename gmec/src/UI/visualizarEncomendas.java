@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import Services.objetoPesquisa;
 import Services.data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -367,6 +373,22 @@ public class visualizarEncomendas extends javax.swing.JFrame {
         }
         return null;
     }
+    
+    public void encomendaDias(){
+        CC_statusEntrega.setSelectedIndex(2);
+        SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yy");
+        try {
+            Date data = new Date(formatar.parse(new data().obterData()).getTime());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(data);
+            calendar.add(Calendar.DAY_OF_MONTH,3);
+            data=calendar.getTime();
+            CAL_limiteData.setDate(data);
+        } catch (ParseException ex) {
+            System.out.println("Erro ao transformar a data: "+ex);
+        }
+        arrumaTabelaSelecionada();
+    } 
 
     /**
      * @param args the command line arguments
