@@ -118,24 +118,34 @@ public class telaRelatorios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_vendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_vendasActionPerformed
-        // TODO add your handling code here:
+        invocarTela(2);
     }//GEN-LAST:event_B_vendasActionPerformed
 
     private void B_encomendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_encomendasActionPerformed
-        // TODO add your handling code here:
+        invocarTela(3);
     }//GEN-LAST:event_B_encomendasActionPerformed
 
     private void B_produtosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_produtosActionPerformed
-        // TODO add your handling code here:
+        invocarTela(1);
     }//GEN-LAST:event_B_produtosActionPerformed
 
     private void B_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_clientesActionPerformed
-        Relat_clientes cli = new Relat_clientes();
-        fechar=true;
+        invocarTela(0);
+    }//GEN-LAST:event_B_clientesActionPerformed
+    /*
+        Opções de relatórios: 
+        0 - Clientes
+        1 - Produtos
+        2 - Vendas
+        3 - Encomendas
+    */    
+    public void invocarTela(int opcaoRelatorio) {
+        Relatorios cli = new Relatorios(opcaoRelatorio);
+        fechar = true;
         this.dispose();
         cli.setVisible(true);
         cli.setUser(user);
-    }//GEN-LAST:event_B_clientesActionPerformed
+    }
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         if (!fechar) {
