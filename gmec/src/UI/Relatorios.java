@@ -6,6 +6,7 @@
 package UI;
 
 import Services.data;
+import Control.relatorioControl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -149,18 +150,24 @@ public class Relatorios extends javax.swing.JFrame {
         String dias=String.valueOf(CC_periodo.getSelectedItem());
         dias=dias.replace(" dias","");
         int qtd=Integer.parseInt(dias);
+        qtd*=-1;
         data time = new data();
-        inicio=time.obterData();
+        fim=time.obterData();
         SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
         try{
-            Date v_final = new Date(formatar.parse(inicio).getTime());
+            Date v_final = new Date(formatar.parse(fim).getTime());
             Calendar operar = Calendar.getInstance();
             operar.setTime(v_final);
             operar.add(Calendar.DAY_OF_MONTH, qtd);
             v_final = operar.getTime();
-            inicio=time.formatarBanco(inicio);
-            fim=time.formatarBanco(v_final);
+            fim=time.formatarBanco(fim);
+            inicio=time.formatarBanco(v_final);
             System.out.println("Data inicial: "+inicio+" Data Final: "+fim);
+            relatorioControl relat= new relatorioControl();
+            String valor=relat.despachante(control, inicio, fim);
+            if(valor != null){
+                AT_relat.setText(valor);
+            }
         }catch(ParseException psex){
             System.out.println("Erro ao converter a data: "+psex);
         }

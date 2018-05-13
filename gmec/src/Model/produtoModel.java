@@ -146,4 +146,57 @@ public class produtoModel {
         }
         return null;
     }
+    
+    public String relatorio_Produtos(String ini,String fim){
+        String valor="";
+        boolean control=false;
+        abrirConexao();
+        String sql="select p.nome,sum(quantidade)'quantidade_produto',p.valor_unitario,sum(quantidade) * p.valor_unitario 'total' "
+                + "from produto p left join produtos_da_encomenda pe on p.codigo=pe.produto_codigo left join encomenda e "
+                + "on pe.encomenda_codigo=e.codigo where e.status_pagamento is true and e.dia_pedido >= '"+ini+"' and dia_pedido <= '"+fim+"' "
+                + "group by p.codigo order by quantidade_produto DESC;";
+        System.out.println(sql);
+        ResultSet resultado = Banco.consultar(sql);
+        try{
+            while(resultado.next()){
+                if(!control){
+                    valor="Produtos mais vendidos nas encomendas: \n\n";
+                    control=true;
+                }
+                String nome=resultado.getString("nome");
+                String quantidade=resultado.getString("quantidade_produto");
+                String valor_unitario=resultado.getString("valor_unitario");
+                String total=resultado.getString("total");
+                valor=valor+"Produto: "+nome+" Quantidade: "+quantidade+" Valor Unidade: "+valor_unitario+" Total: "+total+" \n";
+            }
+        }catch(SQLException ex){
+            System.out.println("Erro na primeira instrução SQL: "+ex);
+            return "";
+        }
+        valor=valor+"\n";
+        control=false;
+        sql="select p.nome,Sum(pv.quantidade) 'quantidade_venda',p.valor_unitario,Sum(pv.quantidade) * p.valor_unitario 'total' "
+            + "from produto p left join produtos_da_venda pv on p.codigo = pv.produto_codigo left join vendas v on v.codigo = pv.vendas_codigo "
+            + "where v.data_venda >='"+ini+"' and v.data_venda <='"+fim+"' group by p.codigo order by quantidade_venda DESC;";
+        System.out.println(sql);
+        resultado=Banco.consultar(sql);
+        try{
+            while(resultado.next()){
+                if(!control){
+                    valor=valor+"Produtos mais vendidos nas vendas: \n\n";
+                    control=true;
+                }
+                String nome=resultado.getString("nome");
+                String quantidade=resultado.getString("quantidade_venda");
+                String valor_unitario=resultado.getString("valor_unitario");
+                String total=resultado.getString("total");
+                valor=valor+"Produto: "+nome+" Quantidade: "+quantidade+" Valor Unidade: "+valor_unitario+" Total: "+total+" \n";
+            }
+        }catch(SQLException ex){
+            System.out.println("Erro na segunda instrução SQL: "+ex);
+            return "";
+        }
+        return valor;
+    }
+    
 }
