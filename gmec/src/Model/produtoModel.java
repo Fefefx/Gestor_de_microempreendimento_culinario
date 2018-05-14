@@ -162,7 +162,7 @@ public class produtoModel {
         try{
             while(resultado.next()){
                 if(!control){
-                    valor="Produtos mais vendidos nas encomendas: \n\n";
+                    valor="PRODUTOS MAIS VENDIDOS NAS ENCOMENDAS: \n\n";
                     control=true;
                 }
                 String nome=resultado.getString("nome");
@@ -186,7 +186,7 @@ public class produtoModel {
         try{
             while(rs.next()){
                 if(!control){
-                    valor=valor+"Produtos mais vendidos nas vendas: \n\n";
+                    valor=valor+"PRODUTOS MAIS VENDIDOS NAS VENDAS: \n\n";
                     control=true;
                 }
                 String nome=rs.getString("nome");
