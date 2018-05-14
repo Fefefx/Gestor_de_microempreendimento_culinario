@@ -18,6 +18,11 @@ public class relatorioControl {
                 return new clienteModel().relatorio_Clientes(ini, fim);
             case 1:
                 return new produtoModel().relatorio_Produtos(ini, fim);
+            case 2:
+                System.out.println("Função ainda não implementada");
+                return null;
+            case 3:    
+                return new encomendaModel().relatorio_Encomendas(ini, fim);
             default:
                 System.out.println("Erro de opção no despachante: "+op);
                 return null;

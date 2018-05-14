@@ -8,6 +8,8 @@ package Model;
 import Bank.Conexao;
 import Bank.infoBanco;
 import Objects.produto;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -166,31 +168,34 @@ public class produtoModel {
                 String nome=resultado.getString("nome");
                 String quantidade=resultado.getString("quantidade_produto");
                 String valor_unitario=resultado.getString("valor_unitario");
-                String total=resultado.getString("total");
-                valor=valor+"Produto: "+nome+" Quantidade: "+quantidade+" Valor Unidade: "+valor_unitario+" Total: "+total+" \n";
+                float total=resultado.getFloat("total");
+                BigDecimal arredondar=new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+                total=arredondar.floatValue();
+                valor=valor+"Produto: "+nome+" Quantidade: "+quantidade+"\n Valor Unidade: "+valor_unitario+" Total: "+total+" \n\n";
             }
         }catch(SQLException ex){
             System.out.println("Erro na primeira instrução SQL: "+ex);
             return "";
         }
-        valor=valor+"\n";
         control=false;
         sql="select p.nome,Sum(pv.quantidade) 'quantidade_venda',p.valor_unitario,Sum(pv.quantidade) * p.valor_unitario 'total' "
             + "from produto p left join produtos_da_venda pv on p.codigo = pv.produto_codigo left join vendas v on v.codigo = pv.vendas_codigo "
             + "where v.data_venda >='"+ini+"' and v.data_venda <='"+fim+"' group by p.codigo order by quantidade_venda DESC;";
         System.out.println(sql);
-        resultado=Banco.consultar(sql);
+        ResultSet rs=Banco.consultar(sql);
         try{
-            while(resultado.next()){
+            while(rs.next()){
                 if(!control){
                     valor=valor+"Produtos mais vendidos nas vendas: \n\n";
                     control=true;
                 }
-                String nome=resultado.getString("nome");
-                String quantidade=resultado.getString("quantidade_venda");
-                String valor_unitario=resultado.getString("valor_unitario");
-                String total=resultado.getString("total");
-                valor=valor+"Produto: "+nome+" Quantidade: "+quantidade+" Valor Unidade: "+valor_unitario+" Total: "+total+" \n";
+                String nome=rs.getString("nome");
+                String quantidade=rs.getString("quantidade_venda");
+                String valor_unitario=rs.getString("valor_unitario");
+                float total = rs.getFloat("total");
+                BigDecimal arredondar = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+                total=arredondar.floatValue();
+                valor=valor+"Produto: "+nome+" Quantidade: "+quantidade+"\n Valor Unidade: "+valor_unitario+" Total: "+total+" \n\n";
             }
         }catch(SQLException ex){
             System.out.println("Erro na segunda instrução SQL: "+ex);
@@ -198,5 +203,6 @@ public class produtoModel {
         }
         return valor;
     }
+    
     
 }

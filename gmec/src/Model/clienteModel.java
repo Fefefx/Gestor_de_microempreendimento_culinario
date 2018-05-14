@@ -8,6 +8,8 @@ package Model;
 import Objects.cliente;
 import Bank.Conexao;
 import Bank.infoBanco;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -117,8 +119,10 @@ public class clienteModel {
                 String nome = resultado.getString("nome");
                 String telefone = resultado.getString("telefone");
                 String qtd_encomendas = resultado.getString("qtd_encomendas");
-                String valor_total = resultado.getString("valor_total");
-                valor=valor+"Cliente: "+nome+" Telefone: "+telefone+" Quantidade de encomendas: "+qtd_encomendas+" Valor Total: "+valor_total+" \n";
+                float valor_total = resultado.getFloat("valor_total");
+                BigDecimal  arredondar = new BigDecimal(valor_total).setScale(2, RoundingMode.HALF_UP);
+                valor_total=arredondar.floatValue();
+                valor=valor+"Cliente: "+nome+" Telefone: "+telefone+"\nQuantidade de encomendas: "+qtd_encomendas+" Valor Total: "+valor_total+" \n\n";
             }
         } catch (SQLException ex) {
             Logger.getLogger(clienteModel.class.getName()).log(Level.SEVERE, null, ex);

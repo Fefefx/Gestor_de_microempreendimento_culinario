@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Services.objetoPesquisa;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  *
@@ -274,4 +276,72 @@ public class encomendaModel {
         }
         return -1;
     }
+    
+    public String relatorio_Encomendas(String ini, String fim){
+        abrirConexao();
+        String sql ="select Count(*) 'qtd_encomendas',sum(total) 'total', avg(total) 'media' from encomenda "
+                + "where dia_pedido >= '"+ini+"' and dia_pedido <= '"+fim+"';";
+        System.out.println(sql);
+        String valor="";
+        ResultSet resultado = Banco.consultar(sql);
+        try{
+            if(resultado.next()){
+                String qtd_encomendas=resultado.getString("qtd_encomendas");
+                float total = resultado.getFloat("total");
+                BigDecimal arredondar = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+                total=arredondar.floatValue();
+                float media = resultado.getFloat("media");
+                arredondar = new BigDecimal(media).setScale(2, RoundingMode.HALF_UP);
+                media=arredondar.floatValue();
+                valor="Quantidade de encomendas: "+qtd_encomendas+"\nTotal: "+total+"\nMédia: "+media+" \n";
+            }
+        }catch(SQLException ex){
+            System.out.println("Erro na primeira instrução sql: "+ex);
+            return "";
+        }
+        sql="select max(qtd)'max_dia',dia_semana from (select count(*)'qtd', Date_format(dia_pedido,'%w')'dia_semana' from encomenda "
+            + "where dia_pedido >= '"+ini+"' and dia_pedido <='"+fim+"' group by dia_semana) as temp; ";
+        System.out.println(sql);
+        ResultSet rs = Banco.consultar(sql);
+        try{
+            if(rs.next()){
+                String dia;
+                int dia_semana = rs.getInt("dia_semana");
+                switch(dia_semana){
+                    case 0:
+                        dia="Domingo";
+                        break;
+                    case 1:
+                        dia="Segunda";
+                        break;
+                    case 2:
+                        dia="Terça";
+                        break;
+                    case 3:
+                        dia="Quarta";
+                        break;
+                    case 4:
+                        dia="Quinta";
+                        break;
+                    case 5:
+                        dia="Sexta";
+                        break;
+                    case 6:
+                        dia="Sábado";
+                        break;
+                    default:
+                        dia="dia inválido";
+                }
+                String max_dia=rs.getString("max_dia");
+                String dado=valor+"Dia da semana com mais encomendas: "+dia+"\nQuantidade: "+max_dia+" \n";
+                valor=dado;
+                System.out.println(dado);
+            }
+        }catch(SQLException ex){
+            System.out.println("Erro na segunda instrução sql: "+ex);
+            return "";
+        }
+        return valor;
+    }
+    
 }
