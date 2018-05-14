@@ -19,8 +19,7 @@ public class relatorioControl {
             case 1:
                 return new produtoModel().relatorio_Produtos(ini, fim);
             case 2:
-                System.out.println("Função ainda não implementada");
-                return null;
+                return new vendasModel().relatorio_Vendas(ini, fim);
             case 3:    
                 return new encomendaModel().relatorio_Encomendas(ini, fim);
             default:

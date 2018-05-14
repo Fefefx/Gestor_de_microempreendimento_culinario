@@ -8,6 +8,8 @@ package Model;
 import Bank.Conexao;
 import Bank.infoBanco;
 import Objects.vendas;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -169,4 +171,28 @@ public class vendasModel {
         }
         return null;
     }
+    
+    public String relatorio_Vendas(String ini, String fim){
+        abrirConexao();
+        String valor="";
+        String sql="select Count(*) 'qtd',sum(total) 'total',avg(total) 'media' from vendas "
+                + "where data_venda >= '"+ini+"' and data_venda <= '"+fim+"';";
+        ResultSet resultado = Banco.consultar(sql);
+        try{
+            if(resultado.next()){
+                int qtd=resultado.getInt("qtd");
+                float total=resultado.getFloat("total");
+                BigDecimal arredondar= new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+                total=arredondar.floatValue();
+                float media=resultado.getFloat("media");
+                arredondar= new BigDecimal(media).setScale(2, RoundingMode.HALF_UP);
+                media=arredondar.floatValue();
+                valor="Quantidade de vendas efetuadas: "+qtd+"\nTotal:"+total+"\nMedia:"+media+"\n";
+            }
+        }catch(SQLException ex){
+            System.out.println("Erro na primeira instrução sql: "+ex);
+        }
+        return valor;
+    }
+    
 }

@@ -333,9 +333,7 @@ public class encomendaModel {
                         dia="dia inválido";
                 }
                 String max_dia=rs.getString("max_dia");
-                String dado=valor+"Dia da semana com mais encomendas: "+dia+"\nQuantidade: "+max_dia+" \n";
-                valor=dado;
-                System.out.println(dado);
+                valor=valor+"Dia da semana com mais encomendas: "+dia+"\nQuantidade: "+max_dia+" \n";
             }
         }catch(SQLException ex){
             System.out.println("Erro na segunda instrução sql: "+ex);
