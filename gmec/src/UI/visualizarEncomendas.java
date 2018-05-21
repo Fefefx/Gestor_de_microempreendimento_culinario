@@ -16,8 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -388,6 +386,7 @@ public class visualizarEncomendas extends javax.swing.JFrame {
             System.out.println("Erro ao transformar a data: "+ex);
         }
         arrumaTabelaSelecionada();
+        localizaRegistros();
     } 
 
     /**
