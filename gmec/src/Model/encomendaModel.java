@@ -299,49 +299,7 @@ public class encomendaModel {
         } catch (SQLException ex) {
             System.out.println("Erro na primeira instrução sql: " + ex);
             return "";
-        }
-        if (qtd_encomendas != 0) {
-            sql = "select max(qtd)'max_dia',dia_semana from (select count(*)'qtd', Date_format(dia_pedido,'%w')'dia_semana' from encomenda "
-                    + "where dia_pedido >= '" + ini + "' and dia_pedido <='" + fim + "' group by dia_semana) as temp; ";
-            System.out.println(sql);
-            ResultSet rs = Banco.consultar(sql);
-            try {
-                if (rs.next()) {
-                    String dia;
-                    int dia_semana = rs.getInt("dia_semana");
-                    switch (dia_semana) {
-                        case 0:
-                            dia = "Domingo";
-                            break;
-                        case 1:
-                            dia = "Segunda";
-                            break;
-                        case 2:
-                            dia = "Terça";
-                            break;
-                        case 3:
-                            dia = "Quarta";
-                            break;
-                        case 4:
-                            dia = "Quinta";
-                            break;
-                        case 5:
-                            dia = "Sexta";
-                            break;
-                        case 6:
-                            dia = "Sábado";
-                            break;
-                        default:
-                            dia = "dia inválido";
-                    }
-                    String max_dia = rs.getString("max_dia");
-                    valor = valor + "Dia da semana com mais encomendas: " + dia + "\nQuantidade: " + max_dia + " \n";
-                }
-            } catch (SQLException ex) {
-                System.out.println("Erro na segunda instrução sql: " + ex);
-                return "";
-            }
-        }
+        }             
         return valor;
     }
 }

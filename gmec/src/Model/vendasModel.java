@@ -194,48 +194,6 @@ public class vendasModel {
             System.out.println("Erro na primeira instrução sql: " + ex);
             return "";
         }
-        if (qtd != 0) {
-            sql = "select max(qtd)'max_dia',dia_semana from (select count(*)'qtd', Date_format(data_venda,'%w')'dia_semana' from vendas "
-                    + "where data_venda >= '" + ini + "' and data_venda <= '" + fim + "' group by data_venda) as temp; ";
-            ResultSet rs = Banco.consultar(sql);
-            try {
-                if (rs.next()) {
-                    String dia;
-                    int max_dia = rs.getInt("max_dia");
-                    int dia_semana = rs.getInt("dia_semana");
-                    switch (dia_semana) {
-                        case 0:
-                            dia = "Domingo";
-                            break;
-                        case 1:
-                            dia = "Segunda";
-                            break;
-                        case 2:
-                            dia = "Terça";
-                            break;
-                        case 3:
-                            dia = "Quarta";
-                            break;
-                        case 4:
-                            dia = "Quinta";
-                            break;
-                        case 5:
-                            dia = "Sexta";
-                            break;
-                        case 6:
-                            dia = "Sábado";
-                            break;
-                        default:
-                            dia = "Não foi possível estimar";
-                    }
-                    valor = valor + "Dia da semana com mais vendas: " + dia + "\nQuantidade de vendas: " + max_dia;
-                }
-            } catch (SQLException ex) {
-                System.out.println("Erro na segunda instrução sql: " + ex);
-                return "";
-            }
-            return valor;
-        }
         return valor;
     }
 }
