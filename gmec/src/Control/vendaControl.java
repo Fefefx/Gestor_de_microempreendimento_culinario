@@ -42,6 +42,7 @@ public class vendaControl {
 
     public boolean salvarVenda(vendas vender) {
         boolean check = false;
+        vender.adicionarItens(eliminarRepetidos(vender.retornarItens()));
         if (dataValida(vender.getDataVenda())) {
             vendasModel salvaVenda = new vendasModel();
             salvaVenda.inserir(vender);
@@ -61,7 +62,8 @@ public class vendaControl {
     }
 
     public boolean atualizaVenda(vendas vender) {
-        boolean check=false;
+        boolean check = false;
+        vender.adicionarItens(eliminarRepetidos(vender.retornarItens()));
         if (dataValida(vender.getDataVenda())) {
             vendasModel atualizaVenda = new vendasModel();
             produtosVendaModel pv = new produtosVendaModel();
@@ -71,11 +73,11 @@ public class vendaControl {
                 for (int i = 0; i < itens.size(); i++) {
                     produtosVenda item = (produtosVenda) itens.get(i);
                     produtosVendaModel salvaItem = new produtosVendaModel();
-                    if(salvaItem.inserir(item)){
-                        check=true;
+                    if (salvaItem.inserir(item)) {
+                        check = true;
                     }
                 }
-               return check; 
+                return check;
             }
         }
         return false;
@@ -99,9 +101,35 @@ public class vendaControl {
         vendasModel buscar = new vendasModel();
         return buscar.retornarTudo();
     }
-    
-    public boolean excluirVenda(int codigo){
-        vendasModel deletar= new vendasModel();
+
+    public boolean excluirVenda(int codigo) {
+        vendasModel deletar = new vendasModel();
         return deletar.excluir(codigo);
     }
+    //Corrigi o erro. Era int i2=0, desse jeito o item1 compara consigo mesmo no if e elimina-se da lista !
+    public ArrayList eliminarRepetidos(ArrayList lista) {
+        for (int i1 = 0; i1 < lista.size(); i1++) {
+            produtosVenda item1 = (produtosVenda) lista.get(i1);
+            for (int i2 = (i1+1); i2 < lista.size(); i2++) {
+                produtosVenda item2 = (produtosVenda) lista.get(i2);
+                if (item1.getCodigoProduto() == item2.getCodigoProduto()) {
+                    item1.setQuantidade(item1.getQuantidade() + item2.getQuantidade());
+                    item1.setTotalProduto(item1.getValorUnitario() * item1.getQuantidade());
+                    lista.remove(i2);
+                    i2--; //corrige problema de redimensionamento da lista.
+                }
+            }
+        }
+        return lista;
+    }
+
+    public void printList(ArrayList lista) {
+        System.out.println("Lista de produtos");
+        for (int i = 0; i < lista.size(); i++) {
+            produtosVenda item = (produtosVenda) lista.get(i);
+            System.out.println("Item[" + (i + 1) + "]: " + item.getNome() + " Qtd: " + item.getQuantidade() + " preço: " + item.getValorUnitario()
+                    + " total: " + item.getTotalProduto() + " codigo: " + item.getCodigoProduto());
+        }
+    }
+
 }

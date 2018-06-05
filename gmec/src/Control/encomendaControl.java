@@ -84,9 +84,10 @@ public class encomendaControl {
             for (int i2 = (i1 + 1); i2 < lista.size(); i2++) {
                 produtosEncomenda item2 = (produtosEncomenda) lista.get(i2);
                 if (item1.getCodigoProduto() == item2.getCodigoProduto()) {
-                    item1.setQuantidade(item1.getQuantidade() + 1);
+                    item1.setQuantidade(item1.getQuantidade() + item2.getQuantidade());
                     item1.setTotalProduto(item1.getQuantidade() * item1.getValorUnitario());
                     lista.remove(i2);
+                    i2--; //corrige problema de redimensionamento da lista.
                 }
             }
         }
