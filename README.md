@@ -20,7 +20,7 @@ O Gestor de Microemprendimento culinário (GMEC) foi um projeto desenvolvido par
 - **Ambiente de Desenvolvimento:** Netbeans 8.2
 - **Banco de dados relacional:** MySQL 5.3
 - **Ferramenta de acesso ao MYSQL:** MySQL Workbench
-- **Plataforma de execução: ** Oracle JDK 8
+- **Plataforma de execução:** Oracle JDK 8
 - **Toolkit gráfico utilizado:** Java swing
 - **Arquitetura de software emulada:** MVC
 
