@@ -31,6 +31,15 @@ O Gestor de Microemprendimento culinário (GMEC) foi um projeto desenvolvido par
 
 ## Execução
 
+### Instruções
+
+Para executar o GMEC realize os seguintes passos:
+
+1. Abra a modelagem *database new* (presente na pasta database) no Workbench e crie o banco de dados
+2. Certifique-se de que as informações de conexão com o banco, especificadas na classe *infoBanco*, estejam corretas. 
+3. Abra o projeto no Netbeans e resolva os problemas de bibliotecas apontando para os arquivos delas no diretório raiz do projeto
+4. Execute a aplicação 
+
 ### Sistema operacional
 
 O GMEC funciona em qualquer SO. Para integração visual, ele conta com suporte aos temas do Windows, Linux (GTK) e Mac OS. Para adicionar novos temas ao sistema altere a string de look no método abaixo presente na classe [login.java](https://github.com/Fefefx/Gestor_de_microempreendimento_culinario/blob/master/gmec/src/UI/login.java "login.java"):
