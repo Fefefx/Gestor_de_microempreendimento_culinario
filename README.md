@@ -1,5 +1,5 @@
 # Gestor de Microempreendimento culinário
-*Projeto universitário voltado para gestão de pequenos empreendimentos de profissionais autônomos. *
+*Projeto universitário voltado para gestão de pequenos empreendimentos de profissionais autônomos*
 
 ## Objetivo
 
