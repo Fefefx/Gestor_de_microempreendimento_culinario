@@ -44,7 +44,7 @@ Para executar o GMEC realize os seguintes passos:
 
 ### Sistema operacional
 
-O GMEC funciona em qualquer SO. Para integração visual, ele conta com suporte aos temas do Windows, Linux (GTK) e Mac OS. Para adicionar novos temas ao sistema altere a string de look no método abaixo presente na classe [login.java](https://github.com/Fefefx/Gestor_de_microempreendimento_culinario/blob/master/gmec/src/UI/login.java "login.java"):
+O GMEC funciona em qualquer SO. Para integração visual, ele conta com suporte aos temas do Windows, Linux (GTK) e Mac OS. Para adicionar novos temas ao sistema altere a string de look no método abaixo presente na classe [login.java](https://github.com/Fefefx/Gestor_de_microempreendimento_culinario/blob/master/src/UI/login.java "login.java"):
 
 ```java
     /*Verifica o sistema operacional e aplica o tema padrão do mesmo ao GMEC. 
