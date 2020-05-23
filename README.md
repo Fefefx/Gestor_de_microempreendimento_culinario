@@ -1,6 +1,8 @@
 # Gestor de Microempreendimento culinário
 *Projeto universitário voltado para gestão de pequenos empreendimentos de profissionais autônomos*
 
+![GMEC](https://imgur.com/PJOUUq5 "GMEC")
+
 ## Objetivo
 
 O Gestor de Microemprendimento culinário (GMEC) foi um projeto desenvolvido para a disciplina de Laboratório de Engenharia de Software, durante o curso de Análise e Desenvolvimento de Sistemas da Fatec de Presidente Prudente.  Seu objetivo é simplificar e agilizar a gestão de pequenos negócios do segmento culinário, fornecendo relatórios úteis para uma tomada de decisão mais eficiente.
