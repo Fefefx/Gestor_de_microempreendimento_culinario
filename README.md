@@ -1,7 +1,7 @@
 # Gestor de Microempreendimento culinário
 *Projeto universitário voltado para gestão de pequenos empreendimentos de profissionais autônomos*
 
-![GMEC](https://imgur.com/PJOUUq5 "GMEC")
+[![GMEC](https://i.imgur.com/PJOUUq5.jpg "GMEC")](https://imgur.com/PJOUUq5 "GMEC")
 
 ## Objetivo
 
